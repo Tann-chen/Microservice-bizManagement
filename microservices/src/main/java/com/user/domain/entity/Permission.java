@@ -4,15 +4,18 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "user_permission")
-public class Permission {
+public class Permission implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
+    @Column(length = 9)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(length = 90, unique = true)
     private String name;
@@ -27,9 +30,12 @@ public class Permission {
     @Column(nullable = false)
     private String permission;
 
-    private Integer parentId;
+    @Column(length = 9)
+    private Long parentId;
 
+    @Column(length = 100)
     private String parentIds;
 
+    @Basic
     private Boolean isAvailable;
 }
