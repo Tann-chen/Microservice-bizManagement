@@ -1,6 +1,9 @@
 package com.user.service;
 
+import com.user.comm.exception.BizException;
 import com.user.domain.entity.User;
+
+import java.util.List;
 
 
 public interface UserInfoService {
@@ -16,4 +19,6 @@ public interface UserInfoService {
     void deleteUser(Long userId);
 
     boolean credentialCheck(User userInfo);
+
+    List<User> findAllUsers();
 }

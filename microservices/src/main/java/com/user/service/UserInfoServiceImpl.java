@@ -4,13 +4,16 @@ import com.user.comm.exception.BizException;
 import com.user.comm.exception.BizExceptionEnum;
 import com.user.comm.exception.SysExceptionEnum;
 import com.user.comm.exception.SystemException;
-import com.user.domain.entity.Permission;
 import com.user.domain.entity.User;
 import com.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service
 public class UserInfoServiceImpl implements UserInfoService {
 
     @Autowired
@@ -20,6 +23,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     public Long createUser(User user) throws RuntimeException {
         if (null == user) {
             throw new SystemException(SysExceptionEnum.PARAM_NOT_NULL);
+        }
+        if(null == user.getEmail()){
+            throw BizException.entityRulesViolation("Email can not be null");
         }
         String email = user.getEmail();
         User existedUser = userRepository.queryUserByEmail(email);
@@ -74,5 +80,10 @@ public class UserInfoServiceImpl implements UserInfoService {
         User user = userRepository.queryUserByEmail(userInfo.getEmail());
         String realPass = user.getPassword();
         return inputPass.equals(realPass);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 }

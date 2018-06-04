@@ -64,7 +64,6 @@ public class User implements Serializable, Cloneable {
     @Basic
     private Boolean isActive;
 
-
     @Override
     public Object clone() {
         User copy = null;
@@ -75,5 +74,12 @@ public class User implements Serializable, Cloneable {
         }
 
         return copy;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.createdTime = new Timestamp(System.currentTimeMillis());
+
+
     }
 }
