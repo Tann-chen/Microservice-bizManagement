@@ -72,6 +72,6 @@ public class UserInfoController {
                 .setData(userList)
                 .build();
     }
-    
+
 
 }
