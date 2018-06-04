@@ -65,16 +65,16 @@ chooce 2 : use seriliable file to keep the graph the task work flow graph
 
 # user_info
 	* id : int(9) | primary key
-	* name : varchar(60) 
-	* email : varchar(60) | unique | used as login account
-	* phone : varchar(30)
+	* name : varchar(45) 
+	* email : varchar(45) | unique | used as login account
+	* phone : varchar(45)
 	* avatar : blob | binary
 	* password : varchar(255) | save code encrypted by MD5 
 	* pwd_salt : varchar(30) |  random string, as salt for MD5
 	* created_time : datatime
 	* last_login_time : datetime
 	* is_active : varchat(1)
-	* work_status : varchar(20) | enum | in_holiday, part_time, full_time, retired, dismissed
+	* job_status : varchar(20) | enum | in_holiday, part_time, full_time, retired, dismissed
 	//
 
 
@@ -82,7 +82,6 @@ chooce 2 : use seriliable file to keep the graph the task work flow graph
 	* id : int(9) | primary key
 	* name : varchar(90) | unique
 	* description : text
-	* is_active : varchar(1)
 
 
 # user_permission
@@ -100,12 +99,12 @@ chooce 2 : use seriliable file to keep the graph the task work flow graph
 
 # user_relation_role_permission
 	* user_role_id : int(9) | primary key
-	* user_permissio_id : int(9) | primary key
+	* user_permission_id : int(9) | primary key
 
 
 # user_relation_info_permission
 	* user_id : int(9) | primary key
-	* user_permissio_id : int(9) | primary key
+	* user_permission_id : int(9) | primary key
 
 // add user directly to permission
 

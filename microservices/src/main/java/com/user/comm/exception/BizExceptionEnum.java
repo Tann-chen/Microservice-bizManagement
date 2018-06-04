@@ -3,8 +3,7 @@ package com.user.comm.exception;
 import org.omg.CORBA.OBJECT_NOT_EXIST;
 
 public enum BizExceptionEnum {
-
-    EMAIL_ALREADY_EXIST(4001,"The email has already existed"),
+    EMAIL_ALREADY_EXIST(4001, "The email has already existed"),
     OBJECT_NOT_EXIST(4002, "The object is not existed"),
     ;
 

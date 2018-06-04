@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "user_info")
-public class User implements Serializable {
+public class User implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -63,4 +63,17 @@ public class User implements Serializable {
 
     @Basic
     private Boolean isActive;
+
+
+    @Override
+    public Object clone() {
+        User copy = null;
+        try {
+            copy = (User) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
+        return copy;
+    }
 }
