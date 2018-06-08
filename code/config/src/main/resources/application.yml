@@ -1,0 +1,20 @@
+server:
+  port: 8888
+
+eureka:
+  instance:
+    hostname: config
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://registry:8761/eureka/
+
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/share
+  profiles:
+     active: native
