@@ -19,7 +19,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private UserRepository userRepository;
 
     @Override
-    public Long createUser(User user) {
+    public Long createUser(User user) throws IllegalArgumentException {
         Assert.hasLength(user.getEmail(), "email not empty");
         User existing = userRepository.queryUserByEmail(user.getEmail());
         Assert.isNull(existing, "email already used:" + user.getEmail());
@@ -41,7 +41,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public void updateUser(Long userId, User updatedUserInfo) {
+    public void updateUser(Long userId, User updatedUserInfo) throws IllegalArgumentException {
         User user = userRepository.queryUserById(userId);
         Assert.notNull(user, "user not existed");
         if(StringUtils.isNotEmpty(updatedUserInfo.getName())){
@@ -69,7 +69,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public void changeIsActiveStatus(Long userId, Boolean isActive) {
+    public void changeIsActiveStatus(Long userId, Boolean isActive) throws IllegalArgumentException{
         User user = userRepository.queryUserById(userId);
         Assert.notNull(user, "user not existed");
         user.setIsActive(isActive);

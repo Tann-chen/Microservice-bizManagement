@@ -1,4 +1,4 @@
 package com.user.controller;
 
-public class AuthController {
+public class RoleController {
 }

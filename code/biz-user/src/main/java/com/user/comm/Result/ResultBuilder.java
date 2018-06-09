@@ -1,4 +1,4 @@
-package com.user.comm.Result;
+package com.user.comm.result;
 
 
 public class ResultBuilder {
