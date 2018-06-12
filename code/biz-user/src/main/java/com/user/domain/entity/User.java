@@ -16,28 +16,23 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(length = 9)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 45)
     private String name;
 
-    @Column(length = 45, unique = true)
     private String email;
 
-    @Column(length = 45)
     private String phone;
 
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private Blob avatar;
+    private String avatar;
 
-    @Basic
     private String password;
 
-    @Column(length = 30)
     private String pwdSalt;
+
+    @Transient
+    private List<String> roleStrLst;
 
     @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name = "user_relation_info_role",
@@ -52,7 +47,7 @@ public class User implements Serializable {
             inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", name = "user_permission_id")})
     private List<Permission> permissionList;
 
-    private Timestamp createdTime;
+    private Timestamp createTime;
 
     private Timestamp lastLoginTime;
 
@@ -68,7 +63,7 @@ public class User implements Serializable {
         }else{
             this.pwdSalt = this.email.substring(0,3);
         }
-        this.createdTime = new Timestamp(System.currentTimeMillis());
+        this.createTime = new Timestamp(System.currentTimeMillis());
         this.jobStatus = JobStatus.UNDISTRIBUTED;
         this.isActive = true;
     }

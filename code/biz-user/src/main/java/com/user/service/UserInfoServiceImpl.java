@@ -2,12 +2,12 @@ package com.user.service;
 
 import com.user.domain.entity.User;
 import com.user.repository.UserRepository;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.sql.Timestamp;
 
@@ -44,19 +44,19 @@ public class UserInfoServiceImpl implements UserInfoService {
     public void updateUser(Long userId, User updatedUserInfo) throws IllegalArgumentException {
         User user = userRepository.queryUserById(userId);
         Assert.notNull(user, "user not existed");
-        if(StringUtils.isNotEmpty(updatedUserInfo.getName())){
+        if (!StringUtils.isEmpty(updatedUserInfo.getName())) {
             user.setName(updatedUserInfo.getName());
         }
-        if(StringUtils.isNotEmpty(updatedUserInfo.getEmail())){
+        if (!StringUtils.isEmpty(updatedUserInfo.getEmail())) {
             user.setEmail(updatedUserInfo.getEmail());
         }
-        if(StringUtils.isNotEmpty(updatedUserInfo.getPassword())){
+        if (!StringUtils.isEmpty(updatedUserInfo.getPassword())) {
             user.setPassword(updatedUserInfo.getPassword());
         }
-        if(StringUtils.isNotEmpty(updatedUserInfo.getPhone())) {
+        if (!StringUtils.isEmpty(updatedUserInfo.getPhone())) {
             user.setPhone(updatedUserInfo.getPhone());
         }
-        if(updatedUserInfo.getJobStatus() != null){
+        if (updatedUserInfo.getJobStatus() != null) {
             user.setJobStatus(updatedUserInfo.getJobStatus());
         }
 
@@ -69,7 +69,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public void changeIsActiveStatus(Long userId, Boolean isActive) throws IllegalArgumentException{
+    public void changeIsActiveStatus(Long userId, Boolean isActive) throws IllegalArgumentException {
         User user = userRepository.queryUserById(userId);
         Assert.notNull(user, "user not existed");
         user.setIsActive(isActive);

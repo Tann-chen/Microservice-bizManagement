@@ -6,16 +6,22 @@ spring:
     name: gateway
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://localhost:8899
       fail-fast: true
       username: devAdmin
       password: erp!@#ERP
 
 eureka:
   instance:
-    hostname: gateway
+    hostname: localhost
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+
+zuul:
+  ignoredServices: '*'
+  routes:
+    biz-user: /users/**
+    serviceId: biz-user

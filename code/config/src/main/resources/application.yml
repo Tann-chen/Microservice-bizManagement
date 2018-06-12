@@ -1,5 +1,5 @@
 server:
-  port: 8888
+  port: 8899
 
 spring:
   cloud:
@@ -10,6 +10,6 @@ spring:
       label: master
 
 security:
-  com.user:
+  user:
     name: devAdmin
     password: erp!@#ERP

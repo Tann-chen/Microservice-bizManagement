@@ -32,9 +32,9 @@ public class ShiroConfiguration {
         //Shiro has implemented function of logout
         filterChainDefinition.put("/logout", "logout");
         //define url accessed without auth (anon: not request auth for the url)
-        filterChainDefinition.put("/static/**", "anon");
+        filterChainDefinition.put("/**", "anon");
         //define url accessed with auth (authc:request auth for the url)
-        filterChainDefinition.put("/**", "authc");
+        //filterChainDefinition.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinition);
         return shiroFilterFactoryBean;

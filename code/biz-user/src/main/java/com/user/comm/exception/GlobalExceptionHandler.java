@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    private Result exceptionHandler(Exception e) {
-        return new ResultBuilder()
-                .setCode(400)
-                .setMessage(e.getMessage())
-                .build();
-    }
+//    @ExceptionHandler(value = IllegalArgumentException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    private Result exceptionHandler(Exception e) {
+//        return new ResultBuilder()
+//                .setCode(400)
+//                .setMessage(e.getMessage())
+//                .build();
+//    }
 }
