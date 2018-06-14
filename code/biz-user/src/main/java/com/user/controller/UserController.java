@@ -11,16 +11,18 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
-@RestController
-@RequestMapping(name = "/user")
+@Controller
 public class UserController {
 
     @Autowired
     private UserInfoService userInfoService;
 
     @ApiOperation("Add new user")
+
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "length<45", dataType = "string"),
             @ApiImplicitParam(name = "email", value = "length<45", required = true, dataType = "string"),
@@ -29,8 +31,8 @@ public class UserController {
             @ApiImplicitParam(name = "role_str_lst", value = "list(string)", dataType = "list"),
             @ApiImplicitParam(name = "job_status", value = "undistributed, part_time, full_time, retired, dismissed", dataType = "string")
     })
-    @RequestMapping(method = RequestMethod.POST)
-    public Result register(@RequestBody User user) throws Exception {
+    @RequestMapping(value = "/user",method = RequestMethod.POST)
+    public Result register(@RequestBody @ApiIgnore User user) throws Exception {
         if (null == user) {
             throw new JsonParseException("user");
         }
@@ -44,7 +46,7 @@ public class UserController {
 
     @ApiOperation("Get details of one user")
     @ApiImplicitParam(name = "userId", required = true, dataType = "int", paramType = "path")
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "user/{userId}", method = RequestMethod.GET)
     public Result getUserDetails(@PathVariable Long userId) throws Exception {
         if (null == userId) {
             throw new JsonParseException("userId");
@@ -66,7 +68,7 @@ public class UserController {
             @ApiImplicitParam(name = "page", value = "page", dataType = "int", paramType = "param"),
             @ApiImplicitParam(name = "size", value = "size", dataType = "int", paramType = "param")
     })
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/user",method = RequestMethod.GET)
     public Result getUserList(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size) {
         Page<User> userList = userInfoService.findAllUsersByPage(new PageRequest(page, size));
         return new ResultBuilder()
@@ -75,7 +77,7 @@ public class UserController {
                 .build();
     }
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "user/{userId}", method = RequestMethod.PUT)
     @ApiOperation("update details of user")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", required = true, dataType = "int", paramType = "path"),
@@ -99,7 +101,7 @@ public class UserController {
 
     @ApiOperation("Delete one user")
     @ApiImplicitParam(name = "userId", required = true, dataType = "int")
-    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "user/{userId}", method = RequestMethod.DELETE)
     public Result deleteUser(@PathVariable Long userId) throws Exception {
         if (null == userId) {
             throw new JsonParseException("userId");

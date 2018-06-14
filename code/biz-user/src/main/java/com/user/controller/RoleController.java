@@ -4,8 +4,9 @@ import com.user.comm.result.Result;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
-@RequestMapping(value = "/role")
+@RequestMapping(value = "/r")
 public class RoleController {
 
     //return a new list
@@ -36,5 +37,6 @@ public class RoleController {
     public Result addPermissionsForRole() {
         return null;
     }
+
 
 }

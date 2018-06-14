@@ -60,4 +60,5 @@ public class ShiroRealmConfig extends AuthorizingRealm {
 
         return authenticationInfo;
     }
+
 }
