@@ -1,7 +1,6 @@
 package com.user.domain.entity;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -27,4 +26,9 @@ public class Role implements Serializable {
     private List<Permission> permissionList;
 
     private Boolean isAvailable;
+
+    @PrePersist
+    public void prePersist() {
+        this.isAvailable = true;
+    }
 }
