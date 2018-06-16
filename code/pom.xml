@@ -16,4 +16,8 @@
         <module>registry</module>
     </modules>
 
+    <properties>
+        <oath.version>2.3.3.RELEASE</oath.version>
+    </properties>
+
 </project>

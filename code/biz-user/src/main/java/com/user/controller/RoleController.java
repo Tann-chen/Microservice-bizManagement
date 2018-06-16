@@ -1,7 +1,6 @@
 package com.user.controller;
 
 import com.user.comm.result.Result;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -45,5 +44,5 @@ public class RoleController {
     public Result addPermissionsForRole() {
         return null;
     }
-    
+
 }
