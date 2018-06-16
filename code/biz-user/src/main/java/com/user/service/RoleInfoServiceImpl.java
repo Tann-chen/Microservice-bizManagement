@@ -18,6 +18,7 @@ public class RoleInfoServiceImpl implements RoleInfoService {
 
     @Override
     public Page<Role> createRole(Role role) throws IllegalArgumentException{
+        //todo: it is not good to define func with not single func. bad for request change, please check all func defined in this class
         Assert.hasLength(role.getRole(), "role name not empty");
         Role existing = roleRepository.queryRoleByRole(role.getRole());
         Assert.isNull(existing, "role already exist");

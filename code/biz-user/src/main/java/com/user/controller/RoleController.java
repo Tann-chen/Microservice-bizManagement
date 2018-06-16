@@ -13,15 +13,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 public class RoleController {
 
     @Autowired
     private RoleInfoService roleInfoService;
 
-    //input: role, description
-    //output: list of all roles
-    //add prepersist in entity to control default value
+
     @ApiOperation("Add new role")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "role", value = "length<90", dataType = "string"),
@@ -32,6 +31,8 @@ public class RoleController {
         if (null == role) {
             throw new JsonParseException("role");
         }
+
+        //todo: this controller can be done by some combination of func, good defined function is single function, suggest change
         Page<Role> roleList = roleInfoService.createRole(role);
 
         return new ResultBuilder()
@@ -40,8 +41,7 @@ public class RoleController {
                 .build();
     }
 
-    //input: id of the role
-    //output: details includes id
+
     @ApiOperation("Get details of one role")
     @ApiImplicitParam(name = "roleId", required = true, dataType = "int", paramType = "path")
     @RequestMapping(value = "role/{roleId}", method = RequestMethod.GET)
@@ -61,9 +61,7 @@ public class RoleController {
         return resultBuilder.build();
     }
 
-    //no input
-    //output: list of all roles
-    //support paging func
+
     @ApiOperation("Get list of all roles by page")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "page", dataType = "int", paramType = "param"),
@@ -79,8 +77,6 @@ public class RoleController {
                 .build();
     }
 
-    //input role, description, is_avail
-    //output : the role after update
     @ApiOperation("update details of roles")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", required = true, dataType = "int", paramType = "path"),
@@ -104,9 +100,7 @@ public class RoleController {
                 .build();
     }
 
-    //return a new list
-    //actually: we dont delete the record actually, change is_avail status
-    //output : return new list
+
     @ApiOperation("Delete one role")
     @ApiImplicitParam(name = "roleId", required = true, dataType = "int")
     @RequestMapping(value = "role/{roleId}", method = RequestMethod.DELETE)
@@ -114,6 +108,8 @@ public class RoleController {
         if (null == roleId) {
             throw new JsonParseException("roleId");
         }
+
+        //todo: same with add func
         Page<Role> roleList = roleInfoService.changeIsAvailableStatus(roleId, false);
 
         return new ResultBuilder()
@@ -122,9 +118,9 @@ public class RoleController {
                 .build();
     }
 
-    // do it later
+
     public Result addPermissionsForRole() {
         return null;
     }
-    
+
 }
