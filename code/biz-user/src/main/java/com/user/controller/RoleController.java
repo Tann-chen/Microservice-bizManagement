@@ -31,9 +31,8 @@ public class RoleController {
         if (null == role) {
             throw new JsonParseException("role");
         }
-
-        //todo: this controller can be done by some combination of func, good defined function is single function, suggest change
-        Page<Role> roleList = roleInfoService.createRole(role);
+        roleInfoService.createRole(role);
+        Page<Role> roleList = roleInfoService.findAllRolesByPage(new PageRequest(0, 10));
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
@@ -108,9 +107,8 @@ public class RoleController {
         if (null == roleId) {
             throw new JsonParseException("roleId");
         }
-
-        //todo: same with add func
-        Page<Role> roleList = roleInfoService.changeIsAvailableStatus(roleId, false);
+        roleInfoService.changeIsAvailableStatus(roleId, false);
+        Page<Role> roleList = roleInfoService.findAllRolesByPage(new PageRequest(0, 10));
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)

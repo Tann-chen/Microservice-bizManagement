@@ -17,23 +17,18 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     private RoleRepository roleRepository;
 
     @Override
-    public Page<Role> createRole(Role role) throws IllegalArgumentException{
-        //todo: it is not good to define func with not single func. bad for request change, please check all func defined in this class
+    public void createRole(Role role) throws IllegalArgumentException{
         Assert.hasLength(role.getRole(), "role name not empty");
         Role existing = roleRepository.queryRoleByRole(role.getRole());
         Assert.isNull(existing, "role already exist");
         Assert.hasLength(role.getDescription(), "description not empty");
         roleRepository.save(role);
-        Page<Role> roleList = roleRepository.findByIsAvailableTrue(new PageRequest(0, 10));
-
-        return roleList;
     }
 
     @Override
     public Role findRoleById(Long roleId) {
         return roleRepository.queryRoleById(roleId);
     }
-
 
     @Override
     public Role updateRole(Long roleId, Role updatedRoleInfo) throws IllegalArgumentException{
@@ -54,14 +49,11 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     }
 
     @Override
-    public Page<Role> changeIsAvailableStatus(Long roleId, boolean isAvailable) throws IllegalArgumentException{
+    public void changeIsAvailableStatus(Long roleId, boolean isAvailable) throws IllegalArgumentException{
         Role role = roleRepository.queryRoleById(roleId);
         Assert.notNull(role, "role not existed");
         role.setIsAvailable(isAvailable);
         roleRepository.save(role);
-        Page<Role> roleList = roleRepository.findByIsAvailableTrue(new PageRequest(0, 10));
-
-        return roleList;
     }
 
     @Override
