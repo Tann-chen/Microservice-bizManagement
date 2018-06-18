@@ -19,6 +19,5 @@ public class Role implements Serializable {
             inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", name = "user_permission_id")})
     private List<Permission> permissionList;
 
-
     private Boolean isAvailable;
 }
