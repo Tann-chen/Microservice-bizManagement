@@ -14,19 +14,5 @@ public class Permission implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    @Enumerated(EnumType.STRING)
-    private ResourceType resourceType;
-
-    private String resourceUrl;
-
     private String permission;
-
-    private Long parentId;
-
-    private String parentIds;
-
-    private Boolean isAvailable;
-
 }
