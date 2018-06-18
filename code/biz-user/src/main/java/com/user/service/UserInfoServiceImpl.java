@@ -1,5 +1,7 @@
 package com.user.service;
 
+import com.user.domain.entity.Permission;
+import com.user.domain.entity.Role;
 import com.user.domain.entity.User;
 import com.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-
-import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -77,9 +80,30 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public void touchUserAccount(Long userId) {
-        User user = userRepository.queryUserById(userId);
-        user.setLastLoginTime(new Timestamp(System.currentTimeMillis()));
-        userRepository.save(user);
+    public Set<Permission> findPermissionsByUser(User user) {
+        Set<Permission> permissionSet = new HashSet<>();
+
+        //direct permissions
+        List<Permission> directPermissions = user.getPermissionList();
+        for (Permission p : directPermissions) {
+            if (p.getIsAvailable()) {
+                permissionSet.add(p);
+            }
+        }
+
+        //role permissions
+        List<Role> roles = user.getRoleList();
+        for (Role r : roles) {
+            if (r.getIsAvailable()) {
+                List<Permission> permissions = r.getPermissionList();
+                for (Permission p : permissions) {
+                    if (p.getIsAvailable()) {
+                        permissionSet.add(p);
+                    }
+                }
+            }
+        }
+
+        return permissionSet;
     }
 }

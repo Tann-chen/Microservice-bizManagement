@@ -17,7 +17,7 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     private RoleRepository roleRepository;
 
     @Override
-    public void createRole(Role role) throws IllegalArgumentException{
+    public void addRole(Role role) throws IllegalArgumentException{
         Assert.hasLength(role.getRole(), "role name not empty");
         Role existing = roleRepository.queryRoleByRole(role.getRole());
         Assert.isNull(existing, "role already exist");
@@ -26,7 +26,7 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     }
 
     @Override
-    public Role findRoleById(Long roleId) {
+    public Role getRoleById(Long roleId) {
         return roleRepository.queryRoleById(roleId);
     }
 

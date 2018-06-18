@@ -34,6 +34,7 @@ public class User implements Serializable {
     @Transient
     private List<String> roleStrLst;
 
+
     @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name = "user_relation_info_role",
             joinColumns = {@JoinColumn(referencedColumnName = "id", name = "user_id")},

@@ -31,7 +31,7 @@ public class RoleController {
         if (null == role) {
             throw new JsonParseException("role");
         }
-        roleInfoService.createRole(role);
+        roleInfoService.addRole(role);
         Page<Role> roleList = roleInfoService.findAllRolesByPage(new PageRequest(0, 10));
 
         return new ResultBuilder()
@@ -48,7 +48,7 @@ public class RoleController {
         if (null == roleId) {
             throw new JsonParseException("roleId");
         }
-        Role role = roleInfoService.findRoleById(roleId);
+        Role role = roleInfoService.getRoleById(roleId);
 
         ResultBuilder resultBuilder = new ResultBuilder().setCode(ResultBuilder.SUCCESS);
         if (null == role) {
