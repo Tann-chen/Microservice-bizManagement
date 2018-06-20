@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,9 +23,11 @@ public class CtmUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    @Override
+    @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.queryByEmail(email);
+        DataHolderService.setCurrentUser(user);
+
         if (null == user) {
             throw new UsernameNotFoundException("User not existed");
         }
@@ -35,13 +38,12 @@ public class CtmUserDetailsService implements UserDetailsService {
                 user.getIsActive(),
                 true,
                 true,
-                user.getIsLocked(),
+                !user.getIsLocked(),
                 getGrantedAuthorities(user)
         );
 
         return userDetails;
     }
-
 
     private Set<GrantedAuthority> getGrantedAuthorities(User user) {
         //use set to make permission unique
@@ -53,7 +55,7 @@ public class CtmUserDetailsService implements UserDetailsService {
                 List<Permission> permissionList = role.getPermissionList();
                 for (Permission permission : permissionList) {
                     if (permission.getIsAvailable()) {
-                        authorities.add(permission.toString());
+                        authorities.add(permission.getAuthority());
                     }
                 }
             }
@@ -63,7 +65,7 @@ public class CtmUserDetailsService implements UserDetailsService {
         List<Permission> permissionList = user.getPermissionList();
         for (Permission permission : permissionList) {
             if (permission.getIsAvailable()) {
-                authorities.add(permission.toString());
+                authorities.add(permission.getAuthority());
             }
         }
 

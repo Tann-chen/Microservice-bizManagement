@@ -11,17 +11,12 @@ import java.io.Serializable;
 public class Permission implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public static final String CREATE = "create";
-    public static final String READ = "read";
-    public static final String UPDATE = "update";
-    public static final String DELETE = "delete";
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id", referencedColumnName="module_id")
+    @JoinColumn(name="module_id", referencedColumnName="id")
     private Module module;
 
     @Enumerated(EnumType.STRING)

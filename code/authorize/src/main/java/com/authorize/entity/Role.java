@@ -11,6 +11,9 @@ import java.util.List;
 @Table(name = "user_role")
 public class Role implements Serializable {
 
+    @Id
+    private Long id;
+
     private String role;
 
     @ManyToMany(fetch = FetchType.EAGER)

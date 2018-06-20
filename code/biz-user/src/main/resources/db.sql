@@ -106,6 +106,12 @@ ALTER TABLE `erpdb`.`user_permission`
 ADD COLUMN `is_available` TINYINT(1) NULL DEFAULT 1 AFTER `permission`;
 
 
+-- june 20 10:00 --
+
+ALTER TABLE `erpdb`.`user_module`
+CHANGE COLUMN `id` `id` INT(3) NOT NULL ;
+
+
 
 
 

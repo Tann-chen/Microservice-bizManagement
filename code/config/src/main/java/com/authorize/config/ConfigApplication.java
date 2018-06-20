@@ -1,4 +1,4 @@
-package com.config;
+package com.authorize.config;
 
 
 import org.springframework.boot.SpringApplication;
