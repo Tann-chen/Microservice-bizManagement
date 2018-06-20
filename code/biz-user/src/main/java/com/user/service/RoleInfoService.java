@@ -7,9 +7,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface RoleInfoService {
 
-    void createRole(Role role);
+    void addRole(Role role);
 
-    Role findRoleById(Long roleId);
+    Role getRoleById(Long roleId);
 
     Role updateRole(Long roleId, Role updatedRoleInfo);
 

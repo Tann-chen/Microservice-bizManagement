@@ -102,6 +102,11 @@ DROP COLUMN `resource_url`,
 CHANGE COLUMN `name` `module_id` INT(3) NULL DEFAULT NULL ,
 CHANGE COLUMN `resource_type` `permission` VARCHAR(10) NULL DEFAULT NULL ;
 
+ALTER TABLE `erpdb`.`user_permission`
+ADD COLUMN `is_available` TINYINT(1) NULL DEFAULT 1 AFTER `permission`;
+
+
+
 
 
 

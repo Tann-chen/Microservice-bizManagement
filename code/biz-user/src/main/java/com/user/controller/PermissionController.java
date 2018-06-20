@@ -1,7 +1,7 @@
 package com.user.controller;
 
 
-import com.user.comm.result.ModulePermission;
+import com.user.comm.result.ModulePermissions;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -16,12 +16,12 @@ public class PermissionController {
     }
 
 
-    public Map<String, ModulePermission> updatePermissions(Long roleId , Map<String, ModulePermission> p){
+    public Map<String, ModulePermissions> updatePermissions(Long roleId , Map<String, ModulePermissions> p){
         return null;
     }
 
 
-    public Map<String, ModulePermission> getPermissions(Long roleId){
+    public Map<String, ModulePermissions> getPermissions(Long roleId){
         return null;
     }
 

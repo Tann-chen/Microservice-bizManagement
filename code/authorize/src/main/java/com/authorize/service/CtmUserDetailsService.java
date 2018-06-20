@@ -45,7 +45,7 @@ public class CtmUserDetailsService implements UserDetailsService {
 
     private Set<GrantedAuthority> getGrantedAuthorities(User user) {
         //use set to make permission unique
-        Set<String> permissionSet = new HashSet<>();
+        Set<String> authorities = new HashSet<>();
 
         List<Role> roleList = user.getRoleList();
         for (Role role : roleList) {
@@ -53,7 +53,7 @@ public class CtmUserDetailsService implements UserDetailsService {
                 List<Permission> permissionList = role.getPermissionList();
                 for (Permission permission : permissionList) {
                     if (permission.getIsAvailable()) {
-                        permissionSet.add(permission.getName());
+                        authorities.add(permission.toString());
                     }
                 }
             }
@@ -63,20 +63,19 @@ public class CtmUserDetailsService implements UserDetailsService {
         List<Permission> permissionList = user.getPermissionList();
         for (Permission permission : permissionList) {
             if (permission.getIsAvailable()) {
-                permissionSet.add(permission.getName());
+                authorities.add(permission.toString());
             }
         }
 
         //Cast String to GrantedAuthority
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (String permission : permissionSet) {
-            GrantedAuthority authority = new SimpleGrantedAuthority(permission);
+        for (String auth : authorities) {
+            GrantedAuthority authority = new SimpleGrantedAuthority(auth);
             grantedAuthorities.add(authority);
         }
 
         return grantedAuthorities;
     }
-
 
 }
 

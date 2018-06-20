@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "user_info")
-public class User implements Serializable {
+public class User implements Serializable{
 
     private String email;
 

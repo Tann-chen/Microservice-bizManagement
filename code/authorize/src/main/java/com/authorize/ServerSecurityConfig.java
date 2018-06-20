@@ -12,20 +12,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class ServerSecurityConfig extends WebSecurityConfigurerAdapter{
 
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         CtmUserDetailsService userDetailsService = new CtmUserDetailsService();
         auth.userDetailsService(userDetailsService);
     }
 
-
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
