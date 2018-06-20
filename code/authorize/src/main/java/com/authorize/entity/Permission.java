@@ -1,33 +1,31 @@
 package com.authorize.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 
+@Data
 @Entity
 @Table(name = "user_permission")
 public class Permission implements Serializable {
 
-    @Getter
-    @Setter
+    @Id
+    private Long id;
+
     private String permission;
 
-    @Getter
-    @Setter
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "module_id", referencedColumnName = "id")
     private Module module;
 
-    @Getter
-    @Setter
     private Boolean isAvailable;
 
-    @Override
-    public String toString() {
-        return this.module.getName() + ":" + this.permission;
+
+    public String getAuthority() {
+        return this.module.getName() + "_" + this.permission;
     }
+
 }

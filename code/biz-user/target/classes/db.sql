@@ -74,3 +74,45 @@ CREATE TABLE `user_role` (
 
 -- updated on 2018-06-11  9:00:11 --
 
+ALTER TABLE `erpdb`.`user_info`
+ADD COLUMN `is_locked` TINYINT(1) NULL AFTER `job_status`;
+
+-- updated on 2018-06-16  14:34:11 --
+
+CREATE TABLE `erpdb`.`user_module` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  `is_available` TINYINT(1) DEFAULT 0,
+  PRIMARY KEY (`id`));
+
+INSERT INTO `erpdb`.`user_module` (`id`, `name`) VALUES ('1', 'user');
+INSERT INTO `erpdb`.`user_module` (`id`, `name`) VALUES ('2', 'inventory');
+INSERT INTO `erpdb`.`user_module` (`id`, `name`) VALUES ('3', 'accountancy');
+INSERT INTO `erpdb`.`user_module` (`id`, `name`) VALUES ('4', 'human resource');
+INSERT INTO `erpdb`.`user_module` (`id`, `name`) VALUES ('5', 'message');
+INSERT INTO `erpdb`.`user_module` (`id`, `name`) VALUES ('6', 'task');
+INSERT INTO `erpdb`.`user_module` (`id`, `name`) VALUES ('101', 'admin');
+
+ALTER TABLE `erpdb`.`user_permission`
+DROP COLUMN `is_available`,
+DROP COLUMN `parent_ids`,
+DROP COLUMN `parent_id`,
+DROP COLUMN `permission`,
+DROP COLUMN `resource_url`,
+CHANGE COLUMN `name` `module_id` INT(3) NULL DEFAULT NULL ,
+CHANGE COLUMN `resource_type` `permission` VARCHAR(10) NULL DEFAULT NULL ;
+
+ALTER TABLE `erpdb`.`user_permission`
+ADD COLUMN `is_available` TINYINT(1) NULL DEFAULT 1 AFTER `permission`;
+
+
+-- june 20 10:00 --
+
+ALTER TABLE `erpdb`.`user_module`
+CHANGE COLUMN `id` `id` INT(3) NOT NULL ;
+
+
+
+
+
+
