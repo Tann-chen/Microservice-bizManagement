@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,11 +27,12 @@ public class CtmUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.queryByEmail(email);
-        DataHolderService.setCurrentUser(user);
 
         if (null == user) {
             throw new UsernameNotFoundException("User not existed");
         }
+
+        DataHolderService.setCurrentUser(user);
 
         org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
