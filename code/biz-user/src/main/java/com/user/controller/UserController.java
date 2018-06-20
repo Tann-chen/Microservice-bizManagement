@@ -11,9 +11,15 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.Map;
 
 @Controller
 public class UserController {
@@ -21,8 +27,26 @@ public class UserController {
     @Autowired
     private UserInfoService userInfoService;
 
-    @ApiOperation("Add new user")
+    @Autowired
+    private TokenStore tokenStore;
 
+
+    @RequestMapping(value = "/user/current", method = RequestMethod.GET)
+    public Result getCurrentUser(OAuth2Authentication auth) {
+        final OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
+        final OAuth2AccessToken accessToken = tokenStore.readAccessToken(details.getTokenValue());
+        Map<String, Object> tokenDetails =  accessToken.getAdditionalInformation();
+        Long currentUserId = (Long) tokenDetails.get("user_id");
+        User currentUser = userInfoService.findUserById(currentUserId);
+
+        return new ResultBuilder()
+                .setCode(200)
+                .setData(currentUser)
+                .build();
+
+    }
+
+    @ApiOperation("Add new user")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "length<45", dataType = "string"),
             @ApiImplicitParam(name = "email", value = "length<45", required = true, dataType = "string"),
