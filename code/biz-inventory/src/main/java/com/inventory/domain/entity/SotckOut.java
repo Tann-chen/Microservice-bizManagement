@@ -1,6 +1,6 @@
-package com.domain.entity;
+package com.inventory.domain.entity;
 
-import com.domain.enums.StockOutPurpose;
+import com.inventory.domain.enums.StockOutPurpose;
 import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,7 +16,9 @@ public class SotckOut implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String commodityItemId;
+    @OneToOne
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
+    private Item item;
 
     private Timestamp pickedTime;
 
@@ -24,7 +26,10 @@ public class SotckOut implements Serializable{
 
     private Long approvedUser;
 
+    @Enumerated(EnumType.STRING)
     private StockOutPurpose purpose;
+
+    private String note;
 
     @PrePersist
     public void prePersist() {
