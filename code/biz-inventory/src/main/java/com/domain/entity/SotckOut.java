@@ -1,7 +1,7 @@
-package com.domain;
+package com.domain.entity;
 
+import com.domain.enums.StockOutPurpose;
 import lombok.Data;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -24,7 +24,12 @@ public class SotckOut implements Serializable{
 
     private Long approvedUser;
 
-    private String purpose;
+    private StockOutPurpose purpose;
 
-
+    @PrePersist
+    public void prePersist() {
+        if (null == pickedTime) {
+            this.pickedTime = new Timestamp(System.currentTimeMillis());
+        }
+    }
 }

@@ -1,7 +1,6 @@
-package com.domain;
+package com.domain.entity;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -24,4 +23,11 @@ public class StockIn implements Serializable{
     private Timestamp entryTime;
 
     private Long receiveUser;
+
+    @PrePersist
+    public void prePersist() {
+        if (null == entryTime) {
+            this.entryTime = new Timestamp(System.currentTimeMillis());
+        }
+    }
 }
