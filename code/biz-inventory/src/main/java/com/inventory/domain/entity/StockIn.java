@@ -1,4 +1,4 @@
-package com.domain.entity;
+package com.inventory.domain.entity;
 
 import lombok.Data;
 import javax.persistence.*;
@@ -16,13 +16,18 @@ public class StockIn implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String batchNO;
+    private String batchNo;
 
-    private Long commodityId;
+    @ManyToOne
+    @JoinColumn(name = "commodity_id", referencedColumnName = "id")
+    private Commodity commodity;
 
     private Timestamp entryTime;
 
     private Long receiveUser;
+
+
+    private String note;
 
     @PrePersist
     public void prePersist() {

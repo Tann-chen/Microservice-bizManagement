@@ -3,11 +3,14 @@ package com.inventory.domain.entity;
 import com.inventory.domain.enums.ItemStatus;
 import lombok.Data;
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "inventory_item")
-public class Item {
+public class Item implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long serialId;
@@ -28,8 +31,8 @@ public class Item {
     private Boolean isAvailable;
 
     @PrePersist
-    public void prePersist(){
-        if(null == costPerItem){
+    public void prePersist() {
+        if (null == costPerItem) {
             this.costPerItem = 0.0;
         }
 

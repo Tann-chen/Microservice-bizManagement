@@ -4,12 +4,14 @@ import com.inventory.domain.enums.CommodityType;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Data
 @Entity
 @Table(name = "inventory_commodity")
-public class Commodity {
+public class Commodity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +29,11 @@ public class Commodity {
     private Boolean isAvailable;
 
     @PrePersist
-    public void prePersist(){
-        if(null == quantityUnit){
+    public void prePersist() {
+        if (null == quantityUnit) {
             this.quantityUnit = "one";
         }
-        if(null == processingPeriod){
+        if (null == processingPeriod) {
             processingPeriod = 0;
         }
 
