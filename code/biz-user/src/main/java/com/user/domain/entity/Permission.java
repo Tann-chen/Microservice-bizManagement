@@ -24,4 +24,10 @@ public class Permission implements Serializable {
 
     private Boolean isAvailable;
 
+
+    @PrePersist
+    public void prePersist(){
+        this.isAvailable = true;
+    }
+
 }

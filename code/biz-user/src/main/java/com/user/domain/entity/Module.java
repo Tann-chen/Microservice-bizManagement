@@ -2,7 +2,7 @@ package com.user.domain.entity;
 
 import lombok.Data;
 import javax.persistence.*;
-import java.io.Serializable;
+        import java.io.Serializable;
 
 
 @Data
@@ -22,7 +22,7 @@ public class Module implements Serializable {
     @PrePersist
     public void prePersist() {
         if (null == this.isAvailable) {
-            this.isAvailable = false;
+            this.isAvailable = true;
         }
     }
 }

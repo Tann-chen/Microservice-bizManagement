@@ -69,7 +69,7 @@ public class ModuleServiceImpl implements ModuleService {
         Set<Module> moduleSet = new HashSet<>();
         Set<Permission> permissions = userInfoService.findPermissionsByUser(user);
         for (Permission p : permissions) {
-            if (p.getPermission() == PermissionType.READ){
+            if (p.getPermission() == PermissionType.READ) {
                 moduleSet.add(p.getModule());
             }
         }

@@ -49,7 +49,7 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     }
 
     @Override
-    public void changeIsAvailableStatus(Long roleId, boolean isAvailable) throws IllegalArgumentException{
+    public void changeIsAvailableStatus(Long roleId, boolean isAvailable) throws IllegalArgumentException {
         Role role = roleRepository.queryRoleById(roleId);
         Assert.notNull(role, "role not existed");
         role.setIsAvailable(isAvailable);

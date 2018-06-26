@@ -7,6 +7,7 @@ import com.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -75,7 +76,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     public void changeIsActiveStatus(Long userId, Boolean isActive) throws IllegalArgumentException {
         User user = userRepository.queryUserById(userId);
         Assert.notNull(user, "user not existed");
-        user.setIsActive(isActive);
+        user.setIsAvailable(isActive);
         userRepository.save(user);
     }
 

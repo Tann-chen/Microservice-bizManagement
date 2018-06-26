@@ -19,13 +19,11 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public void addPermission(Module module, PermissionType type) {
-        Permission permission = null;
         if (!isExistedPermission(module, type)) {
             Permission p = new Permission();
             p.setModule(module);
             p.setPermission(type);
-            permission = permissionRepository.save(p);
-
+            permissionRepository.save(p);
         }
     }
 }

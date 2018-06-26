@@ -47,10 +47,4 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             .requestMatchers().antMatchers("/test/**");
     }
 
-
-
-
-
-
-
 }

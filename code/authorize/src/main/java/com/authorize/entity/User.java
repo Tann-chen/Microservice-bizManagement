@@ -33,7 +33,7 @@ public class User implements Serializable {
             inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", name = "user_permission_id")})
     private List<Permission> permissionList;
 
-    private Boolean isActive;
+    private Boolean isAvailable;
 
     private Boolean isLocked;
 
