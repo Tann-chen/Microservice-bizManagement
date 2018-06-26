@@ -37,7 +37,7 @@ public class CtmUserDetailsService implements UserDetailsService {
         org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                user.getIsActive(),
+                user.getIsAvailable(),
                 true,
                 true,
                 !user.getIsLocked(),

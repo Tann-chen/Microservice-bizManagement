@@ -60,6 +60,7 @@ public class UserController {
         if (null == user) {
             throw new JsonParseException("user");
         }
+
         Long newUserId = userInfoService.createUser(user);
 
         return new ResultBuilder()

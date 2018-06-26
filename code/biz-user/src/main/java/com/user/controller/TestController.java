@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Map;
 
 @RestController
@@ -27,6 +26,7 @@ public class TestController {
     }
 
     @RequestMapping(value = "/get_current", method = RequestMethod.GET)
+
     public Object getCurrentUser() {
         Object current =  SecurityContextHolder.getContext().getAuthentication();
         return current;
@@ -43,7 +43,6 @@ public class TestController {
     public String testMethodSecurityRefuse() {
         return "refuse";
     }
-
 
 
     @RequestMapping(value = "/get_extra", method = RequestMethod.GET)

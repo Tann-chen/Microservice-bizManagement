@@ -175,10 +175,8 @@ chooce 2 : use seriliable file to keep the graph the task work flow graph
 # inventory_commidity
 	* id : int(9) | primary key
 	* name : varchar(60)
-	* sku_number : varchar(60) | unique | index
-	* commidity_type : varchar(30) | enum | raw/production
+	//* commidity_type : varchar(30) | enum | raw/ready for production/semi-finished / finished
 	* quantity_unit : varchar(30) | enum | not null
-	* purchase_period : int(6) | unit:day | not null
 	* processing_period : int(6)  | unit:day | not null | in processing com, need processing table to calculate avg
 
 
@@ -201,36 +199,38 @@ chooce 2 : use seriliable file to keep the graph the task work flow graph
 # inventory_relation_commidity_supplier
 	* commidity_id : int(9) | primary key
 	* supplier_id : int(9) | primary key
+	* purchase_period : int(6) | unit:day | not null
 
 
-# inventory_entry 
+
+# inventory_stock_in 
 	* id : int(11) | primary key
 	* batch_number : varchar(30) | unique | index
-	* commidity_id : int(9) | referenced from inventory_commidity.id
+	* commidity_id : int(9) | referenced from inventory_commidity.id  //type of commidity
 	* supplier_id : int(9) | referenced from inventory_supplier.id
-	* quantity : int(9) | not null
 	* entry_time : datatime
 	* receive_user :  int(9) | referenced from user_info.id
-	* account_transation : int(17) | referenced from account_transaction.id
+	//* account_transation : int(17) | referenced from account_transaction.id
 
 
-# inventory_commidity_details
-	* id : int(15) | primary key
+# inventory_commidity_units
+	* serial_number : int(15)   //for search key
+	* sku : int(15) |
 	* commidity_id : int(9) | referenced from inventory_commidity.id
-	* serial_number : varchar(30) | unique | index
-	* entry_id : int(11) | referenced from inventory_entry.id
-	* commidity_status : varchar(30) | enum | availble/picked/broken
+	* stock_in_id : int(11) | referenced from inventory_entry.id
+	* commidity_status : varchar(30) | enum | in_stock/ saled / ready_to_product / broken /  picked_for_process /
+	* cost_unit : 
 
+// lot number
 
 # inventory_picking
 	* id : int(15) | primary key
-	* commidity_details_id : int(9) | referenced from inventory_commidity_details.id
+	* commidity_units_id : int(9) | referenced from inventory_commidity_units.id
 	* picked_time : datatime
 	* picked_user : int(9) | referenced from user_info.id
 	* approved_user : int(9) | referenced from user_info.id
 	* picking_purpose : varchar(30) | enum | sell/processing/cleaning
-	* account_transation : int(17) | referenced from account_transaction.id
-
+	//* account_transation : int(17) | referenced from account_transaction.id
 
 
 ------------------------------------ accountancy microservice ----------------------------------------
