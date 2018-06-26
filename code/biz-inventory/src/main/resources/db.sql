@@ -42,6 +42,23 @@ CREATE TABLE `erpdb`.`inventory_commidity` (
   PRIMARY KEY (`id`))
   ENGINE = InnoDB;
 
+  ALTER TABLE `erpdb`.`inventory_commidity`
+  RENAME TO  `erpdb`.`inventory_commodity` ;
+
+
+  ALTER TABLE `erpdb`.`inventory_commodity`
+  ADD COLUMN `is_available` TINYINT(1) NULL AFTER `processing_period`;
+
+  ALTER TABLE `erpdb`.`inventory_item`
+  ADD COLUMN `is_available` TINYINT(1) NULL AFTER `cost_per_item`;
+
+  ALTER TABLE `erpdb`.`inventory_item`
+  CHANGE COLUMN `commidity_status` `item_status` VARCHAR(30) NULL DEFAULT NULL ;
+
+
+
+
+
 
 
 

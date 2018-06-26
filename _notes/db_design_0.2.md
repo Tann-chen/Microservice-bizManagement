@@ -175,7 +175,7 @@ chooce 2 : use seriliable file to keep the graph the task work flow graph
 # inventory_commidity
 	* id : int(9) | primary key
 	* name : varchar(60)
-	//* commidity_type : varchar(30) | enum | raw/ready for production/semi-finished / finished
+	* commidity_type : varchar(30) | enum | raw/ready for production/semi-finished / finished
 	* quantity_unit : varchar(30) | enum | not null
 	* processing_period : int(6)  | unit:day | not null | in processing com, need processing table to calculate avg
 
