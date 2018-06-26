@@ -14,6 +14,8 @@
         <module>config</module>
         <module>gateway</module>
         <module>registry</module>
+        <module>biz-user</module>
+        <module>biz-inventory</module>
     </modules>
 
     <properties>
