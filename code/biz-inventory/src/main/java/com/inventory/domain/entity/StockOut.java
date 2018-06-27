@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @Data
 @Entity
 @Table(name = "inventory_stock_out")
-public class SotckOut implements Serializable{
+public class StockOut implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id

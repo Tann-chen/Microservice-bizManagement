@@ -8,9 +8,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
 
-    Page<Item> findItemByIsAvailableTrue(Pageable pageable);
+    Page<Item> findItemsByIsAvailableTrue(Pageable pageable);
 
     Page<Item> findItemsByCommodityStatus(ItemStatus commodityStatus);
 
-    Item queryItemBySerialId(Long serialId);
 }
