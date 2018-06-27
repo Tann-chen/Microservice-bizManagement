@@ -24,6 +24,7 @@ public class CommodityServiceImpl implements CommodityService {
         Assert.hasLength(commodity.getQuantityUnit(), "quantity unit not empty");
         Assert.notNull(commodity.getProcessingPeriod(), "processing period not empty");
         Commodity created = commodityRepository.save(commodity);
+
         return  created.getId();
     }
 

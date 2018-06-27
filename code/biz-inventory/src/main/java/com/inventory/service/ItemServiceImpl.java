@@ -30,7 +30,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Page<Item> getAllItems(Pageable pageable) {
-        return itemRepository.findItemByIsAvailableTrue(pageable);
+        return itemRepository.findItemsByIsAvailableTrue(pageable);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item updateItem(Long itemId, Item newItemInfo) {
-        Item item = itemRepository.queryItemBySerialId(itemId);
+        Item item = itemRepository.findOne(itemId);
         Assert.notNull(item, "item not existed");
         if (!StringUtils.isEmpty(newItemInfo.getSkuNo())) {
             item.setSkuNo(newItemInfo.getSkuNo());
@@ -57,13 +57,13 @@ public class ItemServiceImpl implements ItemService {
         if (null != newItemInfo.getCostPerItem()) {
             item.setCostPerItem(newItemInfo.getCostPerItem());
         }
-        itemRepository.save(item);
-        return item;
+        Item updated = itemRepository.save(item);
+        return updated;
     }
 
     @Override
     public void deleteItem(Long itemId) {
-        Item item = itemRepository.queryItemBySerialId(itemId);
+        Item item = itemRepository.findOne(itemId);
         Assert.notNull(item, "item not exist");
         item.setIsAvailable(false);
         itemRepository.save(item);
@@ -71,7 +71,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Double getCostOfItem(Long itemId) {
-        Item item = itemRepository.queryItemBySerialId(itemId);
+        Item item = itemRepository.findOne(itemId);
         Assert.notNull(item, "item not exist");
         return item.getCostPerItem();
     }
