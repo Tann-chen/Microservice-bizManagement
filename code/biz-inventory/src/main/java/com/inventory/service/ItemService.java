@@ -12,7 +12,7 @@ public interface ItemService {
 
     Page<Item> getAllItems(Pageable pageable);
 
-    Page<Item> getAllItemsByItemStaus(ItemStatus itemStatus);
+    Page<Item> getAllItemsByItemStatus(ItemStatus itemStatus);
 
     Item updateItem(Long itemId, Item newItemInfo);
 
