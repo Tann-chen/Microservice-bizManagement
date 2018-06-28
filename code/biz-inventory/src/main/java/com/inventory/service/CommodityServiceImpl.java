@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class CommodityServiceImpl implements CommodityService {
         Assert.hasLength(commodity.getQuantityUnit(), "quantity unit not empty");
         Assert.notNull(commodity.getProcessingPeriod(), "processing period not empty");
         Commodity created = commodityRepository.save(commodity);
+
         return  created.getId();
     }
 
@@ -34,7 +36,7 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public Page<Commodity> getAllCommodities(Pageable pageable) {
-        return null;
+        return commodityRepository.findCommoditiesByIsAvailableTrue(pageable);
     }
 
     @Override
@@ -44,11 +46,33 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public Commodity updateCommodity(Long commodityId, Commodity newCommodityInfo) {
-        return null;
+        Commodity commodity = commodityRepository.findOne(commodityId);
+        Assert.notNull(commodity, "commodity not existed");
+        if (!StringUtils.isEmpty(newCommodityInfo.getName()) ){
+            commodity.setName(newCommodityInfo.getName());
+        }
+        if (null != newCommodityInfo.getCommodityType()) {
+            commodity.setCommodityType(newCommodityInfo.getCommodityType());
+        }
+        if (null != newCommodityInfo.getQuantityUnit()) {
+            commodity.setQuantityUnit(newCommodityInfo.getQuantityUnit());
+        }
+        if (null != newCommodityInfo.getProcessingPeriod()) {
+            commodity.setProcessingPeriod(newCommodityInfo.getProcessingPeriod());
+        }
+
+        Commodity updated = commodityRepository.save(commodity);
+        return updated;
+
+
+
     }
 
     @Override
     public void deleteCommodity(Long commodityId) {
-
+        Commodity commodity = commodityRepository.findOne(commodityId);
+        Assert.notNull(commodity, "item not exist");
+        commodity.setIsAvailable(false);
+        commodityRepository.save(commodity);
     }
 }
