@@ -1,5 +1,7 @@
 package com.user.service;
 
+import com.user.comm.result.ModulePermissions;
+import com.user.domain.entity.Module;
 import com.user.domain.entity.Permission;
 import com.user.domain.entity.Role;
 import com.user.domain.entity.User;
@@ -45,7 +47,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public void updateUser(Long userId, User updatedUserInfo) throws IllegalArgumentException {
+    public User updateUser(Long userId, User updatedUserInfo) throws IllegalArgumentException {
         User user = userRepository.queryUserById(userId);
         Assert.notNull(user, "user not existed");
         if (!StringUtils.isEmpty(updatedUserInfo.getName())) {
@@ -64,13 +66,14 @@ public class UserInfoServiceImpl implements UserInfoService {
             user.setJobStatus(updatedUserInfo.getJobStatus());
         }
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
     public Page<User> findAllUsersByPage(Pageable pageable) {
-        return userRepository.findAll(pageable);
+        return userRepository.findUserByIsAvailableTrue(pageable);
     }
+
 
     @Override
     public void changeIsActiveStatus(Long userId, Boolean isActive) throws IllegalArgumentException {
@@ -79,6 +82,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         user.setIsAvailable(isActive);
         userRepository.save(user);
     }
+
 
     @Override
     public Set<Permission> findPermissionsByUser(User user) {
@@ -106,5 +110,19 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
 
         return permissionSet;
+    }
+
+
+    @Override
+    public ModulePermissions findModulePermissionsByUser(User user, Module module) {
+        Set<Permission> permissionSet = findPermissionsByUser(user);
+        ModulePermissions mp = new ModulePermissions();
+        for(Permission p : permissionSet){
+            if(p.getModule().equals(module)){
+                mp.setFieldValue(p.getPermission().getType(), true);
+            }
+        }
+
+        return mp;
     }
 }

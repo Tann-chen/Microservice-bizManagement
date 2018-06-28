@@ -6,13 +6,14 @@ import com.user.domain.entity.User;
 import com.user.domain.enums.PermissionType;
 import com.user.repository.ModuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+@Service
 public class ModuleServiceImpl implements ModuleService {
 
     @Autowired

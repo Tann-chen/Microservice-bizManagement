@@ -21,7 +21,8 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Map;
 
-@Controller
+@RestController
+@RequestMapping(path = "/user")
 public class UserController {
 
     @Autowired
@@ -30,8 +31,7 @@ public class UserController {
     @Autowired
     private TokenStore tokenStore;
 
-
-    @RequestMapping(value = "/user/current", method = RequestMethod.GET)
+    @RequestMapping(value = "/current", method = RequestMethod.GET)
     public Result getCurrentUser(OAuth2Authentication auth) {
         final OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
         final OAuth2AccessToken accessToken = tokenStore.readAccessToken(details.getTokenValue());
@@ -39,39 +39,32 @@ public class UserController {
         Long currentUserId = (Long) tokenDetails.get("user_id");
         User currentUser = userInfoService.findUserById(currentUserId);
 
+
         return new ResultBuilder()
                 .setCode(200)
                 .setData(currentUser)
                 .build();
-
     }
 
-    @ApiOperation("Add new user")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "length<45", dataType = "string"),
-            @ApiImplicitParam(name = "email", value = "length<45", required = true, dataType = "string"),
-            @ApiImplicitParam(name = "phone", value = "length<45", dataType = "string"),
-            @ApiImplicitParam(name = "password", value = "length<45", required = true, dataType = "string"),
-            @ApiImplicitParam(name = "role_str_lst", value = "list(string)", dataType = "list"),
-            @ApiImplicitParam(name = "job_status", value = "undistributed, part_time, full_time, retired, dismissed", dataType = "string")
-    })
-    @RequestMapping(value = "/user",method = RequestMethod.POST)
-    public Result register(@RequestBody @ApiIgnore User user) throws Exception {
+
+    @RequestMapping(method = RequestMethod.POST)
+    public Result register(@RequestBody User user) throws Exception {
         if (null == user) {
             throw new JsonParseException("user");
         }
 
         Long newUserId = userInfoService.createUser(user);
 
+        Page<User> userList = userInfoService.findAllUsersByPage(new PageRequest(0, 10));
+
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
-                .setData(newUserId)
+                .setData(userList)
                 .build();
     }
 
-    @ApiOperation("Get details of one user")
-    @ApiImplicitParam(name = "userId", required = true, dataType = "int", paramType = "path")
-    @RequestMapping(value = "user/{userId}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     public Result getUserDetails(@PathVariable Long userId) throws Exception {
         if (null == userId) {
             throw new JsonParseException("userId");
@@ -88,12 +81,8 @@ public class UserController {
         return resultBuilder.build();
     }
 
-    @ApiOperation("Get list of all users by page")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "page", dataType = "int", paramType = "param"),
-            @ApiImplicitParam(name = "size", value = "size", dataType = "int", paramType = "param")
-    })
-    @RequestMapping(value = "/user",method = RequestMethod.GET)
+
+    @RequestMapping(method = RequestMethod.GET)
     public Result getUserList(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size) {
         Page<User> userList = userInfoService.findAllUsersByPage(new PageRequest(page, size));
         return new ResultBuilder()
@@ -102,16 +91,7 @@ public class UserController {
                 .build();
     }
 
-    @RequestMapping(value = "user/{userId}", method = RequestMethod.PUT)
-    @ApiOperation("update details of user")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "email", value = "length<45", required = true, dataType = "string"),
-            @ApiImplicitParam(name = "phone", value = "length<45", dataType = "string"),
-            @ApiImplicitParam(name = "password", value = "length<45", required = true, dataType = "string"),
-            @ApiImplicitParam(name = "role_str_lst", value = "list(string)", dataType = "list"),
-            @ApiImplicitParam(name = "job_status", value = "undistributed, part_time, full_time, retired, dismissed", dataType = "string")
-    })
+    @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
     public Result updateUserDetails(@PathVariable Long userId, @RequestBody User user) throws Exception {
         if (null == userId) {
             throw new JsonParseException("userId");
@@ -119,21 +99,25 @@ public class UserController {
         if (null == user) {
             throw new JsonParseException("user");
         }
-        userInfoService.updateUser(userId, user);
+        User newUserInfo = userInfoService.updateUser(userId, user);
 
-        return new ResultBuilder().setCode(200).build();
+        return new ResultBuilder().setCode(200).setData(newUserInfo).build();
     }
 
-    @ApiOperation("Delete one user")
-    @ApiImplicitParam(name = "userId", required = true, dataType = "int")
-    @RequestMapping(value = "user/{userId}", method = RequestMethod.DELETE)
+
+    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     public Result deleteUser(@PathVariable Long userId) throws Exception {
         if (null == userId) {
             throw new JsonParseException("userId");
         }
         userInfoService.changeIsActiveStatus(userId, false);
 
-        return new ResultBuilder().setCode(200).build();
+        Page<User> userList = userInfoService.findAllUsersByPage(new PageRequest(0, 10));
+
+        return new ResultBuilder()
+                .setCode(ResultBuilder.SUCCESS)
+                .setData(userList)
+                .build();
     }
 
 }

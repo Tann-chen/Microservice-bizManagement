@@ -1,8 +1,23 @@
 package com.user.comm.result;
 
-public class Result {
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
+
+public class Result implements Serializable{
+    private static final long serialVersionUID = 1L;
+
+    @Getter
+    @Setter
     private int code;
+
+    @Getter
+    @Setter
     private String message;
+
+    @Getter
+    @Setter
     private Object data;
 
     Result(ResultBuilder resultBuilder) {

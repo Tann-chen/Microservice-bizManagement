@@ -2,7 +2,6 @@ package com.user.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -32,18 +31,16 @@ public class TestController {
         return current;
     }
 
-    @PreAuthorize("hasAuthority('user_read')")
     @RequestMapping(value = "/get_success", method = RequestMethod.GET)
     public String testMethodSecuritySuccess() {
         return "success";
     }
 
-    @PreAuthorize("hasAuthority('user_reload')")
+
     @RequestMapping(value = "/get_refuse", method = RequestMethod.GET)
     public String testMethodSecurityRefuse() {
         return "refuse";
     }
-
 
     @RequestMapping(value = "/get_extra", method = RequestMethod.GET)
     public Map<String, Object> getExtrInfo(OAuth2Authentication auth) {

@@ -1,5 +1,8 @@
 package com.user.service;
 
+import com.user.comm.result.ModulePermissions;
+import com.user.domain.entity.Module;
+import com.user.domain.entity.Permission;
 import com.user.domain.entity.Role;
 import com.user.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Service
 public class RoleInfoServiceImpl implements RoleInfoService {
@@ -59,5 +64,24 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     @Override
     public Page<Role> findAllRolesByPage(Pageable pageable) {
         return roleRepository.findByIsAvailableTrue(pageable);
+    }
+
+
+    @Override
+    public List<Permission> findPermissionsByRole(Role role) {
+        return role.getPermissionList();
+    }
+
+    @Override
+    public ModulePermissions findModulePermissionsByRole(Role role, Module module) {
+        ModulePermissions mp = new ModulePermissions();
+        List<Permission> permissionList = role.getPermissionList();
+        for (Permission p : permissionList) {
+            if (p.getModule().equals(module)) {
+                mp.setFieldValue(p.getPermission().getType(), true);
+            }
+        }
+
+        return mp;
     }
 }

@@ -5,7 +5,9 @@ import com.user.domain.entity.Permission;
 import com.user.domain.enums.PermissionType;
 import com.user.repository.PermissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PermissionServiceImpl implements PermissionService {
 
     @Autowired

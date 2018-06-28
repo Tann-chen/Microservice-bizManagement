@@ -1,5 +1,6 @@
 package com.user.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,12 +20,14 @@ public class Role implements Serializable {
 
     private String description;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_relation_role_permission",
             joinColumns = {@JoinColumn(referencedColumnName = "id", name = "user_role_id")},
             inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", name = "user_permission_id")})
     private List<Permission> permissionList;
 
+    @JsonIgnore
     private Boolean isAvailable;
 
     @PrePersist
