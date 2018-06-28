@@ -5,20 +5,14 @@ import com.user.comm.result.Result;
 import com.user.comm.result.ResultBuilder;
 import com.user.domain.entity.User;
 import com.user.service.UserInfoService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -35,13 +29,13 @@ public class UserController {
     public Result getCurrentUser(OAuth2Authentication auth) {
         final OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
         final OAuth2AccessToken accessToken = tokenStore.readAccessToken(details.getTokenValue());
-        Map<String, Object> tokenDetails =  accessToken.getAdditionalInformation();
+        Map<String, Object> tokenDetails = accessToken.getAdditionalInformation();
         Long currentUserId = (Long) tokenDetails.get("user_id");
         User currentUser = userInfoService.findUserById(currentUserId);
 
 
         return new ResultBuilder()
-                .setCode(200)
+                .setCode(ResultBuilder.SUCCESS)
                 .setData(currentUser)
                 .build();
     }
@@ -55,7 +49,7 @@ public class UserController {
 
         Long newUserId = userInfoService.createUser(user);
 
-        Page<User> userList = userInfoService.findAllUsersByPage(new PageRequest(0, 10));
+        List<User> userList = userInfoService.findAllUsersByPage();
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
@@ -71,11 +65,11 @@ public class UserController {
         }
         User user = userInfoService.findUserById(userId);
 
-        ResultBuilder resultBuilder = new ResultBuilder().setCode(200);
+        ResultBuilder resultBuilder = new ResultBuilder();
         if (null == user) {
-            resultBuilder.setMessage("user not existed");
+            resultBuilder.setCode(ResultBuilder.FAILED).setMessage("user not existed");
         } else {
-            resultBuilder.setData(user);
+            resultBuilder.setCode(ResultBuilder.SUCCESS).setData(user);
         }
 
         return resultBuilder.build();
@@ -84,7 +78,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET)
     public Result getUserList(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size) {
-        Page<User> userList = userInfoService.findAllUsersByPage(new PageRequest(page, size));
+        List<User> userList = userInfoService.findAllUsersByPage();
         return new ResultBuilder()
                 .setCode(200)
                 .setData(userList)
@@ -101,7 +95,7 @@ public class UserController {
         }
         User newUserInfo = userInfoService.updateUser(userId, user);
 
-        return new ResultBuilder().setCode(200).setData(newUserInfo).build();
+        return new ResultBuilder().setCode(ResultBuilder.SUCCESS).setData(newUserInfo).build();
     }
 
 
@@ -112,7 +106,7 @@ public class UserController {
         }
         userInfoService.changeIsActiveStatus(userId, false);
 
-        Page<User> userList = userInfoService.findAllUsersByPage(new PageRequest(0, 10));
+        List<User> userList = userInfoService.findAllUsersByPage();
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)

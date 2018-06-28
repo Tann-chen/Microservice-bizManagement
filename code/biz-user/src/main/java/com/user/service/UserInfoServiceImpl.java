@@ -7,9 +7,6 @@ import com.user.domain.entity.Role;
 import com.user.domain.entity.User;
 import com.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -70,8 +67,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public Page<User> findAllUsersByPage(Pageable pageable) {
-        return userRepository.findUserByIsAvailableTrue(pageable);
+    public List<User> findAllUsersByPage() {
+        return userRepository.findUserByIsAvailableTrue();
     }
 
 

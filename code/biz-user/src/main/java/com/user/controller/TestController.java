@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Map;
 
 @RestController
@@ -20,14 +21,14 @@ public class TestController {
     private TokenStore tokenStore;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String testFunc(){
+    public String testFunc() {
         return "hello, user!";
     }
 
     @RequestMapping(value = "/get_current", method = RequestMethod.GET)
 
     public Object getCurrentUser() {
-        Object current =  SecurityContextHolder.getContext().getAuthentication();
+        Object current = SecurityContextHolder.getContext().getAuthentication();
         return current;
     }
 

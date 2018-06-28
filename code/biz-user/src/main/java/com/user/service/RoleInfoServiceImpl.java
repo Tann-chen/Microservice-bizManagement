@@ -6,9 +6,6 @@ import com.user.domain.entity.Permission;
 import com.user.domain.entity.Role;
 import com.user.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -22,7 +19,7 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     private RoleRepository roleRepository;
 
     @Override
-    public void addRole(Role role) throws IllegalArgumentException{
+    public void addRole(Role role) throws IllegalArgumentException {
         Assert.hasLength(role.getRole(), "role name not empty");
         Role existing = roleRepository.queryRoleByRole(role.getRole());
         Assert.isNull(existing, "role already exist");
@@ -36,7 +33,7 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     }
 
     @Override
-    public Role updateRole(Long roleId, Role updatedRoleInfo) throws IllegalArgumentException{
+    public Role updateRole(Long roleId, Role updatedRoleInfo) throws IllegalArgumentException {
         Role role = roleRepository.queryRoleById(roleId);
         Assert.notNull(role, "role not existed");
         if (!StringUtils.isEmpty(updatedRoleInfo.getRole())) {
@@ -62,8 +59,8 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     }
 
     @Override
-    public Page<Role> findAllRolesByPage(Pageable pageable) {
-        return roleRepository.findByIsAvailableTrue(pageable);
+    public List<Role> findAllRolesByPage() {
+        return roleRepository.findByIsAvailableTrue();
     }
 
 
