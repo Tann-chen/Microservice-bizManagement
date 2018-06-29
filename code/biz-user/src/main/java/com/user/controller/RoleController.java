@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
@@ -34,7 +35,7 @@ public class RoleController {
             throw new JsonParseException("role");
         }
         roleInfoService.addRole(role);
-        List<Role> roleList = roleInfoService.findAllRolesByPage();
+        List<Role> roleList = roleInfoService.findAllRoles();
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
@@ -48,13 +49,13 @@ public class RoleController {
         if (null == roleId) {
             throw new IllegalArgumentException("roleId not empty");
         }
-        Role role = roleInfoService.getRoleById(roleId);
+        Optional<Role> optionalRole = roleInfoService.getRoleById(roleId);
 
         ResultBuilder resultBuilder = new ResultBuilder();
-        if (null == role) {
-            resultBuilder.setCode(ResultBuilder.SUCCESS).setMessage("role not existed");
+        if (optionalRole.isPresent()) {
+            resultBuilder.setData(ResultBuilder.SUCCESS).setData(optionalRole.get());
         } else {
-            resultBuilder.setData(ResultBuilder.FAILED).setData(role);
+            resultBuilder.setCode(ResultBuilder.SUCCESS).setMessage("role not existed");
         }
 
         return resultBuilder.build();
@@ -63,7 +64,7 @@ public class RoleController {
 
     @RequestMapping(method = RequestMethod.GET)
     public Result getRoleList() {
-        List<Role> roleList = roleInfoService.findAllRolesByPage();
+        List<Role> roleList = roleInfoService.findAllRoles();
         List<Module> moduleList = moduleService.getAvailModulesByAdmin();
 
         Map<String, Object> result = new HashMap<>();
@@ -100,7 +101,7 @@ public class RoleController {
             throw new IllegalArgumentException("roleId not empty");
         }
         roleInfoService.changeIsAvailableStatus(roleId, false);
-        List<Role> roleList = roleInfoService.findAllRolesByPage();
+        List<Role> roleList = roleInfoService.findAllRoles();
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
@@ -118,12 +119,12 @@ public class RoleController {
         ResultBuilder resultBuilder = new ResultBuilder();
 
         List<Module> modules = moduleService.getAvailModulesByAdmin();
-        Role role = roleInfoService.getRoleById(roleId);
+        Optional<Role> optionalRole = roleInfoService.getRoleById(roleId);
 
-        if (null == role) {
+        if (!optionalRole.isPresent()) {
             resultBuilder.setCode(ResultBuilder.FAILED).setMessage("role not existed");
         } else {
-            List<Permission> permissionList = role.getPermissionList();
+            List<Permission> permissionList = optionalRole.get().getPermissionList();
 
             for (Module m : modules) {
                 ModulePermissions mp = new ModulePermissions();

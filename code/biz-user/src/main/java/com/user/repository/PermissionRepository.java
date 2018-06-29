@@ -6,11 +6,12 @@ import com.user.domain.enums.PermissionType;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface PermissionRepository extends CrudRepository<Permission, Long> {
 
-    Permission queryById(Long permissionId);
+    Optional<Permission> queryById(Long permissionId);
 
     Permission queryByModuleAndPermission(Module module, PermissionType type);
 

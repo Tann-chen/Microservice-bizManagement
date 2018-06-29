@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -24,29 +26,33 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public Long createUser(User user) throws IllegalArgumentException {
         Assert.hasLength(user.getEmail(), "email not empty");
-        User existing = userRepository.queryUserByEmail(user.getEmail());
-        Assert.isNull(existing, "email already used:" + user.getEmail());
         Assert.hasLength(user.getName(), "name not empty");
         Assert.hasLength(user.getPassword(), "password not empty");
+
+        Optional<User> existing = userRepository.queryUserByEmail(user.getEmail());
+        if (existing.isPresent()) {
+            throw new IllegalArgumentException("email has already used");
+        }
         User created = userRepository.save(user);
 
         return created.getId();
     }
 
     @Override
-    public User findUserByEmail(String email) {
+    public Optional<User> findUserByEmail(String email) {
         return userRepository.queryUserByEmail(email);
     }
 
     @Override
-    public User findUserById(Long userId) {
+    public Optional<User> findUserById(Long userId) {
         return userRepository.queryUserById(userId);
     }
 
     @Override
     public User updateUser(Long userId, User updatedUserInfo) throws IllegalArgumentException {
-        User user = userRepository.queryUserById(userId);
-        Assert.notNull(user, "user not existed");
+        Optional<User> optionalUser = userRepository.queryUserById(userId);
+        User user = optionalUser.orElseThrow(() -> new IllegalArgumentException("user not existed"));
+
         if (!StringUtils.isEmpty(updatedUserInfo.getName())) {
             user.setName(updatedUserInfo.getName());
         }
@@ -67,15 +73,15 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public List<User> findAllUsersByPage() {
+    public List<User> findAllUsers() {
         return userRepository.findUserByIsAvailableTrue();
     }
 
 
     @Override
     public void changeIsActiveStatus(Long userId, Boolean isActive) throws IllegalArgumentException {
-        User user = userRepository.queryUserById(userId);
-        Assert.notNull(user, "user not existed");
+        Optional<User> optionalUser = userRepository.queryUserById(userId);
+        User user = optionalUser.orElseThrow(() -> new IllegalArgumentException("user not existed"));
         user.setIsAvailable(isActive);
         userRepository.save(user);
     }
@@ -114,8 +120,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     public ModulePermissions findModulePermissionsByUser(User user, Module module) {
         Set<Permission> permissionSet = findPermissionsByUser(user);
         ModulePermissions mp = new ModulePermissions();
-        for(Permission p : permissionSet){
-            if(p.getModule().equals(module)){
+        for (Permission p : permissionSet) {
+            if (p.getModule().equals(module)) {
                 mp.setFieldValue(p.getPermission().getType(), true);
             }
         }

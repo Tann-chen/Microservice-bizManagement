@@ -6,19 +6,20 @@ import com.user.domain.entity.Permission;
 import com.user.domain.entity.Role;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface RoleInfoService {
 
     void addRole(Role role);
 
-    Role getRoleById(Long roleId);
+    Optional<Role> getRoleById(Long roleId);
 
     Role updateRole(Long roleId, Role updatedRoleInfo);
 
     void changeIsAvailableStatus(Long roleId, boolean isAvailable);
 
-    List<Role> findAllRolesByPage();
+    List<Role> findAllRoles();
 
     List<Permission> findPermissionsByRole(Role role);
 

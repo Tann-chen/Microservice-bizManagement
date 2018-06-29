@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoleInfoServiceImpl implements RoleInfoService {
@@ -21,21 +22,23 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     @Override
     public void addRole(Role role) throws IllegalArgumentException {
         Assert.hasLength(role.getRole(), "role name not empty");
-        Role existing = roleRepository.queryRoleByRole(role.getRole());
-        Assert.isNull(existing, "role already exist");
         Assert.hasLength(role.getDescription(), "description not empty");
+        Optional<Role> existing = roleRepository.queryRoleByRole(role.getRole());
+        if (existing.isPresent()) {
+            throw new IllegalArgumentException("role has already existed");
+        }
         roleRepository.save(role);
     }
 
     @Override
-    public Role getRoleById(Long roleId) {
+    public Optional<Role> getRoleById(Long roleId) {
         return roleRepository.queryRoleById(roleId);
     }
 
     @Override
     public Role updateRole(Long roleId, Role updatedRoleInfo) throws IllegalArgumentException {
-        Role role = roleRepository.queryRoleById(roleId);
-        Assert.notNull(role, "role not existed");
+        Optional<Role> optionalRole = roleRepository.queryRoleById(roleId);
+        Role role = optionalRole.orElseThrow(() -> new IllegalArgumentException("role not existed"));
         if (!StringUtils.isEmpty(updatedRoleInfo.getRole())) {
             role.setRole(updatedRoleInfo.getRole());
         }
@@ -45,21 +48,21 @@ public class RoleInfoServiceImpl implements RoleInfoService {
         if (!StringUtils.isEmpty(updatedRoleInfo.getIsAvailable())) {
             role.setIsAvailable(updatedRoleInfo.getIsAvailable());
         }
-        roleRepository.save(role);
 
-        return role;
+        Role newRole = roleRepository.save(role);
+        return newRole;
     }
 
     @Override
     public void changeIsAvailableStatus(Long roleId, boolean isAvailable) throws IllegalArgumentException {
-        Role role = roleRepository.queryRoleById(roleId);
-        Assert.notNull(role, "role not existed");
+        Optional<Role> optionalRole = roleRepository.queryRoleById(roleId);
+        Role role = optionalRole.orElseThrow(() -> new IllegalArgumentException("role not existed"));
         role.setIsAvailable(isAvailable);
         roleRepository.save(role);
     }
 
     @Override
-    public List<Role> findAllRolesByPage() {
+    public List<Role> findAllRoles() {
         return roleRepository.findByIsAvailableTrue();
     }
 

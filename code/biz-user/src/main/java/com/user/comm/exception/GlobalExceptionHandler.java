@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    private Result exceptionHandler(Exception e) {
+    @ResponseStatus(HttpStatus.OK)
+    private Result argumentExceptionHandler(Exception e) {
         return new ResultBuilder()
-                .setCode(400)
+                .setCode(ResultBuilder.SUCCESS)
                 .setMessage(e.getMessage())
                 .build();
     }
