@@ -52,7 +52,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     public User updateUser(Long userId, User updatedUserInfo) throws IllegalArgumentException {
         Optional<User> optionalUser = userRepository.queryUserById(userId);
         User user = optionalUser.orElseThrow(() -> new IllegalArgumentException("user not existed"));
-
         if (!StringUtils.isEmpty(updatedUserInfo.getName())) {
             user.setName(updatedUserInfo.getName());
         }
