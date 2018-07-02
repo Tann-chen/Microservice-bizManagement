@@ -1,5 +1,6 @@
 package com.inventory.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,14 +18,15 @@ public class StockIn implements Serializable{
 
     private String batchNo;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "commodity_id", referencedColumnName = "id")
     private Commodity commodity;
 
     private Timestamp entryTime;
 
-    private Long receiveUser;
 
+    private Long receiveUserId;
 
     private String note;
 
