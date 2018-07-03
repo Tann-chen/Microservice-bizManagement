@@ -25,7 +25,6 @@ public class StockIn implements Serializable{
 
     private Timestamp entryTime;
 
-
     private Long receiveUserId;
 
     private String note;

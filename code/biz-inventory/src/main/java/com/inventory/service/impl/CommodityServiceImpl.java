@@ -1,8 +1,9 @@
-package com.inventory.service;
+package com.inventory.service.impl;
 
 import com.inventory.domain.entity.Commodity;
 import com.inventory.domain.enums.CommodityType;
 import com.inventory.repository.CommodityRepository;
+import com.inventory.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
