@@ -5,8 +5,10 @@ import com.inventory.domain.entity.Commodity;
 import com.inventory.domain.enums.CommodityType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 public interface CommodityService {
 
@@ -14,9 +16,7 @@ public interface CommodityService {
 
     List<Commodity> getAllCommodities();
 
-    Page<Commodity> getAllCommodities(Pageable pageable);
-
-    Page<Commodity> getAllCommoditiesByCommodityType(CommodityType commodityType, Pageable pageable);
+    List<Commodity> getAllCommoditiesByCommodityType(CommodityType commodityType);
 
     Commodity updateCommodity(Long commodityId, Commodity newCommodityInfo);
 

@@ -6,11 +6,13 @@ import com.inventory.service.StockInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+@Service
 public class StockInServiceImpl implements StockInService {
 
     @Autowired
@@ -25,16 +27,6 @@ public class StockInServiceImpl implements StockInService {
         StockIn created = stockInRepository.save(stockIn);
 
         return created.getId();
-    }
-
-    @Override
-    public List<StockIn> getAllStockIn() {
-        return stockInRepository.findAll();
-    }
-
-    @Override
-    public Page<StockIn> getAllStockIn(Pageable pageable) {
-        return stockInRepository.findAll(pageable);
     }
 
     @Override
@@ -60,4 +52,61 @@ public class StockInServiceImpl implements StockInService {
 
         return updated;
     }
+
+    @Override
+    public StockIn getStockInById(Long stockInId) {
+        Assert.notNull(stockInId, "stockin Id not null");
+        StockIn res = stockInRepository.findOne(stockInId);
+
+        return res;
+    }
+
+    @Override
+    public StockIn getStockInByBatchNo(Long batchNo) {
+        Assert.notNull(batchNo, "batch No not null");
+        StockIn res = stockInRepository.findStockInByBatchNo(batchNo);
+
+        return res;
+    }
+
+    @Override
+    public List<StockIn> getAllStockIn() {
+        return null;
+    }
+
+    @Override
+    public Page<StockIn> getAllStockIn(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public List<StockIn> getStockInByPeriod() {
+        return null;
+    }
+
+    @Override
+    public Page<StockIn> getStockInByPeriod(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public List<StockIn> getStockInByCommodity() {
+        return null;
+    }
+
+    @Override
+    public Page<StockIn> getStockInByCommodity(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public List<StockIn> getStockInByReceiver() {
+        return null;
+    }
+
+    @Override
+    public Page<StockIn> getStockInByReceiver(Pageable pageable) {
+        return null;
+    }
+
 }

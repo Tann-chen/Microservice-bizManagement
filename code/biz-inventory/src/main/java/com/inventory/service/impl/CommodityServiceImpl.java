@@ -38,15 +38,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public Page<Commodity> getAllCommodities(Pageable pageable) {
-        List<Commodity> commodityList = commodityRepository.findCommoditiesByIsAvailableTrue();
-        Page<Commodity> result = new PageImpl<>(commodityList, pageable, commodityList.size());
-
-        return result;
-    }
-
-    @Override
-    public Page<Commodity> getAllCommoditiesByCommodityType(CommodityType commodityType, Pageable pageable) {
+    public List<Commodity> getAllCommoditiesByCommodityType(CommodityType commodityType) {
         return commodityRepository.findCommoditiesByCommodityType(commodityType);
     }
 
