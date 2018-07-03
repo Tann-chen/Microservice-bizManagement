@@ -6,13 +6,15 @@ import com.user.domain.entity.User;
 import com.user.domain.enums.PermissionType;
 import com.user.repository.ModuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
-
+@Service
 public class ModuleServiceImpl implements ModuleService {
 
     @Autowired
@@ -26,9 +28,10 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public void addModule(String moduleName) throws IllegalArgumentException {
-        Module existed = moduleRepository.queryByName(moduleName);
-        Assert.isNull(existed, "module has already existed");
-
+        Optional<Module> existed = moduleRepository.queryByName(moduleName);
+        if (existed.isPresent()) {
+            throw new IllegalArgumentException("module has already existed");
+        }
         Module newModule = new Module();
         newModule.setName(moduleName);
         Module added = moduleRepository.save(newModule);
@@ -40,16 +43,16 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public void enableModule(Integer moduleId) throws IllegalArgumentException {
-        Module module = moduleRepository.queryById(moduleId);
-        Assert.notNull(module, "module not existed");
+        Optional<Module> optionalModule = moduleRepository.queryById(moduleId);
+        Module module = optionalModule.orElseThrow(() -> new IllegalArgumentException("module not existed"));
         module.setIsAvailable(true);
         moduleRepository.save(module);
     }
 
     @Override
     public void disableModule(Integer moduleId) {
-        Module module = moduleRepository.queryById(moduleId);
-        Assert.notNull(module, "module not existed");
+        Optional<Module> optionalModule = moduleRepository.queryById(moduleId);
+        Module module = optionalModule.orElseThrow(() -> new IllegalArgumentException("module not existed"));
         module.setIsAvailable(false);
         moduleRepository.save(module);
     }
@@ -75,5 +78,4 @@ public class ModuleServiceImpl implements ModuleService {
         }
         return moduleSet;
     }
-
 }

@@ -4,6 +4,9 @@ import com.authorize.entity.Permission;
 import com.authorize.entity.Role;
 import com.authorize.entity.User;
 import com.authorize.repository.UserRepository;
+
+import static com.authorize.service.DataHolderService.setCurrentUser;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.HashSet;
 import java.util.List;
@@ -32,7 +36,7 @@ public class CtmUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not existed");
         }
 
-        DataHolderService.setCurrentUser(user);
+        setCurrentUser(user);
 
         org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(
                 user.getEmail(),

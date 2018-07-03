@@ -1,6 +1,9 @@
 package com.user.domain.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.user.domain.enums.JobStatus;
 import lombok.Data;
 
@@ -27,36 +30,41 @@ public class User implements Serializable {
 
     private String avatar;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @JsonIgnore
     private String pwdSalt;
 
     @Transient
+    @JsonIgnore
     private List<String> roleStrLst;
 
-
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_relation_info_role",
             joinColumns = {@JoinColumn(referencedColumnName = "id", name = "user_id")},
             inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", name = "user_role_id")})
     private List<Role> roleList;
 
-
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_relation_info_permission",
             joinColumns = {@JoinColumn(referencedColumnName = "id", name = "user_id")},
             inverseJoinColumns = {@JoinColumn(referencedColumnName = "id", name = "user_permission_id")})
     private List<Permission> permissionList;
 
+    @JsonIgnore
     private Timestamp createTime;
 
+    @JsonIgnore
     private Timestamp lastLoginTime;
 
     @Enumerated(EnumType.STRING)
     private JobStatus jobStatus;
 
+    @JsonIgnore
     private Boolean isAvailable;
-
 
     @PrePersist
     public void prePersist() {

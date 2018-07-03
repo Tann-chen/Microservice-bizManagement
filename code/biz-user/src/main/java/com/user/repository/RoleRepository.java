@@ -1,15 +1,17 @@
 package com.user.repository;
 
+
 import com.user.domain.entity.Role;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface RoleRepository extends PagingAndSortingRepository<Role,Long> {
+import java.util.List;
+import java.util.Optional;
 
-    Role queryRoleByRole(String role);
+public interface RoleRepository extends CrudRepository<Role, Long> {
 
-    Role queryRoleById(Long roleId);
+    Optional<Role> queryRoleByRole(String role);
 
-    Page<Role> findByIsAvailableTrue(Pageable pageable);
+    Optional<Role> queryRoleById(Long roleId);
+
+    List<Role> findByIsAvailableTrue();
 }

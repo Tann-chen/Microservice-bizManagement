@@ -4,12 +4,13 @@ import com.user.domain.entity.Module;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface ModuleRepository extends CrudRepository<Module, Integer>{
+public interface ModuleRepository extends CrudRepository<Module, Integer> {
 
-    Module queryById(Integer moduleId);
+    Optional<Module> queryById(Integer moduleId);
 
-    Module queryByName(String name);
+    Optional<Module> queryByName(String name);
 
     List<Module> queryByIsAvailableTrue();
 

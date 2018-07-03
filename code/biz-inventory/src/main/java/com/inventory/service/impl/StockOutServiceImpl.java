@@ -1,7 +1,8 @@
-package com.inventory.service;
+package com.inventory.service.impl;
 
 import com.inventory.domain.entity.StockOut;
 import com.inventory.repository.StockOutRepository;
+import com.inventory.service.StockOutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-public class StockOutServiceImpl implements StockOutService{
+public class StockOutServiceImpl implements StockOutService {
 
     @Autowired
     private StockOutRepository stockOutRepository;

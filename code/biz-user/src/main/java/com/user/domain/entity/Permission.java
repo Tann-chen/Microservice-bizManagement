@@ -1,4 +1,7 @@
 package com.user.domain.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.user.domain.enums.PermissionType;
 import lombok.Data;
 import javax.persistence.*;
@@ -15,13 +18,16 @@ public class Permission implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="module_id", referencedColumnName="id")
     private Module module;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Enumerated(EnumType.STRING)
     private PermissionType permission;
 
+    @JsonIgnore
     private Boolean isAvailable;
 
 
