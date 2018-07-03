@@ -21,7 +21,7 @@ public class StockIn implements Serializable{
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "commodity_id", referencedColumnName = "id")
-    private Commodity commodity;
+    private Commodity commodityId;
 
     private Timestamp entryTime;
 

@@ -18,7 +18,7 @@ public class StockOutServiceImpl implements StockOutService {
 
     @Override
     public Long createStockOut(StockOut stockOut) {
-        Assert.notNull(stockOut.getItem(), "item not empty");
+        Assert.notNull(stockOut.getItemId(), "item not empty");
         Assert.notNull(stockOut.getPickedUser(), "picked user not empty");
         Assert.notNull(stockOut.getApprovedUser(), "approved user not empty");
         Assert.notNull(stockOut.getPurpose(), "purpose not empty");
@@ -30,7 +30,7 @@ public class StockOutServiceImpl implements StockOutService {
 
     @Override
     public List<StockOut> getAllStockOut() {
-        return (List<StockOut>)stockOutRepository.findAll();
+        return stockOutRepository.findAll();
     }
 
     @Override
@@ -42,8 +42,8 @@ public class StockOutServiceImpl implements StockOutService {
     public StockOut updateStockOut(Long stockOutId, StockOut newStockOutInfo) {
         StockOut stockOut = stockOutRepository.findOne(stockOutId);
         Assert.notNull(stockOut, "stockout no exist");
-        if (null != newStockOutInfo.getItem()) {
-            stockOut.setItem(newStockOutInfo.getItem());
+        if (null != newStockOutInfo.getItemId()) {
+            stockOut.setItemId(newStockOutInfo.getItemId());
         }
         if (null != newStockOutInfo.getPickedTime()) {
             stockOut.setPickedTime(newStockOutInfo.getPickedTime());

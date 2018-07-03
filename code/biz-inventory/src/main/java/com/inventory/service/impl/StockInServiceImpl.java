@@ -19,7 +19,7 @@ public class StockInServiceImpl implements StockInService {
     @Override
     public Long createStockIn(StockIn stockIn) throws IllegalArgumentException {
         Assert.hasLength(stockIn.getBatchNo(), "batchNo not empty");
-        Assert.isNull(stockIn.getCommodity(), "commodity not empty");
+        Assert.isNull(stockIn.getCommodityId(), "commodity not empty");
         Assert.isNull(stockIn.getReceiveUserId(), "receive user not empty");
         Assert.hasLength(stockIn.getNote(), "note not empty");
         StockIn created = stockInRepository.save(stockIn);
@@ -29,7 +29,7 @@ public class StockInServiceImpl implements StockInService {
 
     @Override
     public List<StockIn> getAllStockIn() {
-        return (List<StockIn>)stockInRepository.findAll();
+        return stockInRepository.findAll();
     }
 
     @Override
@@ -44,8 +44,8 @@ public class StockInServiceImpl implements StockInService {
         if (!StringUtils.isEmpty(newStockInInfo.getBatchNo())) {
             stockIn.setBatchNo(newStockInInfo.getBatchNo());
         }
-        if (null != newStockInInfo.getCommodity()) {
-            stockIn.setCommodity(newStockInInfo.getCommodity());
+        if (null != newStockInInfo.getCommodityId()) {
+            stockIn.setCommodityId(newStockInInfo.getCommodityId());
         }
         if (null != newStockInInfo.getReceiveUserId()) {
             stockIn.setReceiveUserId(newStockInInfo.getReceiveUserId());
