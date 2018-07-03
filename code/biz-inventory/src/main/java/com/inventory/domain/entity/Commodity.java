@@ -3,7 +3,6 @@ package com.inventory.domain.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inventory.domain.enums.CommodityType;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 import javax.persistence.*;
 import java.io.Serializable;
 

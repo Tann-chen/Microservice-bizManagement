@@ -1,5 +1,6 @@
 package com.inventory.service;
 
+import com.inventory.comm.vo.simCommodity;
 import com.inventory.domain.entity.Commodity;
 import com.inventory.domain.enums.CommodityType;
 import org.springframework.data.domain.Page;
@@ -20,4 +21,8 @@ public interface CommodityService {
     Commodity updateCommodity(Long commodityId, Commodity newCommodityInfo);
 
     void deleteCommodity(Long commodityId);
+
+    Commodity getCommoditiesByName(String name);
+
+    List<simCommodity> getCommodityOptions();
 }
