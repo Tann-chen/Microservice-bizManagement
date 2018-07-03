@@ -48,6 +48,5 @@ public class CommodityController {
     public Result isExistedOfCommodityName(@PathVariable String commodityName){
         return null; //check the commodity name is existed or not
         // true or false
-
     }
 }
