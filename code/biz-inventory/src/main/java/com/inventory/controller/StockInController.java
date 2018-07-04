@@ -6,12 +6,15 @@ import com.inventory.comm.result.ResultBuilder;
 import com.inventory.domain.entity.StockIn;
 import com.inventory.service.StockInService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/stock_in")
@@ -50,34 +53,36 @@ public class StockInController {
     public Result getStockInRecords(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
                                     @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                     @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) throws Exception{
-        Pageable pageable = new PageRequest(pageNo, pageSize);
-
-
-
-
+        Object allStockIn;
         if (acceptType.equals("page")) {
             //return paging type list
-
-
+            Pageable pageable = new PageRequest(pageNo, pageSize);
+            allStockIn = stockInService.getAllStockIn(pageable);
         } else {
             //return list
-
+            allStockIn = stockInService.getAllStockIn();
         }
 
-        return null;
+        return new ResultBuilder()
+                .setCode(ResultBuilder.SUCCESS)
+                .setData(allStockIn)
+                .build();
     }
 
     @RequestMapping(value = "/entry_time", method = RequestMethod.GET)
-    public Result getStockInByPeriod(@RequestParam(value = "accept", defaultValue = "list") String acceptType, @RequestParam(value = "from")Timestamp fromTime, @RequestParam(value = "to")Timestamp toTime) {
-        //todo
+    public Result getStockInByPeriod(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
+                                     @RequestParam(value = "from")Timestamp fromTime,
+                                     @RequestParam(value = "to")Timestamp toTime,
+                                     @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                     @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if(null == fromTime){
-            SimpleDateFormat sdf = new SimpleDateFormat("2000-01-01 00:00:00");
-            String time = sdf.format(new Date());
-            fromTime = Timestamp.valueOf(time);
+            String preTime = "2000-01-01 00:00:00";
+            fromTime = Timestamp.valueOf(preTime);
         }
-
         if (null == toTime) {
-            toTime = null;   //current timestamp
+            String curTime = sdf.format(new Date());
+            toTime = Timestamp.valueOf(curTime);   //current timestamp
         }
 
         if (acceptType.equals("page")) {
@@ -90,27 +95,52 @@ public class StockInController {
     }
 
     @RequestMapping(value = "/commodity/{CommodityId}", method = RequestMethod.GET)
-    public Result getStockInByCommodity(@PathVariable Long CommodityId, @RequestParam(value = "accept", defaultValue = "list") String acceptType) {
+    public Result getStockInByCommodity(@PathVariable Long commodityId,
+                                        @RequestParam(value = "accept", defaultValue = "list") String acceptType,
+                                        @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                        @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) throws Exception{
+        if (null == commodityId) {
+            throw new JsonParseException("commodity Id");
+        }
+        Object stockInsByCommodity;
         if (acceptType.equals("page")) {
             //return paging
+            Pageable pageable = new PageRequest(pageNo, pageSize);
+            stockInsByCommodity = stockInService.getStockInByCommodity(pageable, commodityId);
         } else {
             //return list
+            stockInsByCommodity = stockInService.getStockInByCommodity(commodityId);
         }
 
-        return null;   // return all stock_in records about one commodity
+        return new ResultBuilder()
+                .setCode(ResultBuilder.SUCCESS)
+                .setData(stockInsByCommodity)
+                .build();   // return all stock_in records about one commodity
     }
 
 
     @RequestMapping(value = "/receiver/{receiverId}")
-    public Result getStockInByReceiver(@PathVariable Long receiverId, @RequestParam(value = "accept", defaultValue = "list") String acceptType) {
-
+    public Result getStockInByReceiver(@PathVariable Long receiverId,
+                                       @RequestParam(value = "accept", defaultValue = "list") String acceptType,
+                                       @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                       @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        if (null == receiverId) {
+            throw new JsonParseException("receiver Id");
+        }
+        Object stockInsByReceiver;
         if (acceptType.equals("page")) {
             //return paging
+            Pageable pageable = new PageRequest(pageNo, pageSize);
+            stockInsByReceiver = stockInService.getStockInByReceiver(pageable, receiverId);
         } else {
             //return list
+            stockInsByReceiver = stockInService.getStockInByReceiver(receiverId);
         }
 
-        return null;   // return all stock_in records about one the receiver
+        return new ResultBuilder()
+                .setCode(ResultBuilder.SUCCESS)
+                .setData(stockInsByReceiver)
+                .build();   // return all stock_in records about one the receiver
     }
 
 }

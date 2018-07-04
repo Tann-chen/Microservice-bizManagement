@@ -26,7 +26,9 @@ public class StockOutController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Result getStockOut(@RequestParam(value = "accept", defaultValue = "list") String acceptType) {
+    public Result getStockOut(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
+                              @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                              @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         if (acceptType.equals("page")) {
             //return paging type list
         } else {
@@ -38,7 +40,11 @@ public class StockOutController {
 
 
     @RequestMapping(value = "/pick_time", method = RequestMethod.GET)
-    public Result getStockOutByPickedTime(@RequestParam(value = "accept", defaultValue = "list") String acceptType, @RequestParam(value = "from") Timestamp fromTime, @RequestParam(value = "to") Timestamp toTime) {
+    public Result getStockOutByPickedTime(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
+                                          @RequestParam(value = "from") Timestamp fromTime,
+                                          @RequestParam(value = "to") Timestamp toTime,
+                                          @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                          @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         if (null == fromTime) {
             SimpleDateFormat sdf = new SimpleDateFormat("2000-01-01 00:00:00");
             String time = sdf.format(new Date());
@@ -59,7 +65,10 @@ public class StockOutController {
     }
 
     @RequestMapping(value = "/purpose", method = RequestMethod.GET)
-    public Result getStockOutByPurpose(@RequestParam(value = "accept", defaultValue = "list") String acceptType, @RequestParam(value = "purpose") String purpose) {
+    public Result getStockOutByPurpose(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
+                                       @RequestParam(value = "purpose") String purpose,
+                                       @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                       @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         //please do switch from StockOutPurpose enums
         if (acceptType.equals("page")) {
             //return paging type list
@@ -71,7 +80,10 @@ public class StockOutController {
     }
 
     @RequestMapping(value = "pick_user", method = RequestMethod.GET)
-    public Result getStockOutByPickedUser(@RequestParam(value = "accept", defaultValue = "list") String acceptType, @RequestParam(value = "pick_user") Long pickUser) {
+    public Result getStockOutByPickedUser(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
+                                          @RequestParam(value = "pick_user") Long pickUser,
+                                          @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                          @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         if (acceptType.equals("page")) {
             //return paging type list
         } else {
@@ -82,7 +94,10 @@ public class StockOutController {
     }
 
     @RequestMapping(value = "approve_user", method = RequestMethod.GET)
-    public Result getStockOutByApprovedUser(@RequestParam(value = "accept", defaultValue = "list") String acceptType, @RequestParam(value = "approve_user") Long ApprovedUser) {
+    public Result getStockOutByApprovedUser(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
+                                            @RequestParam(value = "approve_user") Long ApprovedUser,
+                                            @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         if (acceptType.equals("page")) {
             //return paging type list
         } else {
@@ -95,7 +110,10 @@ public class StockOutController {
 
     //this is a little challenging, try your best
     @RequestMapping(value = "/~criterion", method = RequestMethod.POST)
-    public Result getStockOutByCustomCriterion(@RequestParam(value = "accept", defaultValue = "list") String acceptType, @RequestBody HashMap<String, Object> criterion){
+    public Result getStockOutByCustomCriterion(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
+                                               @RequestBody HashMap<String, Object> criterion,
+                                               @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                               @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize){
         return null;
     }
 }
