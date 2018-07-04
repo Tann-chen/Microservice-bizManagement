@@ -4,12 +4,21 @@ import com.inventory.domain.entity.Item;
 import com.inventory.domain.enums.ItemStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
+import java.util.List;
 
-    Page<Item> findItemsByIsAvailableTrue(Pageable pageable);
+public interface ItemRepository extends CrudRepository<Item, Long> {
 
-    Page<Item> findItemsByCommodityStatus(ItemStatus commodityStatus);
+    List<Item> findItemsByIsAvailableTrue();
+
+    List<Item> findItemsByItemStatus(ItemStatus itemStatus);
+
+    List<Item> findItemsByCommodityId(Long commodityId);
+
+    List<Item> findItemsByStockInId(Long stockInId);
+
+
 
 }

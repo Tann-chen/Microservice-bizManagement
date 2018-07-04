@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 @Service
 public class ItemServiceImpl implements ItemService {
 
@@ -30,14 +32,40 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Page<Item> getAllItems(Pageable pageable) {
-        return itemRepository.findItemsByIsAvailableTrue(pageable);
+    public List<Item> getAllItems() {
+        return itemRepository.findItemsByIsAvailableTrue();
     }
 
     @Override
-    public Page<Item> getAllItemsByItemStatus(ItemStatus itemStatus) {
-        return itemRepository.findItemsByCommodityStatus(itemStatus);
+    public List<Item> getAllItemsByItemStatus(ItemStatus itemStatus) {
+        return itemRepository.findItemsByItemStatus(itemStatus);
     }
+
+    @Override
+    public List<Item> getStockItemsByCommodityId(Long commodityId) {
+        Assert.notNull(commodityId, "commodity id not null");
+        List<Item> res = itemRepository.findItemsByCommodityId(commodityId);
+
+        return res;
+    }
+
+    @Override
+    public List<Item> getStockItemsByStockInId(Long stockInId) {
+        Assert.notNull(stockInId, "stockin ID not null");
+        List<Item> res = itemRepository.findItemsByStockInId(stockInId);
+
+        return res;
+    }
+
+    @Override
+    public List<Item> getStockItemsByBatch(Long batchNo) {
+        Assert.notNull(batchNo, "batch No Not null");
+
+
+
+        return null;
+    }
+
 
     @Override
     public Item updateItem(Long itemId, Item newItemInfo) {
