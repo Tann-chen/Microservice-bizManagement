@@ -20,14 +20,14 @@ public class Item implements Serializable {
     private String skuNo;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "commodity_id", referencedColumnName = "id")
-    private Commodity commodityId;
+    private Commodity commodity;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_in_id", referencedColumnName = "id")
-    private StockIn stockInId;
+    private StockIn stockIn;
 
     @Enumerated(EnumType.STRING)
     private ItemStatus itemStatus;

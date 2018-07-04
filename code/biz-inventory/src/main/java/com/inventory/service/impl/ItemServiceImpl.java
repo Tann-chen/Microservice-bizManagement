@@ -5,12 +5,11 @@ import com.inventory.domain.enums.ItemStatus;
 import com.inventory.repository.ItemRepository;
 import com.inventory.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -22,8 +21,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Long createItem(Item item) throws IllegalArgumentException{
         Assert.hasLength(item.getSkuNo(), "SKuNO not empty");
-        Assert.isNull(item.getCommodityId(), "Commodity not empty");
-        Assert.isNull(item.getStockInId(), "StockInId not empty");
+        Assert.isNull(item.getCommodity(), "Commodity not empty");
+        Assert.isNull(item.getStockIn(), "StockInId not empty");
         Assert.isNull(item.getItemStatus(), "Commodity Status not empty");
         Assert.isNull(item.getCostPerItem(), "Cost not empty");
         Item created = itemRepository.save(item);
@@ -44,26 +43,25 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getStockItemsByCommodityId(Long commodityId) {
         Assert.notNull(commodityId, "commodity id not null");
-        List<Item> res = itemRepository.findItemsByCommodityId(commodityId);
+        List<Item> itemsByCommodityId = itemRepository.findItemsByCommodityId(commodityId);
 
-        return res;
+        return itemsByCommodityId;
     }
 
     @Override
     public List<Item> getStockItemsByStockInId(Long stockInId) {
         Assert.notNull(stockInId, "stockin ID not null");
-        List<Item> res = itemRepository.findItemsByStockInId(stockInId);
+        List<Item> itemsByStockInId = itemRepository.findItemsByStockInId(stockInId);
 
-        return res;
+        return itemsByStockInId;
     }
 
     @Override
-    public List<Item> getStockItemsByBatch(Long batchNo) {
+    public List<Item> getStockItemsByBatch(String batchNo) {
         Assert.notNull(batchNo, "batch No Not null");
+        List<Item> itemsByBatchNo = itemRepository.findItemsByStockIn_BatchNo(batchNo);
 
-
-
-        return null;
+        return itemsByBatchNo;
     }
 
 
@@ -74,11 +72,11 @@ public class ItemServiceImpl implements ItemService {
         if (!StringUtils.isEmpty(newItemInfo.getSkuNo())) {
             item.setSkuNo(newItemInfo.getSkuNo());
         }
-        if (null != newItemInfo.getCommodityId()) {
-            item.setCommodityId(newItemInfo.getCommodityId());
+        if (null != newItemInfo.getCommodity()) {
+            item.setCommodity(newItemInfo.getCommodity());
         }
-        if (null != newItemInfo.getStockInId()) {
-            item.setStockInId(newItemInfo.getStockInId());
+        if (null != newItemInfo.getStockIn()) {
+            item.setStockIn(newItemInfo.getStockIn());
         }
         if (null != newItemInfo.getItemStatus()) {
             item.setItemStatus(newItemInfo.getItemStatus());
@@ -87,6 +85,7 @@ public class ItemServiceImpl implements ItemService {
             item.setCostPerItem(newItemInfo.getCostPerItem());
         }
         Item updated = itemRepository.save(item);
+
         return updated;
     }
 
@@ -102,6 +101,15 @@ public class ItemServiceImpl implements ItemService {
     public Double getCostOfItem(Long itemId) {
         Item item = itemRepository.findOne(itemId);
         Assert.notNull(item, "item not exist");
+
         return item.getCostPerItem();
+    }
+
+    @Override
+    public List<Item> getItemsHistorySnapshot(Timestamp time) {
+        Assert.notNull(time, "timeStamp not null");
+        List<Item> itemListSnapshot = itemRepository.findItemsByStockIn_EntryTimeGroupByCommodity(time);
+
+        return itemListSnapshot;
     }
 }

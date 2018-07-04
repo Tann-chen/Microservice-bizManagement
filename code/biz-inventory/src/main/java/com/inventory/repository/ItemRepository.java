@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface ItemRepository extends CrudRepository<Item, Long> {
@@ -19,6 +20,8 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
 
     List<Item> findItemsByStockInId(Long stockInId);
 
+    List<Item> findItemsByStockIn_BatchNo(String batchNo);
 
+    List<Item> findItemsByStockIn_EntryTimeGroupByCommodity(Timestamp timestamp);
 
 }

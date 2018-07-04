@@ -7,13 +7,20 @@ import com.inventory.service.StockOutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StockOutServiceImpl implements StockOutService {
@@ -153,12 +160,46 @@ public class StockOutServiceImpl implements StockOutService {
     }
 
     @Override
-    public List<StockOut> getStockOutByCritierion(HashMap<String, Object> criterion) {
-        return null;
+    public List<StockOut> getStockOutByCriterion(HashMap<String, Object> criterion) {
+        Assert.notNull(criterion, "criterion not null");
+        List<StockOut> stockOutsByCriterion;
+        Specification querySpec = new Specification<StockOut>() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicateList = new ArrayList<>();
+
+                for (Map.Entry<String, Object> entry : criterion.entrySet()) {
+                    predicateList.add(criteriaBuilder.equal(root.get(entry.getKey()), entry.getValue()));
+                }
+                Predicate[] predicates = new Predicate[predicateList.size()];
+
+                return criteriaBuilder.and(predicateList.toArray(predicates));
+            }
+        };
+        stockOutsByCriterion = stockOutRepository.findAll(querySpec);
+
+        return stockOutsByCriterion;
     }
 
     @Override
-    public Page<StockOut> getStockOutByCritierion(Pageable pageable, HashMap<String, Object> criterion) {
-        return null;
+    public Page<StockOut> getStockOutByCriterion(Pageable pageable, HashMap<String, Object> criterion) {
+        Assert.notNull(criterion, "criterion not null");
+        Page<StockOut> stockOutsByCriterion;
+        Specification querySpec = new Specification<StockOut>() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicateList = new ArrayList<>();
+
+                for (Map.Entry<String, Object> entry : criterion.entrySet()) {
+                    predicateList.add(criteriaBuilder.equal(root.get(entry.getKey()), entry.getValue()));
+                }
+                Predicate[] predicates = new Predicate[predicateList.size()];
+
+                return criteriaBuilder.and(predicateList.toArray(predicates));
+            }
+        };
+        stockOutsByCriterion = stockOutRepository.findAll(querySpec, pageable);
+
+        return stockOutsByCriterion;
     }
 }

@@ -16,10 +16,11 @@ public class StockIn implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     private String batchNo;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "commodity_id", referencedColumnName = "id")
     private Commodity commodityId;
 

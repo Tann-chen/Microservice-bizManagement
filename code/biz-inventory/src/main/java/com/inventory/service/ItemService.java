@@ -2,10 +2,8 @@ package com.inventory.service;
 
 import com.inventory.domain.entity.Item;
 import com.inventory.domain.enums.ItemStatus;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -21,11 +19,13 @@ public interface ItemService {
 
     List<Item> getStockItemsByStockInId(Long stockInId);
 
-    List<Item> getStockItemsByBatch(Long batchNo);
+    List<Item> getStockItemsByBatch(String batchNo);
 
     Item updateItem(Long itemId, Item newItemInfo);
 
     void deleteItem(Long itemId);
 
     Double getCostOfItem(Long itemId);
+
+    List<Item> getItemsHistorySnapshot(Timestamp time);
 }

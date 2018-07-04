@@ -3,12 +3,13 @@ package com.inventory.repository;
 import com.inventory.domain.entity.StockOut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-public interface StockOutRepository extends PagingAndSortingRepository<StockOut, Long>{
+public interface StockOutRepository extends PagingAndSortingRepository<StockOut, Long>, JpaSpecificationExecutor<StockOut>{
     List<StockOut> findAll();
 
     StockOut findStockOutByItemId(Long itemId);
@@ -24,4 +25,5 @@ public interface StockOutRepository extends PagingAndSortingRepository<StockOut,
 
     List<StockOut> findStockOutsByApprovedUser(Long ApprovedUserId);
     Page<StockOut> findStockOutsByApprovedUser(Long ApprovedUserId, Pageable pageable);
+
 }

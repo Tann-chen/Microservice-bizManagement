@@ -190,7 +190,20 @@ public class StockOutController {
                                                @RequestBody HashMap<String, Object> criterion,
                                                @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                                @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) throws Exception {
-        //todo
-        return null;
+        if (null == criterion) {
+            throw new JsonParseException("criterion");
+        }
+        Object stockByCriterion;
+        if (acceptType.equals("page")) {
+            Pageable pageable = new PageRequest(pageNo, pageSize);
+            stockByCriterion = stockOutService.getStockOutByCriterion(pageable, criterion);
+        } else {
+            stockByCriterion = stockOutService.getStockOutByCriterion(criterion);
+        }
+
+        return new ResultBuilder()
+                .setCode(ResultBuilder.SUCCESS)
+                .setData(stockByCriterion)
+                .build();
     }
 }

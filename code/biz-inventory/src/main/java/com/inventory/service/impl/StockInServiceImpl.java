@@ -65,9 +65,9 @@ public class StockInServiceImpl implements StockInService {
     @Override
     public StockIn getStockInByBatchNo(Long batchNo) {
         Assert.notNull(batchNo, "batch No not null");
-        StockIn allStockin = stockInRepository.findStockInByBatchNo(batchNo);
+        StockIn allStockIn = stockInRepository.findStockInByBatchNo(batchNo);
 
-        return allStockin;
+        return allStockIn;
     }
 
     @Override

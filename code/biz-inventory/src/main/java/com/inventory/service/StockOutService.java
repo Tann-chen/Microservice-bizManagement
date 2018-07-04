@@ -36,7 +36,7 @@ public interface StockOutService {
     List<StockOut> getStockOutByApprovedUser(Long approvedUser);
     Page<StockOut> getStockOutByApprovedUser(Pageable pageable, Long approvedUser);
 
-    List<StockOut> getStockOutByCritierion(HashMap<String, Object> criterion);
-    Page<StockOut> getStockOutByCritierion(Pageable pageable, HashMap<String, Object> criterion);
+    List<StockOut> getStockOutByCriterion(HashMap<String, Object> criterion);
+    Page<StockOut> getStockOutByCriterion(Pageable pageable, HashMap<String, Object> criterion);
 
 }
