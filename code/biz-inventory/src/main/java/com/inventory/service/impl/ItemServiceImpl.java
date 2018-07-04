@@ -1,8 +1,9 @@
-package com.inventory.service;
+package com.inventory.service.impl;
 
 import com.inventory.domain.entity.Item;
 import com.inventory.domain.enums.ItemStatus;
 import com.inventory.repository.ItemRepository;
+import com.inventory.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,9 +20,9 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Long createItem(Item item) throws IllegalArgumentException{
         Assert.hasLength(item.getSkuNo(), "SKuNO not empty");
-        Assert.isNull(item.getCommodity(), "Commodity not empty");
+        Assert.isNull(item.getCommodityId(), "Commodity not empty");
         Assert.isNull(item.getStockInId(), "StockInId not empty");
-        Assert.isNull(item.getCommodityStatus(), "Commodity Status not empty");
+        Assert.isNull(item.getItemStatus(), "Commodity Status not empty");
         Assert.isNull(item.getCostPerItem(), "Cost not empty");
         Item created = itemRepository.save(item);
 
@@ -45,14 +46,14 @@ public class ItemServiceImpl implements ItemService {
         if (!StringUtils.isEmpty(newItemInfo.getSkuNo())) {
             item.setSkuNo(newItemInfo.getSkuNo());
         }
-        if (null != newItemInfo.getCommodity()) {
-            item.setCommodity(newItemInfo.getCommodity());
+        if (null != newItemInfo.getCommodityId()) {
+            item.setCommodityId(newItemInfo.getCommodityId());
         }
         if (null != newItemInfo.getStockInId()) {
             item.setStockInId(newItemInfo.getStockInId());
         }
-        if (null != newItemInfo.getCommodityStatus()) {
-            item.setCommodityStatus(newItemInfo.getCommodityStatus());
+        if (null != newItemInfo.getItemStatus()) {
+            item.setItemStatus(newItemInfo.getItemStatus());
         }
         if (null != newItemInfo.getCostPerItem()) {
             item.setCostPerItem(newItemInfo.getCostPerItem());

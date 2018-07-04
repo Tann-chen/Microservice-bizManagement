@@ -1,38 +1,41 @@
 package com.user.controller;
 
 import com.user.comm.exception.JsonParseException;
+import com.user.comm.result.ModulePermissions;
 import com.user.comm.result.Result;
 import com.user.comm.result.ResultBuilder;
+import com.user.domain.entity.Module;
+import com.user.domain.entity.Permission;
 import com.user.domain.entity.Role;
+import com.user.service.ModuleService;
 import com.user.service.RoleInfoService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
+@RequestMapping(value = "/role")
 public class RoleController {
 
     @Autowired
     private RoleInfoService roleInfoService;
 
+    @Autowired
+    private ModuleService moduleService;
 
-    @ApiOperation("Add new role")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "role", value = "length<90", dataType = "string"),
-            @ApiImplicitParam(name = "description", value = "role_description", dataType = "text")
-    })
-    @RequestMapping(value = "/role",method = RequestMethod.POST)
+
+    @RequestMapping(method = RequestMethod.POST)
     public Result addRole(@RequestBody Role role) throws Exception {
         if (null == role) {
             throw new JsonParseException("role");
         }
         roleInfoService.addRole(role);
-        Page<Role> roleList = roleInfoService.findAllRolesByPage(new PageRequest(0, 10));
+        List<Role> roleList = roleInfoService.findAllRoles();
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
@@ -41,52 +44,44 @@ public class RoleController {
     }
 
 
-    @ApiOperation("Get details of one role")
-    @ApiImplicitParam(name = "roleId", required = true, dataType = "int", paramType = "path")
-    @RequestMapping(value = "role/{roleId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{roleId}", method = RequestMethod.GET)
     public Result getRoleDetails(@PathVariable Long roleId) throws Exception {
         if (null == roleId) {
-            throw new JsonParseException("roleId");
+            throw new IllegalArgumentException("roleId not empty");
         }
-        Role role = roleInfoService.getRoleById(roleId);
+        Optional<Role> optionalRole = roleInfoService.getRoleById(roleId);
 
-        ResultBuilder resultBuilder = new ResultBuilder().setCode(ResultBuilder.SUCCESS);
-        if (null == role) {
-            resultBuilder.setMessage("role not existed");
+        ResultBuilder resultBuilder = new ResultBuilder();
+        if (optionalRole.isPresent()) {
+            resultBuilder.setData(ResultBuilder.SUCCESS).setData(optionalRole.get());
         } else {
-            resultBuilder.setData(role);
+            resultBuilder.setCode(ResultBuilder.SUCCESS).setMessage("role not existed");
         }
 
         return resultBuilder.build();
     }
 
 
-    @ApiOperation("Get list of all roles by page")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "page", dataType = "int", paramType = "param"),
-            @ApiImplicitParam(name = "size", value = "size", dataType = "int", paramType = "param")
-    })
-    @RequestMapping(value = "/role", method = RequestMethod.GET)
-    public Result getRoleList(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size){
-        Page<Role> roleList = roleInfoService.findAllRolesByPage(new PageRequest(page, size));
+    @RequestMapping(method = RequestMethod.GET)
+    public Result getRoleList() {
+        List<Role> roleList = roleInfoService.findAllRoles();
+        List<Module> moduleList = moduleService.getAvailModulesByAdmin();
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("role_list", roleList);
+        result.put("module_list", moduleList);
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
-                .setData(roleList)
+                .setData(result)
                 .build();
     }
 
-    @ApiOperation("update details of roles")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "roleId", required = true, dataType = "int", paramType = "path"),
-            @ApiImplicitParam(name = "role", value = "length<90", dataType = "string"),
-            @ApiImplicitParam(name = "description", value = "role_description", dataType = "text"),
-            @ApiImplicitParam(name = "is_available",value = "true, false", dataType = "boolean")
-    })
-    @RequestMapping(value = "role/{roleId}", method = RequestMethod.PUT)
+
+    @RequestMapping(value = "/{roleId}", method = RequestMethod.PUT)
     public Result updateRoleDetails(@PathVariable Long roleId, @RequestBody Role role) throws Exception {
         if (null == roleId) {
-            throw new JsonParseException("roleId");
+            throw new IllegalArgumentException("roleId not empty");
         }
         if (null == role) {
             throw new JsonParseException("role");
@@ -100,15 +95,13 @@ public class RoleController {
     }
 
 
-    @ApiOperation("Delete one role")
-    @ApiImplicitParam(name = "roleId", required = true, dataType = "int")
-    @RequestMapping(value = "role/{roleId}", method = RequestMethod.DELETE)
-    public Result deleteRole(@PathVariable Long roleId) throws Exception{
+    @RequestMapping(value = "/{roleId}", method = RequestMethod.DELETE)
+    public Result deleteRole(@PathVariable Long roleId) throws Exception {
         if (null == roleId) {
-            throw new JsonParseException("roleId");
+            throw new IllegalArgumentException("roleId not empty");
         }
         roleInfoService.changeIsAvailableStatus(roleId, false);
-        Page<Role> roleList = roleInfoService.findAllRolesByPage(new PageRequest(0, 10));
+        List<Role> roleList = roleInfoService.findAllRoles();
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
@@ -116,9 +109,39 @@ public class RoleController {
                 .build();
     }
 
+    @RequestMapping(value = "/{roleId}/permissions", method = RequestMethod.GET)
+    public Result getRolePermissions(@PathVariable Long roleId) {
+        if (null == roleId) {
+            throw new IllegalArgumentException("roleId not empty");
+        }
 
-    public Result addPermissionsForRole() {
-        return null;
+        Map<String, ModulePermissions> roleModulePermissions = new HashMap<>();
+        ResultBuilder resultBuilder = new ResultBuilder();
+
+        List<Module> modules = moduleService.getAvailModulesByAdmin();
+        Optional<Role> optionalRole = roleInfoService.getRoleById(roleId);
+
+        if (!optionalRole.isPresent()) {
+            resultBuilder.setCode(ResultBuilder.FAILED).setMessage("role not existed");
+        } else {
+            List<Permission> permissionList = optionalRole.get().getPermissionList();
+
+            for (Module m : modules) {
+                ModulePermissions mp = new ModulePermissions();
+
+                for (Permission p : permissionList) {
+                    if (m.equals(p.getModule())) {
+                        mp.setFieldValue(p.getPermission().getType(), true);
+                    }
+                }
+
+                roleModulePermissions.put(m.getName(), mp);
+            }
+
+            resultBuilder.setCode(ResultBuilder.SUCCESS).setData(roleModulePermissions);
+        }
+
+        return resultBuilder.build();
     }
 
 }

@@ -1,7 +1,8 @@
-package com.inventory.service;
+package com.inventory.service.impl;
 
 import com.inventory.domain.entity.StockOut;
 import com.inventory.repository.StockOutRepository;
+import com.inventory.service.StockOutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,14 +11,14 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-public class StockOutServiceImpl implements StockOutService{
+public class StockOutServiceImpl implements StockOutService {
 
     @Autowired
     private StockOutRepository stockOutRepository;
 
     @Override
     public Long createStockOut(StockOut stockOut) {
-        Assert.notNull(stockOut.getItem(), "item not empty");
+        Assert.notNull(stockOut.getItemId(), "item not empty");
         Assert.notNull(stockOut.getPickedUser(), "picked user not empty");
         Assert.notNull(stockOut.getApprovedUser(), "approved user not empty");
         Assert.notNull(stockOut.getPurpose(), "purpose not empty");
@@ -29,7 +30,7 @@ public class StockOutServiceImpl implements StockOutService{
 
     @Override
     public List<StockOut> getAllStockOut() {
-        return (List<StockOut>)stockOutRepository.findAll();
+        return stockOutRepository.findAll();
     }
 
     @Override
@@ -41,8 +42,8 @@ public class StockOutServiceImpl implements StockOutService{
     public StockOut updateStockOut(Long stockOutId, StockOut newStockOutInfo) {
         StockOut stockOut = stockOutRepository.findOne(stockOutId);
         Assert.notNull(stockOut, "stockout no exist");
-        if (null != newStockOutInfo.getItem()) {
-            stockOut.setItem(newStockOutInfo.getItem());
+        if (null != newStockOutInfo.getItemId()) {
+            stockOut.setItemId(newStockOutInfo.getItemId());
         }
         if (null != newStockOutInfo.getPickedTime()) {
             stockOut.setPickedTime(newStockOutInfo.getPickedTime());

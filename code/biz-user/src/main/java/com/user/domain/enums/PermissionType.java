@@ -1,6 +1,8 @@
 package com.user.domain.enums;
 
-public enum  PermissionType {
+import java.io.Serializable;
+
+public enum  PermissionType implements Serializable{
     CREATE("create"),
     READ("read"),
     UPDATE("update"),
@@ -8,6 +10,7 @@ public enum  PermissionType {
 
     ;
     private String type;
+    private static final long serialVersionUID = 1L;
 
     PermissionType(String type) {
         this.type = type;

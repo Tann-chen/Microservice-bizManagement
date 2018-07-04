@@ -1,7 +1,8 @@
-package com.inventory.service;
+package com.inventory.service.impl;
 
 import com.inventory.domain.entity.StockIn;
 import com.inventory.repository.StockInRepository;
+import com.inventory.service.StockInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +19,8 @@ public class StockInServiceImpl implements StockInService {
     @Override
     public Long createStockIn(StockIn stockIn) throws IllegalArgumentException {
         Assert.hasLength(stockIn.getBatchNo(), "batchNo not empty");
-        Assert.isNull(stockIn.getCommodity(), "commodity not empty");
-        Assert.isNull(stockIn.getReceiveUser(), "receive user not empty");
+        Assert.isNull(stockIn.getCommodityId(), "commodity not empty");
+        Assert.isNull(stockIn.getReceiveUserId(), "receive user not empty");
         Assert.hasLength(stockIn.getNote(), "note not empty");
         StockIn created = stockInRepository.save(stockIn);
 
@@ -28,7 +29,7 @@ public class StockInServiceImpl implements StockInService {
 
     @Override
     public List<StockIn> getAllStockIn() {
-        return (List<StockIn>)stockInRepository.findAll();
+        return stockInRepository.findAll();
     }
 
     @Override
@@ -43,11 +44,11 @@ public class StockInServiceImpl implements StockInService {
         if (!StringUtils.isEmpty(newStockInInfo.getBatchNo())) {
             stockIn.setBatchNo(newStockInInfo.getBatchNo());
         }
-        if (null != newStockInInfo.getCommodity()) {
-            stockIn.setCommodity(newStockInInfo.getCommodity());
+        if (null != newStockInInfo.getCommodityId()) {
+            stockIn.setCommodityId(newStockInInfo.getCommodityId());
         }
-        if (null != newStockInInfo.getReceiveUser()) {
-            stockIn.setReceiveUser(newStockInInfo.getReceiveUser());
+        if (null != newStockInInfo.getReceiveUserId()) {
+            stockIn.setReceiveUserId(newStockInInfo.getReceiveUserId());
         }
         if (!StringUtils.isEmpty(newStockInInfo.getNote())) {
             stockIn.setNote(newStockInInfo.getNote());

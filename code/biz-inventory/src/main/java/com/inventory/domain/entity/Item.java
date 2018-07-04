@@ -1,5 +1,6 @@
 package com.inventory.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inventory.domain.enums.ItemStatus;
 import lombok.Data;
 import javax.persistence.*;
@@ -12,22 +13,26 @@ public class Item implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @Column(name = "serial_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long serialId;
 
     private String SkuNo;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "commodity_id", referencedColumnName = "id")
-    private Commodity commodity;
+    private Commodity commodityId;
 
+    @JsonIgnore
     private Long StockInId;
 
     @Enumerated(EnumType.STRING)
-    private ItemStatus commodityStatus;
+    private ItemStatus itemStatus;
 
     private Double costPerItem;
 
+    @JsonIgnore
     private Boolean isAvailable;
 
     @PrePersist

@@ -1,8 +1,9 @@
 package com.user.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import javax.persistence.*;
-        import java.io.Serializable;
+import java.io.Serializable;
 
 
 @Data
@@ -17,6 +18,7 @@ public class Module implements Serializable {
 
     private String name;
 
+    @JsonIgnore
     private Boolean isAvailable;
 
     @PrePersist
