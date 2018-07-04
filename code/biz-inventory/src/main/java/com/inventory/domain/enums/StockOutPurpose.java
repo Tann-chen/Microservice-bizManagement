@@ -1,7 +1,8 @@
 package com.inventory.domain.enums;
 
+
 public enum StockOutPurpose {
-    CLEANNING("cleaning"),
+    CLEANING("cleaning"),
     SELL("sell"),
     PROCESS("process")
     ;
@@ -18,5 +19,14 @@ public enum StockOutPurpose {
 
     public void setPurpose(String purpose) {
         this.purpose = purpose;
+    }
+
+    public static StockOutPurpose getStockOutPurposeByString(String purpose){
+        for(StockOutPurpose stockOutPurpose : StockOutPurpose.values()){
+            if(purpose.equals(stockOutPurpose.getPurpose())) {
+                return stockOutPurpose;
+            }
+        }
+        return null;
     }
 }

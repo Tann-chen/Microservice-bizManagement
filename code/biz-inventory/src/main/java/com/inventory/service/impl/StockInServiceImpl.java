@@ -118,6 +118,7 @@ public class StockInServiceImpl implements StockInService {
         Assert.notNull(fromTime, "fromTime not null");
         Assert.notNull(toTime, "toTime not null");
         List<StockIn> stockByPeriod = stockInRepository.findStockInsByEntryTimeBetween(fromTime, toTime);
+
         return stockByPeriod;
     }
 
@@ -126,6 +127,7 @@ public class StockInServiceImpl implements StockInService {
         Assert.notNull(fromTime, "fromTime not null");
         Assert.notNull(toTime, "toTime not null");
         Page<StockIn> stockByPeriod = stockInRepository.findStockInsByEntryTimeBetween(fromTime, toTime, pageable);
+
         return stockByPeriod;
     }
 }

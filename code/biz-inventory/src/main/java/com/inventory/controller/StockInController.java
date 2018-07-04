@@ -6,15 +6,12 @@ import com.inventory.comm.result.ResultBuilder;
 import com.inventory.domain.entity.StockIn;
 import com.inventory.service.StockInService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping("/stock_in")
@@ -84,14 +81,20 @@ public class StockInController {
             String curTime = sdf.format(new Date());
             toTime = Timestamp.valueOf(curTime);   //current timestamp
         }
-
+        Object stockInsByPeriod;
         if (acceptType.equals("page")) {
             //return paging type list
+            Pageable pageable = new PageRequest(pageNo, pageSize);
+            stockInsByPeriod = stockInService.getStockInByPeriod(pageable, fromTime, toTime);
         } else {
             //return list
+            stockInsByPeriod = stockInService.getStockInByPeriod(fromTime, toTime);
         }
 
-        return null;
+        return new ResultBuilder()
+                .setCode(ResultBuilder.SUCCESS)
+                .setData(stockInsByPeriod)
+                .build();
     }
 
     @RequestMapping(value = "/commodity/{CommodityId}", method = RequestMethod.GET)
