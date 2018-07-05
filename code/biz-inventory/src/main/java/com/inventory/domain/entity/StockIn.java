@@ -20,7 +20,7 @@ public class StockIn implements Serializable{
     private String batchNo;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "commodity_id", referencedColumnName = "id")
     private Commodity commodity;
 
