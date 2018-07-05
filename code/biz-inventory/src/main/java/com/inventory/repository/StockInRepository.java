@@ -13,8 +13,8 @@ public interface StockInRepository extends PagingAndSortingRepository<StockIn, L
     List<StockIn> findAll();
     Page<StockIn> findAll(Pageable pageable);
 
-    List<StockIn> findStockInsByCommodityId(Long commodityId);
-    Page<StockIn> findStockInsByCommodityId(Long commodityId,Pageable Pageable);
+    List<StockIn> findStockInsByCommodity_Id(Long commodityId);
+    Page<StockIn> findStockInsByCommodity_Id(Long commodityId, Pageable Pageable);
 
     List<StockIn> findStockInsByReceiveUserId(Long receiverId);
     Page<StockIn> findStockInsByReceiveUserId(Long receiverId,Pageable Pageable);
@@ -22,6 +22,6 @@ public interface StockInRepository extends PagingAndSortingRepository<StockIn, L
     List<StockIn> findStockInsByEntryTimeBetween(Timestamp fromTime, Timestamp toTime);
     Page<StockIn> findStockInsByEntryTimeBetween(Timestamp fromTime, Timestamp toTime, Pageable pageable);
 
-    StockIn findStockInByBatchNo(Long batchNo);
+    StockIn findStockInByBatchNo(String batchNo);
 
 }

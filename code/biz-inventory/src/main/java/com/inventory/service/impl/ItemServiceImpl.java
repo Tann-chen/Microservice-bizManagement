@@ -37,13 +37,13 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getAllItemsByItemStatus(ItemStatus itemStatus) {
-        return itemRepository.findItemsByItemStatus(itemStatus);
+        return itemRepository.findItemsByItemStatusAndIsAvailableTrue(itemStatus);
     }
 
     @Override
     public List<Item> getStockItemsByCommodityId(Long commodityId) {
         Assert.notNull(commodityId, "commodity id not null");
-        List<Item> itemsByCommodityId = itemRepository.findItemsByCommodityId(commodityId);
+        List<Item> itemsByCommodityId = itemRepository.findItemsByCommodity_IdAndIsAvailableTrue(commodityId);
 
         return itemsByCommodityId;
     }
@@ -51,7 +51,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getStockItemsByStockInId(Long stockInId) {
         Assert.notNull(stockInId, "stockin ID not null");
-        List<Item> itemsByStockInId = itemRepository.findItemsByStockInId(stockInId);
+        List<Item> itemsByStockInId = itemRepository.findItemsByStockIn_IdAndIsAvailableTrue(stockInId);
 
         return itemsByStockInId;
     }
@@ -59,7 +59,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getStockItemsByBatch(String batchNo) {
         Assert.notNull(batchNo, "batch No Not null");
-        List<Item> itemsByBatchNo = itemRepository.findItemsByStockIn_BatchNo(batchNo);
+        List<Item> itemsByBatchNo = itemRepository.findItemsByStockIn_BatchNoAndIsAvailableTrue(batchNo);
 
         return itemsByBatchNo;
     }
@@ -108,7 +108,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getItemsHistorySnapshot(Timestamp time) {
         Assert.notNull(time, "timeStamp not null");
-        List<Item> itemListSnapshot = itemRepository.findItemsByStockIn_EntryTimeGroupByCommodity(time);
+        List<Item> itemListSnapshot = itemRepository.findItemsByStockIn_EntryTimeLessThanAndIsAvailableTrue(time);
 
         return itemListSnapshot;
     }

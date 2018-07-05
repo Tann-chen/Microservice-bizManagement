@@ -1,5 +1,6 @@
 package com.inventory.service.impl;
 
+import com.inventory.domain.entity.Item;
 import com.inventory.domain.entity.StockOut;
 import com.inventory.domain.enums.StockOutPurpose;
 import com.inventory.repository.StockOutRepository;
@@ -12,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +28,7 @@ public class StockOutServiceImpl implements StockOutService {
 
     @Override
     public Long createStockOut(StockOut stockOut) {
-        Assert.notNull(stockOut.getItemId(), "item not empty");
+        Assert.notNull(stockOut.getItem(), "item not empty");
         Assert.notNull(stockOut.getPickedUser(), "picked user not empty");
         Assert.notNull(stockOut.getApprovedUser(), "approved user not empty");
         Assert.notNull(stockOut.getPurpose(), "purpose not empty");
@@ -54,8 +52,8 @@ public class StockOutServiceImpl implements StockOutService {
     public StockOut updateStockOut(Long stockOutId, StockOut newStockOutInfo) {
         StockOut stockOut = stockOutRepository.findOne(stockOutId);
         Assert.notNull(stockOut, "stockout no exist");
-        if (null != newStockOutInfo.getItemId()) {
-            stockOut.setItemId(newStockOutInfo.getItemId());
+        if (null != newStockOutInfo.getItem()) {
+            stockOut.setItem(newStockOutInfo.getItem());
         }
         if (null != newStockOutInfo.getPickedTime()) {
             stockOut.setPickedTime(newStockOutInfo.getPickedTime());
@@ -87,8 +85,8 @@ public class StockOutServiceImpl implements StockOutService {
 
     @Override
     public StockOut getStockOutDetailByItem(Long itemId) {
-        Assert.notNull(itemId, "itemId not null");
-        StockOut stockOutDetail = stockOutRepository.findStockOutByItemId(itemId);
+        Assert.notNull(itemId, "item not null");
+        StockOut stockOutDetail = stockOutRepository.findStockOutByItem_SerialId(itemId);
 
         return stockOutDetail;
     }
@@ -114,7 +112,7 @@ public class StockOutServiceImpl implements StockOutService {
     @Override
     public List<StockOut> getStockOutByPurpose(StockOutPurpose purpose) {
         Assert.notNull(purpose, "purpose not null");
-        List<StockOut> stockOutsByPurpose = stockOutRepository.findStockOutsByPurpose(purpose.getPurpose());
+        List<StockOut> stockOutsByPurpose = stockOutRepository.findStockOutsByPurpose(purpose);
 
         return stockOutsByPurpose;
     }
@@ -122,7 +120,7 @@ public class StockOutServiceImpl implements StockOutService {
     @Override
     public Page<StockOut> getStockOutByPurpose(Pageable pageable, StockOutPurpose purpose) {
         Assert.notNull(purpose, "purpose not null");
-        Page<StockOut> stockOutsByPurpose = stockOutRepository.findStockOutsByPurpose(purpose.getPurpose(), pageable);
+        Page<StockOut> stockOutsByPurpose = stockOutRepository.findStockOutsByPurpose(purpose, pageable);
 
         return stockOutsByPurpose;
     }
@@ -167,9 +165,13 @@ public class StockOutServiceImpl implements StockOutService {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicateList = new ArrayList<>();
-
+                Join<StockOut, Item> itemJoin = root.join("item", JoinType.LEFT);
                 for (Map.Entry<String, Object> entry : criterion.entrySet()) {
-                    predicateList.add(criteriaBuilder.equal(root.get(entry.getKey()), entry.getValue()));
+                    if (entry.getKey().equals("itemId")) {
+                        predicateList.add(criteriaBuilder.equal(itemJoin.get("serialId"), entry.getValue()));
+                    } else {
+                        predicateList.add(criteriaBuilder.equal(root.get(entry.getKey()), entry.getValue()));
+                    }
                 }
                 Predicate[] predicates = new Predicate[predicateList.size()];
 
@@ -189,9 +191,13 @@ public class StockOutServiceImpl implements StockOutService {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicateList = new ArrayList<>();
-
+                Join<StockOut, Item> itemJoin = root.join("item", JoinType.LEFT);
                 for (Map.Entry<String, Object> entry : criterion.entrySet()) {
-                    predicateList.add(criteriaBuilder.equal(root.get(entry.getKey()), entry.getValue()));
+                    if (entry.getKey().equals("itemId")) {
+                        predicateList.add(criteriaBuilder.equal(itemJoin.get("serialId"), entry.getValue()));
+                    } else {
+                        predicateList.add(criteriaBuilder.equal(root.get(entry.getKey()), entry.getValue()));
+                    }
                 }
                 Predicate[] predicates = new Predicate[predicateList.size()];
 

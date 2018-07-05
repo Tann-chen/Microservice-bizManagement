@@ -20,7 +20,7 @@ public class StockOut implements Serializable{
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "item_id", referencedColumnName = "serial_id")
-    private Item itemId;
+    private Item item;
 
     private Timestamp pickedTime;
 

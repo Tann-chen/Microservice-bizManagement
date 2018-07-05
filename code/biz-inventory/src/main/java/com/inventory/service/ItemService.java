@@ -21,11 +21,11 @@ public interface ItemService {
 
     List<Item> getStockItemsByBatch(String batchNo);
 
+    List<Item> getItemsHistorySnapshot(Timestamp time);
+
     Item updateItem(Long itemId, Item newItemInfo);
 
     void deleteItem(Long itemId);
 
     Double getCostOfItem(Long itemId);
-
-    List<Item> getItemsHistorySnapshot(Timestamp time);
 }

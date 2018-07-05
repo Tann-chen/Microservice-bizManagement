@@ -14,14 +14,14 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
 
     List<Item> findItemsByIsAvailableTrue();
 
-    List<Item> findItemsByItemStatus(ItemStatus itemStatus);
+    List<Item> findItemsByItemStatusAndIsAvailableTrue(ItemStatus itemStatus);
 
-    List<Item> findItemsByCommodityId(Long commodityId);
+    List<Item> findItemsByCommodity_IdAndIsAvailableTrue(Long commodityId);
 
-    List<Item> findItemsByStockInId(Long stockInId);
+    List<Item> findItemsByStockIn_IdAndIsAvailableTrue(Long stockInId);
 
-    List<Item> findItemsByStockIn_BatchNo(String batchNo);
+    List<Item> findItemsByStockIn_BatchNoAndIsAvailableTrue(String batchNo);
 
-    List<Item> findItemsByStockIn_EntryTimeGroupByCommodity(Timestamp timestamp);
+    List<Item> findItemsByStockIn_EntryTimeLessThanAndIsAvailableTrue(Timestamp timestamp);
 
 }

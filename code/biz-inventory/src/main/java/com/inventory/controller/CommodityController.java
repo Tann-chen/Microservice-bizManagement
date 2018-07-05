@@ -4,7 +4,7 @@ package com.inventory.controller;
 import com.inventory.comm.exception.JsonParseException;
 import com.inventory.comm.result.Result;
 import com.inventory.comm.result.ResultBuilder;
-import com.inventory.comm.vo.simCommodity;
+import com.inventory.comm.vo.SimCommodity;
 import com.inventory.domain.entity.Commodity;
 import com.inventory.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +80,7 @@ public class CommodityController {
     //options : commodity in list only include id and name field
     @RequestMapping(method = RequestMethod.OPTIONS)
     public Result getCommodityOptions() throws Exception {
-        List <simCommodity> commodityOptionsList = commodityService.getCommodityOptions();
+        List <SimCommodity> commodityOptionsList = commodityService.getCommodityOptions();
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)

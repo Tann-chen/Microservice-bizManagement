@@ -41,7 +41,7 @@ public class StockOutController {
     @RequestMapping(value = "/item/{itemId}", method = RequestMethod.GET)
     public Result getStockOutDetailsByItem(@PathVariable Long itemId) throws Exception {
         if (null == itemId) {
-            throw new JsonParseException("itemId");
+            throw new JsonParseException("item");
         }
         StockOut stockOutDetail = stockOutService.getStockOutDetailByItem(itemId);
 
@@ -114,7 +114,7 @@ public class StockOutController {
             throw new JsonParseException("purpose");
         }
         //please do switch from StockOutPurpose enums
-        StockOutPurpose purposeEnum = StockOutPurpose.getStockOutPurposeByString(purpose);
+        StockOutPurpose purposeEnum = StockOutPurpose.valueOf(purpose.toUpperCase());
         if (null == purposeEnum) {
             throw new JsonParseException("purpose do not match");
         }

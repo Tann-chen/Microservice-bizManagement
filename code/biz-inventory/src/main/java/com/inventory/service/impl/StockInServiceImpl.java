@@ -22,7 +22,7 @@ public class StockInServiceImpl implements StockInService {
     @Override
     public Long createStockIn(StockIn stockIn) throws IllegalArgumentException {
         Assert.hasLength(stockIn.getBatchNo(), "batchNo not empty");
-        Assert.isNull(stockIn.getCommodityId(), "commodity not empty");
+        Assert.isNull(stockIn.getCommodity(), "commodity not empty");
         Assert.isNull(stockIn.getReceiveUserId(), "receive user not empty");
         Assert.hasLength(stockIn.getNote(), "note not empty");
         StockIn created = stockInRepository.save(stockIn);
@@ -37,8 +37,8 @@ public class StockInServiceImpl implements StockInService {
         if (!StringUtils.isEmpty(newStockInInfo.getBatchNo())) {
             stockIn.setBatchNo(newStockInInfo.getBatchNo());
         }
-        if (null != newStockInInfo.getCommodityId()) {
-            stockIn.setCommodityId(newStockInInfo.getCommodityId());
+        if (null != newStockInInfo.getCommodity()) {
+            stockIn.setCommodity(newStockInInfo.getCommodity());
         }
         if (null != newStockInInfo.getReceiveUserId()) {
             stockIn.setReceiveUserId(newStockInInfo.getReceiveUserId());
@@ -63,7 +63,7 @@ public class StockInServiceImpl implements StockInService {
     }
 
     @Override
-    public StockIn getStockInByBatchNo(Long batchNo) {
+    public StockIn getStockInByBatchNo(String batchNo) {
         Assert.notNull(batchNo, "batch No not null");
         StockIn allStockIn = stockInRepository.findStockInByBatchNo(batchNo);
 
@@ -83,7 +83,7 @@ public class StockInServiceImpl implements StockInService {
     @Override
     public List<StockIn> getStockInByCommodity(Long commodityId) {
         Assert.notNull(commodityId, "commodity id not null");
-        List<StockIn> stockByCommodity = stockInRepository.findStockInsByCommodityId(commodityId);
+        List<StockIn> stockByCommodity = stockInRepository.findStockInsByCommodity_Id(commodityId);
 
         return stockByCommodity;
     }
@@ -91,7 +91,7 @@ public class StockInServiceImpl implements StockInService {
     @Override
     public Page<StockIn> getStockInByCommodity(Pageable pageable, Long commodityId) {
         Assert.notNull(commodityId, "commodity not null");
-        Page<StockIn> stockByCommodity = stockInRepository.findStockInsByCommodityId(commodityId, pageable);
+        Page<StockIn> stockByCommodity = stockInRepository.findStockInsByCommodity_Id(commodityId, pageable);
 
         return stockByCommodity;
     }

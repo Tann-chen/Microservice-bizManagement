@@ -21,12 +21,4 @@ public enum StockOutPurpose {
         this.purpose = purpose;
     }
 
-    public static StockOutPurpose getStockOutPurposeByString(String purpose){
-        for(StockOutPurpose stockOutPurpose : StockOutPurpose.values()){
-            if(purpose.equals(stockOutPurpose.getPurpose())) {
-                return stockOutPurpose;
-            }
-        }
-        return null;
-    }
 }

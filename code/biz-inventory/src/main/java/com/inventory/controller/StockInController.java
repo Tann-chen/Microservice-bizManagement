@@ -34,7 +34,7 @@ public class StockInController {
     }
 
     @RequestMapping(value = "batch/{batchNo}", method = RequestMethod.GET)
-    public Result getStockInDetailsByBatchNo(@PathVariable Long batchNo) throws Exception{
+    public Result getStockInDetailsByBatchNo(@PathVariable String batchNo) throws Exception{
         if (null == batchNo) {
             throw  new JsonParseException("batch No");
         }

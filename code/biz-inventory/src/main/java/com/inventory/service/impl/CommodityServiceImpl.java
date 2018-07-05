@@ -1,14 +1,11 @@
 package com.inventory.service.impl;
 
-import com.inventory.comm.vo.simCommodity;
+import com.inventory.comm.vo.SimCommodity;
 import com.inventory.domain.entity.Commodity;
 import com.inventory.domain.enums.CommodityType;
 import com.inventory.repository.CommodityRepository;
 import com.inventory.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -39,7 +36,7 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public List<Commodity> getAllCommoditiesByCommodityType(CommodityType commodityType) {
-        return commodityRepository.findCommoditiesByCommodityType(commodityType);
+        return commodityRepository.findCommoditiesByCommodityTypeAndIsAvailableTrue(commodityType);
     }
 
     @Override
@@ -75,14 +72,14 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public Commodity getCommoditiesByName(String name) {
         Assert.hasLength(name, "name not empty");
-        Commodity res = commodityRepository.findCommodityByName(name);
+        Commodity res = commodityRepository.findCommodityByNameAndIsAvailableTrue(name);
 
         return res;
     }
 
     @Override
-    public List<simCommodity> getCommodityOptions() {
-        List<simCommodity> res = commodityRepository.findCommodityOptions();
+    public List<SimCommodity> getCommodityOptions() {
+        List<SimCommodity> res = commodityRepository.findCommodityOptions();
 
         return res;
     }

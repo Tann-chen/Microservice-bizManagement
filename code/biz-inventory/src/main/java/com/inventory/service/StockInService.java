@@ -17,7 +17,7 @@ public interface StockInService {
 
     StockIn getStockInById(Long stockInId);
 
-    StockIn getStockInByBatchNo(Long batchNo);
+    StockIn getStockInByBatchNo(String batchNo);
 
     List<StockIn> getAllStockIn();
     Page<StockIn> getAllStockIn(Pageable pageable);
