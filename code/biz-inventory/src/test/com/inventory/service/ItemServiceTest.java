@@ -26,7 +26,7 @@ public class ItemServiceTest {
 
     @Test
     public void getStockItemsByCommodityId() throws Exception {
-        List<Item> res = itemService.getStockItemsByCommodityId(new Long(96743));
+        List<Item> res = itemService.getStockItemsByCommodityId(96743L);
         System.out.println(res);
     }
 

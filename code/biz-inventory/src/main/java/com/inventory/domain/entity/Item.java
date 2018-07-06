@@ -20,12 +20,12 @@ public class Item implements Serializable {
     private String skuNo;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "commodity_id", referencedColumnName = "id")
     private Commodity commodity;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_in_id", referencedColumnName = "id")
     private StockIn stockIn;
 

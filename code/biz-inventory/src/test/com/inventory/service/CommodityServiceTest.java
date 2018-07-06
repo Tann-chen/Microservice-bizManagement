@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest()
+@SpringBootTest
 public class CommodityServiceTest {
 
     @Autowired
