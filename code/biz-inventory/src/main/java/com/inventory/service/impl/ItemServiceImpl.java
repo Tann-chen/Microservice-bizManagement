@@ -6,7 +6,9 @@ import com.inventory.repository.ItemRepository;
 import com.inventory.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -22,7 +24,7 @@ public class ItemServiceImpl implements ItemService {
         Assert.hasLength(item.getSkuNo(), "SKuNO not empty");
         Assert.isNull(item.getCommodity(), "Commodity not empty");
         Assert.isNull(item.getStockInId(), "StockInId not empty");
-        Assert.isNull(item.getCommodityStatus(), "Commodity Status not empty");
+        Assert.isNull(item.getItemStatus(), "Commodity Status not empty");
         Assert.isNull(item.getCostPerItem(), "Cost not empty");
         Item created = itemRepository.save(item);
 
@@ -36,7 +38,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Page<Item> getAllItemsByItemStatus(ItemStatus itemStatus) {
-        return itemRepository.findItemsByCommodityStatus(itemStatus);
+        return itemRepository.findItemsByCommodityStatus(itemStatus, new PageRequest(10,10,new Sort("id")));
     }
 
     @Override
@@ -52,8 +54,8 @@ public class ItemServiceImpl implements ItemService {
         if (null != newItemInfo.getStockInId()) {
             item.setStockInId(newItemInfo.getStockInId());
         }
-        if (null != newItemInfo.getCommodityStatus()) {
-            item.setCommodityStatus(newItemInfo.getCommodityStatus());
+        if (null != newItemInfo.getItemStatus()) {
+            item.setItemStatus(newItemInfo.getItemStatus());
         }
         if (null != newItemInfo.getCostPerItem()) {
             item.setCostPerItem(newItemInfo.getCostPerItem());

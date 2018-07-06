@@ -10,6 +10,6 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
 
     Page<Item> findItemsByIsAvailableTrue(Pageable pageable);
 
-    Page<Item> findItemsByCommodityStatus(ItemStatus commodityStatus);
+    Page<Item> findItemsByCommodityStatus(ItemStatus commodityStatus, Pageable pageable);
 
 }

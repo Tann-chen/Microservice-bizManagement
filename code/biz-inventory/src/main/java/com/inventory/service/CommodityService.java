@@ -20,4 +20,8 @@ public interface CommodityService {
     Commodity updateCommodity(Long commodityId, Commodity newCommodityInfo);
 
     void deleteCommodity(Long commodityId);
+
+    Commodity getCommoditiesByName(String name);
+
+   // List<SimCommodity> getCommodityOptions();
 }

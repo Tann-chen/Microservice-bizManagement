@@ -29,7 +29,7 @@ public class StockInServiceImpl implements StockInService {
 
     @Override
     public List<StockIn> getAllStockIn() {
-        return (List<StockIn>)stockInRepository.findAll();
+        return stockInRepository.findAll();
     }
 
     @Override

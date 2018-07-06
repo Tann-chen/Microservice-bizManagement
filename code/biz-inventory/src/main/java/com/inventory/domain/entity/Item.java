@@ -13,6 +13,7 @@ public class Item implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @Column(name = "serial_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long serialId;
 
@@ -27,7 +28,7 @@ public class Item implements Serializable {
     private Long StockInId;
 
     @Enumerated(EnumType.STRING)
-    private ItemStatus commodityStatus;
+    private ItemStatus itemStatus;
 
     private Double costPerItem;
 

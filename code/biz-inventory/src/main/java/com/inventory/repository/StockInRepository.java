@@ -7,4 +7,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 public interface StockInRepository extends PagingAndSortingRepository<StockIn, Long>{
+    List<StockIn> findAll();
 }

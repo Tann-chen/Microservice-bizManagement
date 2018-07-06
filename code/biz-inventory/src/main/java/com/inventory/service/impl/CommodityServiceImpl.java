@@ -6,6 +6,7 @@ import com.inventory.repository.CommodityRepository;
 import com.inventory.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -32,17 +33,20 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public List<Commodity> getAllCommodities() {
-        return null;
+        return commodityRepository.findCommoditiesByIsAvailableTrue();
     }
 
     @Override
     public Page<Commodity> getAllCommodities(Pageable pageable) {
-        return commodityRepository.findCommoditiesByIsAvailableTrue(pageable);
+        List<Commodity> commodityList = commodityRepository.findCommoditiesByIsAvailableTrue();
+        Page<Commodity> result = new PageImpl<>(commodityList, pageable, commodityList.size());
+
+        return result;
     }
 
     @Override
     public Page<Commodity> getAllCommoditiesByCommodityType(CommodityType commodityType, Pageable pageable) {
-        return null;
+        return commodityRepository.findCommoditiesByCommodityType(commodityType, pageable);
     }
 
     @Override
@@ -64,9 +68,6 @@ public class CommodityServiceImpl implements CommodityService {
 
         Commodity updated = commodityRepository.save(commodity);
         return updated;
-
-
-
     }
 
     @Override
@@ -75,5 +76,23 @@ public class CommodityServiceImpl implements CommodityService {
         Assert.notNull(commodity, "item not exist");
         commodity.setIsAvailable(false);
         commodityRepository.save(commodity);
+
     }
+
+    @Override
+    public Commodity getCommoditiesByName(String name) {
+        Assert.hasLength(name, "name not empty");
+        Commodity res = commodityRepository.findCommodityByName(name);
+
+        return res;
+    }
+
+//    @Override
+//    public List<SimCommodity> getCommodityOptions() {
+//        List<SimCommodity> res = commodityRepository.findCommodityOptions();
+//
+//        return res;
+//    }
+
+
 }
