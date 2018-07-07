@@ -22,6 +22,6 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
 
     List<Item> findItemsByStockIn_BatchNoAndIsAvailableTrue(String batchNo);
 
-    List<Item> findItemsByStockIn_EntryTimeLessThanAndIsAvailableTrue(Timestamp timestamp);
+    List<Item> findItemsByStockIn_EntryTimeLessThanAndIsAvailableTrueOrderByCommodity(Timestamp timestamp);
 
 }

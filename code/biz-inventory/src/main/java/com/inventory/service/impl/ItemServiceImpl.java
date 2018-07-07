@@ -108,7 +108,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getItemsHistorySnapshot(Timestamp time) {
         Assert.notNull(time, "timeStamp not null");
-        List<Item> itemListSnapshot = itemRepository.findItemsByStockIn_EntryTimeLessThanAndIsAvailableTrue(time);
+        List<Item> itemListSnapshot = itemRepository.findItemsByStockIn_EntryTimeLessThanAndIsAvailableTrueOrderByCommodity(time);
 
         return itemListSnapshot;
     }

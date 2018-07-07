@@ -20,5 +20,4 @@ public enum StockOutPurpose {
     public void setPurpose(String purpose) {
         this.purpose = purpose;
     }
-
 }

@@ -59,7 +59,7 @@ public class CurrentStockController {
     }
 
     @RequestMapping(value = "/snapshot", method = RequestMethod.GET)
-    public Result getStockItemsHistorySnapshot(@RequestParam("timestamp")Timestamp time) {
+    public Result getStockItemsHistorySnapshot(@RequestParam(value = "timestamp", required = false)Timestamp time) {
         if (null == time) {
             //current time
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

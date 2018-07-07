@@ -4,7 +4,6 @@ import com.inventory.domain.entity.StockOut;
 import com.inventory.domain.enums.StockOutPurpose;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -36,7 +35,6 @@ public interface StockOutService {
     List<StockOut> getStockOutByApprovedUser(Long approvedUser);
     Page<StockOut> getStockOutByApprovedUser(Pageable pageable, Long approvedUser);
 
-    List<StockOut> getStockOutByCriterion(HashMap<String, Object> criterion);
-    Page<StockOut> getStockOutByCriterion(Pageable pageable, HashMap<String, Object> criterion);
+    Object getStockOutByCriterion(Pageable pageable, HashMap<String, Object> criterion, String acceptType);
 
 }

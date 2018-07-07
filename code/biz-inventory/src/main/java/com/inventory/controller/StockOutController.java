@@ -76,8 +76,8 @@ public class StockOutController {
 
     @RequestMapping(value = "/pick_time", method = RequestMethod.GET)
     public Result getStockOutByPickedTime(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
-                                          @RequestParam(value = "from") Timestamp fromTime,
-                                          @RequestParam(value = "to") Timestamp toTime,
+                                          @RequestParam(value = "from", required = false) Timestamp fromTime,
+                                          @RequestParam(value = "to", required = false) Timestamp toTime,
                                           @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -135,7 +135,7 @@ public class StockOutController {
 
     }
 
-    @RequestMapping(value = "pick_user", method = RequestMethod.GET)
+    @RequestMapping(value = "/pick_user", method = RequestMethod.GET)
     public Result getStockOutByPickedUser(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
                                           @RequestParam(value = "pick_user") Long pickUserId,
                                           @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
@@ -159,7 +159,7 @@ public class StockOutController {
                 .build();    //return stock out records
     }
 
-    @RequestMapping(value = "approve_user", method = RequestMethod.GET)
+    @RequestMapping(value = "/approve_user", method = RequestMethod.GET)
     public Result getStockOutByApprovedUser(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
                                             @RequestParam(value = "approve_user") Long ApprovedUserId,
                                             @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
@@ -193,13 +193,8 @@ public class StockOutController {
         if (null == criterion) {
             throw new JsonParseException("criterion");
         }
-        Object stockByCriterion;
-        if (acceptType.equals("page")) {
-            Pageable pageable = new PageRequest(pageNo, pageSize);
-            stockByCriterion = stockOutService.getStockOutByCriterion(pageable, criterion);
-        } else {
-            stockByCriterion = stockOutService.getStockOutByCriterion(criterion);
-        }
+        Pageable pageable = new PageRequest(pageNo, pageSize);
+        Object stockByCriterion = stockOutService.getStockOutByCriterion(pageable, criterion, acceptType);
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)

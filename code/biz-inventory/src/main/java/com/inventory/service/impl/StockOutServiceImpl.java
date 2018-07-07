@@ -158,9 +158,8 @@ public class StockOutServiceImpl implements StockOutService {
     }
 
     @Override
-    public List<StockOut> getStockOutByCriterion(HashMap<String, Object> criterion) {
+    public Object getStockOutByCriterion(Pageable pageable, HashMap<String, Object> criterion, String acceptType) {
         Assert.notNull(criterion, "criterion not null");
-        List<StockOut> stockOutsByCriterion;
         Specification querySpec = new Specification<StockOut>() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -169,6 +168,8 @@ public class StockOutServiceImpl implements StockOutService {
                 for (Map.Entry<String, Object> entry : criterion.entrySet()) {
                     if (entry.getKey().equals("itemId")) {
                         predicateList.add(criteriaBuilder.equal(itemJoin.get("serialId"), entry.getValue()));
+                    } else if (entry.getKey().equals("purpose")) {
+                        predicateList.add(criteriaBuilder.equal(root.get(entry.getKey()), StockOutPurpose.valueOf(String.valueOf(entry.getValue()))));
                     } else {
                         predicateList.add(criteriaBuilder.equal(root.get(entry.getKey()), entry.getValue()));
                     }
@@ -178,33 +179,12 @@ public class StockOutServiceImpl implements StockOutService {
                 return criteriaBuilder.and(predicateList.toArray(predicates));
             }
         };
-        stockOutsByCriterion = stockOutRepository.findAll(querySpec);
-
-        return stockOutsByCriterion;
-    }
-
-    @Override
-    public Page<StockOut> getStockOutByCriterion(Pageable pageable, HashMap<String, Object> criterion) {
-        Assert.notNull(criterion, "criterion not null");
-        Page<StockOut> stockOutsByCriterion;
-        Specification querySpec = new Specification<StockOut>() {
-            @Override
-            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> predicateList = new ArrayList<>();
-                Join<StockOut, Item> itemJoin = root.join("item", JoinType.LEFT);
-                for (Map.Entry<String, Object> entry : criterion.entrySet()) {
-                    if (entry.getKey().equals("itemId")) {
-                        predicateList.add(criteriaBuilder.equal(itemJoin.get("serialId"), entry.getValue()));
-                    } else {
-                        predicateList.add(criteriaBuilder.equal(root.get(entry.getKey()), entry.getValue()));
-                    }
-                }
-                Predicate[] predicates = new Predicate[predicateList.size()];
-
-                return criteriaBuilder.and(predicateList.toArray(predicates));
-            }
-        };
-        stockOutsByCriterion = stockOutRepository.findAll(querySpec, pageable);
+        Object stockOutsByCriterion;
+        if (acceptType.equals("list")) {
+            stockOutsByCriterion = stockOutRepository.findAll(querySpec);
+        } else {
+            stockOutsByCriterion = stockOutRepository.findAll(querySpec, pageable);
+        }
 
         return stockOutsByCriterion;
     }

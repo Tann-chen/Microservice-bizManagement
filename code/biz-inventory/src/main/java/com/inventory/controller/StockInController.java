@@ -33,7 +33,7 @@ public class StockInController {
                 .build();   //return details of stock_in
     }
 
-    @RequestMapping(value = "batch/{batchNo}", method = RequestMethod.GET)
+    @RequestMapping(value = "/batch/{batchNo}", method = RequestMethod.GET)
     public Result getStockInDetailsByBatchNo(@PathVariable String batchNo) throws Exception{
         if (null == batchNo) {
             throw  new JsonParseException("batch No");
@@ -68,8 +68,8 @@ public class StockInController {
 
     @RequestMapping(value = "/entry_time", method = RequestMethod.GET)
     public Result getStockInByPeriod(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
-                                     @RequestParam(value = "from")Timestamp fromTime,
-                                     @RequestParam(value = "to")Timestamp toTime,
+                                     @RequestParam(value = "from", required = false)Timestamp fromTime,
+                                     @RequestParam(value = "to", required = false)Timestamp toTime,
                                      @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                      @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -97,7 +97,7 @@ public class StockInController {
                 .build();
     }
 
-    @RequestMapping(value = "/commodity/{CommodityId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/commodity/{commodityId}", method = RequestMethod.GET)
     public Result getStockInByCommodity(@PathVariable Long commodityId,
                                         @RequestParam(value = "accept", defaultValue = "list") String acceptType,
                                         @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
@@ -122,11 +122,11 @@ public class StockInController {
     }
 
 
-    @RequestMapping(value = "/receiver/{receiverId}")
+    @RequestMapping(value = "/receiver/{receiverId}", method = RequestMethod.GET)
     public Result getStockInByReceiver(@PathVariable Long receiverId,
                                        @RequestParam(value = "accept", defaultValue = "list") String acceptType,
                                        @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
-                                       @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+                                       @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) throws Exception{
         if (null == receiverId) {
             throw new JsonParseException("receiver Id");
         }
