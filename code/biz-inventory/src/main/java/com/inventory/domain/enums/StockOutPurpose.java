@@ -1,7 +1,8 @@
 package com.inventory.domain.enums;
 
+
 public enum StockOutPurpose {
-    CLEANNING("cleaning"),
+    CLEANING("cleaning"),
     SELL("sell"),
     PROCESS("process")
     ;

@@ -1,23 +1,21 @@
 package com.inventory.repository;
 
-import com.inventory.comm.vo.simCommodity;
+import com.inventory.comm.vo.SimCommodity;
 import com.inventory.domain.entity.Commodity;
 import com.inventory.domain.enums.CommodityType;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface CommodityRepository extends PagingAndSortingRepository<Commodity, Long> {
+public interface CommodityRepository extends CrudRepository<Commodity, Long> {
 
     List<Commodity> findCommoditiesByIsAvailableTrue();
 
-    Page<Commodity> findCommoditiesByCommodityType(CommodityType commodityType);
+    List<Commodity> findCommoditiesByCommodityTypeAndIsAvailableTrue(CommodityType commodityType);
 
-    Commodity findCommodityByName(String name);
+    Commodity findCommodityByNameAndIsAvailableTrue(String name);
 
-    @Query(value = "SELECT id, name FROM inventory_commodity",nativeQuery=true)
-    List<simCommodity> findCommodityOptions();
+    @Query(value = "SELECT new com.inventory.comm.vo.SimCommodity(c.id, c.name) FROM Commodity c WHERE c.isAvailable = true")
+    List<SimCommodity> findCommodityOptions();
 }
