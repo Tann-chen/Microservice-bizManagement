@@ -1,0 +1,13 @@
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/entity/Role.java
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/entity/Module.java
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/config/AuthorizeServerConfig.java
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/service/CtmUserDetailsService.java
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/repository/UserRepository.java
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/config/ServletFilter.java
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/entity/Permission.java
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/Controller.java
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/config/CtmTokenEnhancer.java
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/service/DataHolderService.java
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/config/ServerSecurityConfig.java
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/AuthorizeApplication.java
+/Users/t.e.chen/Documents/Work/microservice/code/authorize/src/main/java/com/authorize/entity/User.java

@@ -1,0 +1,13 @@
+com/authorize/entity/Role.class
+com/authorize/Controller.class
+com/authorize/entity/User.class
+com/authorize/entity/Module.class
+com/authorize/config/CtmTokenEnhancer.class
+com/authorize/service/CtmUserDetailsService.class
+com/authorize/entity/Permission.class
+com/authorize/config/ServletFilter.class
+com/authorize/service/DataHolderService.class
+com/authorize/AuthorizeApplication.class
+com/authorize/config/ServerSecurityConfig.class
+com/authorize/repository/UserRepository.class
+com/authorize/config/AuthorizeServerConfig.class
