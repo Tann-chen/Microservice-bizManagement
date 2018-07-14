@@ -35,6 +35,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+
     public List<Commodity> getAllCommoditiesByCommodityType(CommodityType commodityType) {
         return commodityRepository.findCommoditiesByCommodityTypeAndIsAvailableTrue(commodityType);
     }
@@ -77,10 +78,10 @@ public class CommodityServiceImpl implements CommodityService {
         return res;
     }
 
+
     @Override
     public List<SimCommodity> getCommodityOptions() {
         List<SimCommodity> res = commodityRepository.findCommodityOptions();
-
         return res;
     }
 }

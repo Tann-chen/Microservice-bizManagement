@@ -57,10 +57,10 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+
     public List<Item> getStockItemsByBatch(String batchNo) {
         Assert.notNull(batchNo, "batch No Not null");
         List<Item> itemsByBatchNo = itemRepository.findItemsByStockIn_BatchNoAndIsAvailableTrue(batchNo);
-
         return itemsByBatchNo;
     }
 

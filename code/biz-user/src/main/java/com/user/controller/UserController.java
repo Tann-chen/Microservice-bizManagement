@@ -23,6 +23,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/user")
+@CrossOrigin(origins = "http://localhost:8080")
 public class UserController {
 
     @Autowired

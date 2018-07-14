@@ -1,0 +1,98 @@
+<div class="row">
+    <div class="col-md-6">
+		<div class="card text-center">
+			<div class="content table-responsive table-full-width text-center">
+									<table class="table table-striped">
+								        <thead>
+								            <th class="text-center">Role</th>
+								        	<th class="text-center">Descriptions</th>
+								        	<th class="text-center">Delete</th>
+								        </thead>
+								        <tbody id='roleBody'>
+								            <tr ng-repeat ="(key,role) in roles">
+								            	<td><a ng-click="getPermissions(role.id)">{{role.role}}</a></td>
+								            	<td>{{role.description}}</td>
+												<td><a class="btn btn-info btn-sm" ng-click="editRole(role.id)">+Edit</a><a class="btn btn-danger btn-sm" ng-click="deleteRole(role.id)">-Delete</a></td>
+								            </tr>
+								        </tbody>
+									</table>
+						</div>	
+                         <ul class="text-center" uib-pagination total-items="total" ng-model="currentPage" items-per-page="10" ng-change="change()"></ul>											
+					</div>
+					<div class="card text-center">
+						<div class="header text-center">
+							<h4 style="margin-top: 0;font-weight: normal;">Add Role</h4>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								Role Name
+							</div>
+							<div class="col-md-6">
+								<input type="text" name='roleName' ng-model='roleName' class="form-control" placeholder="Role Name">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								Role Description
+							</div>
+							<div class="col-md-6">
+								<input type="text" name='role' ng-model=roleDetail class="form-control" placeholder="Role Description here">
+							</div>
+						</div>
+						<div class="row">
+							<p ng-model="Add_errMsg" class="accessErrMsg">{{Add_errMsg}}</p>
+						</div>
+						<button class="btn btn-success" ng-click="addRole()">+Add</button>
+					</div>	
+					<div class="card text-center" ng-show="editShow">
+						<div class="header text-center">
+							<h4 style="margin-top: 0;">Edit Role</h4>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								Role
+							</div>
+							<div class="col-md-6">
+								<input type="text" ng-model="needEditRole" class="form-control" placeholder="Role Name">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								Role Detail
+							</div>
+							<div class="col-md-6">
+								<input type="text" ng-model="needEditDetail" class="form-control" placeholder="Role Description">
+							</div>
+						</div>
+						<div class="row">
+							<p ng-model="Edit_errMsg" class="accessErrMsg">{{Edit_errMsg}}</p>
+						</div>
+						<button class="btn btn-sm btn-success" ng-click="comfirmEdit()">Comfirm</button>
+					</div>								
+				</div>
+			<div class="col-md-6">
+				<div class="card">
+					<div class="content table-responsive table-full-width">
+						<table class="table table-striped">
+								        <thead>
+								        	<th>Department</th>
+								        	<th>Create</th>
+								        	<th>Update</th>
+								        	<th>Read</th>
+								        	<th>Delete</th>
+								        </thead>
+								        <tbody>
+								            <tr ng-repeat="(key,permision) in permissions">
+								            	<td><a>{{key}}</a></td>
+												<td><input type="checkbox" ng-checked="permision.create" ng-click="permision.create = (!permision.create)"></td>			
+												<td><input type="checkbox" ng-checked="permision.update" ng-click="permision.update = (!permision.update)"></td>			
+												<td><input type="checkbox" ng-checked="permision.read" ng-click="permision.read = (!permision.read)"></td>			
+												<td><input type="checkbox" ng-checked="permision.delete" ng-click="permision.delete = (!permision.delete)"></td>	
+												<td><a class="btn btn-sm btn-success" ng-click="updatePermission(key,permision)">update</a></td>		
+								            </tr>
+								        </tbody>
+							</table>							
+						</div>						
+					</div>							
+				</div>
+		</div>

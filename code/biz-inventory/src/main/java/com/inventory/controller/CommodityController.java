@@ -80,6 +80,7 @@ public class CommodityController {
     //options : commodity in list only include id and name field
     @RequestMapping(method = RequestMethod.OPTIONS)
     public Result getCommodityOptions() throws Exception {
+
         List <SimCommodity> commodityOptionsList = commodityService.getCommodityOptions();
 
         return new ResultBuilder()

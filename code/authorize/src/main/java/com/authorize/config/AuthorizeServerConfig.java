@@ -57,9 +57,9 @@ public class AuthorizeServerConfig extends AuthorizationServerConfigurerAdapter 
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oAuthSecurity) throws Exception {
-        oAuthSecurity
-                .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()");
+        oAuthSecurity.allowFormAuthenticationForClients();
+//                .tokenKeyAccess("permitAll()")
+//                .checkTokenAccess("isAuthenticated()")
     }
 
     @Bean
