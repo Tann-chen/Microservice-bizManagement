@@ -5,13 +5,12 @@ import com.inventory.domain.enums.ItemStatus;
 import com.inventory.repository.ItemRepository;
 import com.inventory.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -23,7 +22,7 @@ public class ItemServiceImpl implements ItemService {
     public Long createItem(Item item) throws IllegalArgumentException{
         Assert.hasLength(item.getSkuNo(), "SKuNO not empty");
         Assert.isNull(item.getCommodity(), "Commodity not empty");
-        Assert.isNull(item.getStockInId(), "StockInId not empty");
+        Assert.isNull(item.getStockIn(), "StockInId not empty");
         Assert.isNull(item.getItemStatus(), "Commodity Status not empty");
         Assert.isNull(item.getCostPerItem(), "Cost not empty");
         Item created = itemRepository.save(item);
@@ -32,14 +31,39 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Page<Item> getAllItems(Pageable pageable) {
-        return itemRepository.findItemsByIsAvailableTrue(pageable);
+    public List<Item> getAllItems() {
+        return itemRepository.findItemsByIsAvailableTrue();
     }
 
     @Override
-    public Page<Item> getAllItemsByItemStatus(ItemStatus itemStatus) {
-        return itemRepository.findItemsByCommodityStatus(itemStatus, new PageRequest(10,10,new Sort("id")));
+    public List<Item> getAllItemsByItemStatus(ItemStatus itemStatus) {
+        return itemRepository.findItemsByItemStatusAndIsAvailableTrue(itemStatus);
     }
+
+    @Override
+    public List<Item> getStockItemsByCommodityId(Long commodityId) {
+        Assert.notNull(commodityId, "commodity id not null");
+        List<Item> itemsByCommodityId = itemRepository.findItemsByCommodity_IdAndIsAvailableTrue(commodityId);
+
+        return itemsByCommodityId;
+    }
+
+    @Override
+    public List<Item> getStockItemsByStockInId(Long stockInId) {
+        Assert.notNull(stockInId, "stockin ID not null");
+        List<Item> itemsByStockInId = itemRepository.findItemsByStockIn_IdAndIsAvailableTrue(stockInId);
+
+        return itemsByStockInId;
+    }
+
+    @Override
+
+    public List<Item> getStockItemsByBatch(String batchNo) {
+        Assert.notNull(batchNo, "batch No Not null");
+        List<Item> itemsByBatchNo = itemRepository.findItemsByStockIn_BatchNoAndIsAvailableTrue(batchNo);
+        return itemsByBatchNo;
+    }
+
 
     @Override
     public Item updateItem(Long itemId, Item newItemInfo) {
@@ -51,8 +75,8 @@ public class ItemServiceImpl implements ItemService {
         if (null != newItemInfo.getCommodity()) {
             item.setCommodity(newItemInfo.getCommodity());
         }
-        if (null != newItemInfo.getStockInId()) {
-            item.setStockInId(newItemInfo.getStockInId());
+        if (null != newItemInfo.getStockIn()) {
+            item.setStockIn(newItemInfo.getStockIn());
         }
         if (null != newItemInfo.getItemStatus()) {
             item.setItemStatus(newItemInfo.getItemStatus());
@@ -61,6 +85,7 @@ public class ItemServiceImpl implements ItemService {
             item.setCostPerItem(newItemInfo.getCostPerItem());
         }
         Item updated = itemRepository.save(item);
+
         return updated;
     }
 
@@ -76,6 +101,15 @@ public class ItemServiceImpl implements ItemService {
     public Double getCostOfItem(Long itemId) {
         Item item = itemRepository.findOne(itemId);
         Assert.notNull(item, "item not exist");
+
         return item.getCostPerItem();
+    }
+
+    @Override
+    public List<Item> getItemsHistorySnapshot(Timestamp time) {
+        Assert.notNull(time, "timeStamp not null");
+        List<Item> itemListSnapshot = itemRepository.findItemsByStockIn_EntryTimeLessThanAndIsAvailableTrueOrderByCommodity(time);
+
+        return itemListSnapshot;
     }
 }

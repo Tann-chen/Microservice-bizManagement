@@ -17,15 +17,17 @@ public class Item implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long serialId;
 
-    private String SkuNo;
+    private String skuNo;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "commodity_id", referencedColumnName = "id")
     private Commodity commodity;
 
     @JsonIgnore
-    private Long StockInId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stock_in_id", referencedColumnName = "id")
+    private StockIn stockIn;
 
     @Enumerated(EnumType.STRING)
     private ItemStatus itemStatus;

@@ -6,11 +6,14 @@ import com.inventory.service.StockInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import java.sql.Timestamp;
 import java.util.List;
 
+@Service
 public class StockInServiceImpl implements StockInService {
 
     @Autowired
@@ -25,16 +28,6 @@ public class StockInServiceImpl implements StockInService {
         StockIn created = stockInRepository.save(stockIn);
 
         return created.getId();
-    }
-
-    @Override
-    public List<StockIn> getAllStockIn() {
-        return stockInRepository.findAll();
-    }
-
-    @Override
-    public Page<StockIn> getAllStockIn(Pageable pageable) {
-        return stockInRepository.findAll(pageable);
     }
 
     @Override
@@ -59,5 +52,82 @@ public class StockInServiceImpl implements StockInService {
         StockIn updated = stockInRepository.save(stockIn);
 
         return updated;
+    }
+
+    @Override
+    public StockIn getStockInById(Long stockInId) {
+        Assert.notNull(stockInId, "stockin Id not null");
+        StockIn allStockin = stockInRepository.findOne(stockInId);
+
+        return allStockin;
+    }
+
+    @Override
+    public StockIn getStockInByBatchNo(String batchNo) {
+        Assert.notNull(batchNo, "batch No not null");
+        StockIn allStockIn = stockInRepository.findStockInByBatchNo(batchNo);
+
+        return allStockIn;
+    }
+
+    @Override
+    public List<StockIn> getAllStockIn() {
+        return stockInRepository.findAll();
+    }
+
+    @Override
+    public Page<StockIn> getAllStockIn(Pageable pageable) {
+        return stockInRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<StockIn> getStockInByCommodity(Long commodityId) {
+        Assert.notNull(commodityId, "commodity id not null");
+        List<StockIn> stockByCommodity = stockInRepository.findStockInsByCommodity_Id(commodityId);
+
+        return stockByCommodity;
+    }
+
+    @Override
+    public Page<StockIn> getStockInByCommodity(Pageable pageable, Long commodityId) {
+        Assert.notNull(commodityId, "commodity not null");
+        Page<StockIn> stockByCommodity = stockInRepository.findStockInsByCommodity_Id(commodityId, pageable);
+
+        return stockByCommodity;
+    }
+
+
+    @Override
+    public List<StockIn> getStockInByReceiver(Long receiverId) {
+        Assert.notNull(receiverId, "receiver Id not null");
+        List<StockIn> stockByReceiver = stockInRepository.findStockInsByReceiveUserId(receiverId);
+
+        return stockByReceiver;
+    }
+
+    @Override
+    public Page<StockIn> getStockInByReceiver(Pageable pageable, Long receiverId) {
+        Assert.notNull(receiverId, "receiver Id not null");
+        Page<StockIn> stockByReceiver = stockInRepository.findStockInsByReceiveUserId(receiverId, pageable);
+
+        return stockByReceiver;
+    }
+
+    @Override
+    public List<StockIn> getStockInByPeriod(Timestamp fromTime, Timestamp toTime) {
+        Assert.notNull(fromTime, "fromTime not null");
+        Assert.notNull(toTime, "toTime not null");
+        List<StockIn> stockByPeriod = stockInRepository.findStockInsByEntryTimeBetween(fromTime, toTime);
+
+        return stockByPeriod;
+    }
+
+    @Override
+    public Page<StockIn> getStockInByPeriod(Pageable pageable, Timestamp fromTime, Timestamp toTime) {
+        Assert.notNull(fromTime, "fromTime not null");
+        Assert.notNull(toTime, "toTime not null");
+        Page<StockIn> stockByPeriod = stockInRepository.findStockInsByEntryTimeBetween(fromTime, toTime, pageable);
+
+        return stockByPeriod;
     }
 }

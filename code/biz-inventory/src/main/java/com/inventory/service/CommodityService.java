@@ -1,11 +1,12 @@
 package com.inventory.service;
 
+
+import com.inventory.comm.vo.SimCommodity;
 import com.inventory.domain.entity.Commodity;
 import com.inventory.domain.enums.CommodityType;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+
 
 public interface CommodityService {
 
@@ -13,9 +14,7 @@ public interface CommodityService {
 
     List<Commodity> getAllCommodities();
 
-    Page<Commodity> getAllCommodities(Pageable pageable);
-
-    Page<Commodity> getAllCommoditiesByCommodityType(CommodityType commodityType, Pageable pageable);
+    List<Commodity> getAllCommoditiesByCommodityType(CommodityType commodityType);
 
     Commodity updateCommodity(Long commodityId, Commodity newCommodityInfo);
 
@@ -23,5 +22,5 @@ public interface CommodityService {
 
     Commodity getCommoditiesByName(String name);
 
-   // List<SimCommodity> getCommodityOptions();
+    List<SimCommodity> getCommodityOptions();
 }
