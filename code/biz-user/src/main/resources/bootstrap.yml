@@ -6,17 +6,17 @@ spring:
     name: biz-user
   cloud:
     config:
-      uri: http://localhost:8899
+      uri: http://config:8899
       fail-fast: true
       username: devAdmin
       password: erp!@#ERP
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: biz-user
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://registry:8761/eureka/
 

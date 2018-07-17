@@ -6,16 +6,16 @@ spring:
       name: registry
   cloud:
       config:
-        uri: http://localhost:8899
+        uri: http://registry:8899
         fail-fast: true
         username: devAdmin
         password: erp!@#ERP
 
 eureka:
   instance:
-      hostname: localhost
+      hostname: registry
   client:
       registerWithEureka: false
       fetchRegistry: false
       serviceUrl:
-          defaultZone: http://localhost:${server.port}/eureka/
+          defaultZone: http://registry:${server.port}/eureka/

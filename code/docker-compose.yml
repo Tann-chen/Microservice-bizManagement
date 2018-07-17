@@ -1,0 +1,19 @@
+version: '0'
+services:
+  config:
+    image: config:v1
+    ports:
+      - "8899:8899"
+
+  registry:
+    image: registry:v1
+    ports:
+      - "8761:8761"
+
+  authorize:
+    image: authorize:v1
+    ports:
+      - "9000:9000"
+    links:
+      - "config:config"
+      - "registry:registry"
