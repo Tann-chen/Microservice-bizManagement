@@ -10,6 +10,8 @@ spring:
     config:
       uri: http://localhost:8899
       fail-fast: true
+      username: devAdmin
+      password: erp!@#ERP
 
 eureka:
   instance:
