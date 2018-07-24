@@ -1,21 +1,6 @@
-server:
-  port: 9000
-
 spring:
   application:
     name: authorize
-  cloud:
-    config:
-      uri: http://config:8899
-      fail-fast: true
-      username: devAdmin
-      password: erp!@#ERP
 
-eureka:
-  instance:
-    hostname: authorize
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://registry:8761/eureka/
+server:
+  port: 9000

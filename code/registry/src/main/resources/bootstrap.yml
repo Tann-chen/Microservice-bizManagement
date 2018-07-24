@@ -1,21 +1,6 @@
-server:
-  port: 8761
-
 spring:
   application:
       name: registry
-  cloud:
-      config:
-        uri: http://registry:8899
-        fail-fast: true
-        username: devAdmin
-        password: erp!@#ERP
 
-eureka:
-  instance:
-      hostname: registry
-  client:
-      registerWithEureka: false
-      fetchRegistry: false
-      serviceUrl:
-          defaultZone: http://registry:${server.port}/eureka/
+server:
+  port: 8761

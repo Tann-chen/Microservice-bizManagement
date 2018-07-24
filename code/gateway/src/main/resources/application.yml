@@ -1,0 +1,66 @@
+spring:
+  profiles:
+    active: dev
+
+
+---
+spring:
+  profiles: dev
+  cloud:
+    config:
+      uri: http://localhost:8899
+      fail-fast: true
+      username: devAdmin
+      password: erp!@#ERP
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+zuul:
+  routes:
+    biz-user:
+      path: /users/**
+      url: http://localhost:9001/
+
+    anthorize:
+      path: /auth/**
+      url: http://localhost:9000/
+      sensitiveHeaders:
+
+
+---
+spring:
+  profiles: test
+  cloud:
+    config:
+      uri: http://config:8899
+      fail-fast: true
+      username: devAdmin
+      password: erp!@#ERP
+
+eureka:
+  instance:
+    hostname: gateway
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://registry:8761/eureka/
+
+zuul:
+  routes:
+    biz-user:
+      path: /users/**
+      url: http://biz-user:9001/
+
+    anthorize:
+      path: /auth/**
+      url: http://authorize:9000/
+      sensitiveHeaders:
+

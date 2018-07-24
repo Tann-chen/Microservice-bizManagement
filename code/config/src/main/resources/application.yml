@@ -1,12 +1,32 @@
-server:
-  port: 8899
-
 spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: dev
   cloud:
     config:
       server:
         git:
           uri: https://github.com/Tann-chen/microservice-erp-configs
+          search-paths: dev_configs
+      label: master
+
+security:
+  user:
+    name: devAdmin
+    password: erp!@#ERP
+
+---
+spring:
+  profiles: test
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Tann-chen/microservice-erp-configs
+          search-paths: test_configs
       label: master
 
 security:
