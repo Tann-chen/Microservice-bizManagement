@@ -1,0 +1,41 @@
+spring:
+  profiles:
+    active: dev
+
+
+---
+spring:
+  profiles: dev
+  cloud:
+    config:
+      uri: http://localhost:8899
+      fail-fast: true
+
+eureka:
+  instance:
+      hostname: localhost
+  client:
+      registerWithEureka: false
+      fetchRegistry: false
+      serviceUrl:
+          defaultZone: http://localhost:${server.port}/eureka/
+
+
+---
+spring:
+  profiles: test
+  cloud:
+    config:
+      uri: http://registry:8899
+      fail-fast: true
+      username: devAdmin
+      password: erp!@#ERP
+
+eureka:
+  instance:
+      hostname: registry
+  client:
+      registerWithEureka: false
+      fetchRegistry: false
+      serviceUrl:
+          defaultZone: http://registry:${server.port}/eureka/
