@@ -24,10 +24,10 @@ zuul:
   routes:
     biz-user:
       path: /users/**
-      serviceId: biz-user
+      url: http://biz-user:9001/
 
     anthorize:
       path: /auth/**
-      serviceId: authorize
+      url: http://authorize:9000/
       sensitiveHeaders:
 
