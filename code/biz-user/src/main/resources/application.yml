@@ -10,6 +10,8 @@ spring:
     config:
       uri: http://localhost:8899
       fail-fast: true
+      username: devAdmin
+      password: erp!@#ERP
 
   datasource:
     url: jdbc:mysql://erpdb.ch7napik4dgs.us-east-2.rds.amazonaws.com:3306/erpdb?useUnicode=true&characterEncoding=utf-8&&useSSL=false
@@ -53,7 +55,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-    show-sql: true
+    show-sql: false
 
 eureka:
   instance:
