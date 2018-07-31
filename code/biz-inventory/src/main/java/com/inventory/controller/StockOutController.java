@@ -34,8 +34,7 @@ public class StockOutController {
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
                 .setData(stockOutDetail)
-                .build(); //return the details of the stock out
-
+                .build();
     }
 
     @RequestMapping(value = "/item/{itemId}", method = RequestMethod.GET)
@@ -49,9 +48,6 @@ public class StockOutController {
                 .setCode(ResultBuilder.SUCCESS)
                 .setData(stockOutDetail)
                 .build();
-        //return the details of the stock out
-        //item is the specific unit of the commodity
-        //commodity is type of items
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -59,19 +55,18 @@ public class StockOutController {
                               @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                               @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) throws Exception {
         Object allStockOut;
+
         if (acceptType.equals("page")) {
-            //return paging type list
             Pageable pageable = new PageRequest(pageNo, pageSize);
             allStockOut = stockOutService.getAllStockOut(pageable);
         } else {
-            //return list
             allStockOut = stockOutService.getAllStockOut();
         }
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
                 .setData(allStockOut)
-                .build();    //return all stock out records
+                .build();
     }
 
     @RequestMapping(value = "/pick_time", method = RequestMethod.GET)
@@ -81,7 +76,7 @@ public class StockOutController {
                                           @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(null == fromTime){
+        if (null == fromTime) {
             String preTime = "2000-01-01 00:00:00";
             fromTime = Timestamp.valueOf(preTime);
         }
@@ -91,11 +86,9 @@ public class StockOutController {
         }
         Object stockOutByPickedTime;
         if (acceptType.equals("page")) {
-            //return paging type list
             Pageable pageable = new PageRequest(pageNo, pageSize);
             stockOutByPickedTime = stockOutService.getStockOutByPickedTime(pageable, fromTime, toTime);
         } else {
-            //return list
             stockOutByPickedTime = stockOutService.getStockOutByPickedTime(fromTime, toTime);
         }
 
@@ -105,6 +98,7 @@ public class StockOutController {
                 .build();
     }
 
+
     @RequestMapping(value = "/purpose", method = RequestMethod.GET)
     public Result getStockOutByPurpose(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
                                        @RequestParam(value = "purpose") String purpose,
@@ -113,27 +107,30 @@ public class StockOutController {
         if (null == purpose) {
             throw new JsonParseException("purpose");
         }
-        //please do switch from StockOutPurpose enums
-        StockOutPurpose purposeEnum = StockOutPurpose.valueOf(purpose.toUpperCase());
-        if (null == purposeEnum) {
-            throw new JsonParseException("purpose do not match");
-        }
+
         Object stockOutByPurpose;
-        if (acceptType.equals("page")) {
-            Pageable pageable = new PageRequest(pageNo, pageSize);
-            stockOutByPurpose = stockOutService.getStockOutByPurpose(pageable, purposeEnum);
-            //return paging type list
-        } else {
-            //return list
-            stockOutByPurpose = stockOutService.getStockOutByPurpose(purposeEnum);
+
+        try {
+            // switch from StockOutPurpose enums
+            StockOutPurpose purposeEnum = StockOutPurpose.valueOf(purpose.toUpperCase());
+
+            if (acceptType.equals("page")) {
+                Pageable pageable = new PageRequest(pageNo, pageSize);
+                stockOutByPurpose = stockOutService.getStockOutByPurpose(pageable, purposeEnum);
+
+            } else {
+                stockOutByPurpose = stockOutService.getStockOutByPurpose(purposeEnum);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("name of purpose not existed");
         }
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
                 .setData(stockOutByPurpose)
-                .build();    //return stock out records
-
+                .build();
     }
+
 
     @RequestMapping(value = "/pick_user", method = RequestMethod.GET)
     public Result getStockOutByPickedUser(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
@@ -144,20 +141,20 @@ public class StockOutController {
             throw new JsonParseException("pickUserId");
         }
         Object stockOutByPickedUser;
+
         if (acceptType.equals("page")) {
-            //return paging type list
             Pageable pageable = new PageRequest(pageNo, pageSize);
-            stockOutByPickedUser = stockOutService.getStockOutByPickedUser(pageable,pickUserId);
+            stockOutByPickedUser = stockOutService.getStockOutByPickedUser(pageable, pickUserId);
         } else {
-            //return list
             stockOutByPickedUser = stockOutService.getStockOutByPickedUser(pickUserId);
         }
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
                 .setData(stockOutByPickedUser)
-                .build();    //return stock out records
+                .build();
     }
+
 
     @RequestMapping(value = "/approve_user", method = RequestMethod.GET)
     public Result getStockOutByApprovedUser(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
@@ -167,24 +164,23 @@ public class StockOutController {
         if (null == ApprovedUserId) {
             throw new JsonParseException("approvedUserId");
         }
+
         Object stockOutByApprovedUser;
+
         if (acceptType.equals("page")) {
-            //return paging type list
             Pageable pageable = new PageRequest(pageNo, pageSize);
             stockOutByApprovedUser = stockOutService.getStockOutByApprovedUser(pageable, ApprovedUserId);
         } else {
-            //return list
             stockOutByApprovedUser = stockOutService.getStockOutByApprovedUser(ApprovedUserId);
         }
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
                 .setData(stockOutByApprovedUser)
-                .build();    //return stock out records
+                .build();
     }
 
 
-    //this is a little challenging, try your best
     @RequestMapping(value = "/~criterion", method = RequestMethod.POST)
     public Result getStockOutByCustomCriterion(@RequestParam(value = "accept", defaultValue = "list") String acceptType,
                                                @RequestBody HashMap<String, Object> criterion,
@@ -193,6 +189,8 @@ public class StockOutController {
         if (null == criterion) {
             throw new JsonParseException("criterion");
         }
+
+        //todo: need to change
         Pageable pageable = new PageRequest(pageNo, pageSize);
         Object stockByCriterion = stockOutService.getStockOutByCriterion(pageable, criterion, acceptType);
 

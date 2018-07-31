@@ -5,7 +5,7 @@ spring:
 
 ---
 spring:
-  profiles: dev
+  profiles: test
   cloud:
     config:
       uri: http://localhost:8899
@@ -24,6 +24,10 @@ eureka:
 
 zuul:
   routes:
+    biz-inventory:
+      path: /inventory/**
+      url: http://localhost:9002/
+
     biz-user:
       path: /users/**
       url: http://localhost:9001/
@@ -55,6 +59,10 @@ eureka:
 
 zuul:
   routes:
+    biz-inventory:
+      path: /inventory/**
+      url: http://biz-inventory:9002/
+
     biz-user:
       path: /users/**
       url: http://biz-user:9001/

@@ -22,8 +22,8 @@ public interface StockInService {
     List<StockIn> getAllStockIn();
     Page<StockIn> getAllStockIn(Pageable pageable);
 
-    List<StockIn> getStockInByPeriod(Timestamp fromTime, Timestamp toTime);
-    Page<StockIn> getStockInByPeriod(Pageable pageable, Timestamp fromTime, Timestamp toTime);
+    List<StockIn> getStockInByPeriod(Timestamp fromTime, Timestamp toTime) throws IllegalArgumentException;
+    Page<StockIn> getStockInByPeriod(Pageable pageable, Timestamp fromTime, Timestamp toTime) throws IllegalArgumentException;
 
     List<StockIn> getStockInByCommodity(Long commodityId);
     Page<StockIn> getStockInByCommodity(Pageable pageable, Long commodityId);
