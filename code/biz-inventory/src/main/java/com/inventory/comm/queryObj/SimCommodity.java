@@ -1,4 +1,4 @@
-package com.inventory.comm.vo;
+package com.inventory.comm.queryObj;
 
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package com.inventory.service;
 
-import com.inventory.comm.vo.SimCommodity;
+import com.inventory.comm.queryObj.SimCommodity;
 import com.inventory.domain.entity.Commodity;
 import com.inventory.domain.enums.CommodityType;
 import org.junit.Test;

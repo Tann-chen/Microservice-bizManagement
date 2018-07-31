@@ -17,10 +17,12 @@ eureka:
   instance:
       hostname: localhost
   client:
-      registerWithEureka: false
-      fetchRegistry: false
-      serviceUrl:
-          defaultZone: http://localhost:${server.port}/eureka/
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:${server.port}/eureka/
+  server:
+    enable-self-preservation: false
 
 
 ---
@@ -35,9 +37,11 @@ spring:
 
 eureka:
   instance:
-      hostname: registry
+    hostname: registry
   client:
-      registerWithEureka: false
-      fetchRegistry: false
-      serviceUrl:
-          defaultZone: http://registry:${server.port}/eureka/
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://registry:${server.port}/eureka/
+  server:
+    enable-self-preservation: false

@@ -31,7 +31,7 @@ public class StockInServiceImpl implements StockInService {
     }
 
     @Override
-    public StockIn updateStockIn(Long stockInId, StockIn newStockInInfo) {
+    public StockIn updateStockIn(Long stockInId, StockIn newStockInInfo) throws IllegalArgumentException {
         StockIn stockIn = stockInRepository.findOne(stockInId);
         Assert.notNull(stockIn, "stockin not exist");
         if (!StringUtils.isEmpty(newStockInInfo.getBatchNo())) {
@@ -49,25 +49,18 @@ public class StockInServiceImpl implements StockInService {
         if (null != newStockInInfo.getEntryTime()) {
             stockIn.setEntryTime(newStockInInfo.getEntryTime());
         }
-        StockIn updated = stockInRepository.save(stockIn);
 
-        return updated;
+        return stockInRepository.save(stockIn);
     }
 
     @Override
     public StockIn getStockInById(Long stockInId) {
-        Assert.notNull(stockInId, "stockin Id not null");
-        StockIn allStockin = stockInRepository.findOne(stockInId);
-
-        return allStockin;
+        return stockInRepository.findOne(stockInId);
     }
 
     @Override
     public StockIn getStockInByBatchNo(String batchNo) {
-        Assert.notNull(batchNo, "batch No not null");
-        StockIn allStockIn = stockInRepository.findStockInByBatchNo(batchNo);
-
-        return allStockIn;
+        return stockInRepository.findStockInByBatchNo(batchNo);
     }
 
     @Override
@@ -82,39 +75,31 @@ public class StockInServiceImpl implements StockInService {
 
     @Override
     public List<StockIn> getStockInByCommodity(Long commodityId) {
-        Assert.notNull(commodityId, "commodity id not null");
         List<StockIn> stockByCommodity = stockInRepository.findStockInsByCommodity_Id(commodityId);
-
         return stockByCommodity;
     }
 
     @Override
     public Page<StockIn> getStockInByCommodity(Pageable pageable, Long commodityId) {
-        Assert.notNull(commodityId, "commodity not null");
         Page<StockIn> stockByCommodity = stockInRepository.findStockInsByCommodity_Id(commodityId, pageable);
-
         return stockByCommodity;
     }
 
 
     @Override
     public List<StockIn> getStockInByReceiver(Long receiverId) {
-        Assert.notNull(receiverId, "receiver Id not null");
         List<StockIn> stockByReceiver = stockInRepository.findStockInsByReceiveUserId(receiverId);
-
         return stockByReceiver;
     }
 
     @Override
     public Page<StockIn> getStockInByReceiver(Pageable pageable, Long receiverId) {
-        Assert.notNull(receiverId, "receiver Id not null");
         Page<StockIn> stockByReceiver = stockInRepository.findStockInsByReceiveUserId(receiverId, pageable);
-
         return stockByReceiver;
     }
 
     @Override
-    public List<StockIn> getStockInByPeriod(Timestamp fromTime, Timestamp toTime) {
+    public List<StockIn> getStockInByPeriod(Timestamp fromTime, Timestamp toTime) throws IllegalArgumentException {
         Assert.notNull(fromTime, "fromTime not null");
         Assert.notNull(toTime, "toTime not null");
         List<StockIn> stockByPeriod = stockInRepository.findStockInsByEntryTimeBetween(fromTime, toTime);
@@ -123,7 +108,7 @@ public class StockInServiceImpl implements StockInService {
     }
 
     @Override
-    public Page<StockIn> getStockInByPeriod(Pageable pageable, Timestamp fromTime, Timestamp toTime) {
+    public Page<StockIn> getStockInByPeriod(Pageable pageable, Timestamp fromTime, Timestamp toTime) throws IllegalArgumentException {
         Assert.notNull(fromTime, "fromTime not null");
         Assert.notNull(toTime, "toTime not null");
         Page<StockIn> stockByPeriod = stockInRepository.findStockInsByEntryTimeBetween(fromTime, toTime, pageable);

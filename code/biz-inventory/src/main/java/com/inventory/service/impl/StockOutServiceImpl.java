@@ -12,13 +12,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-
 import javax.persistence.criteria.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @Service
 public class StockOutServiceImpl implements StockOutService {
@@ -179,6 +179,7 @@ public class StockOutServiceImpl implements StockOutService {
                 return criteriaBuilder.and(predicateList.toArray(predicates));
             }
         };
+
         Object stockOutsByCriterion;
         if (acceptType.equals("list")) {
             stockOutsByCriterion = stockOutRepository.findAll(querySpec);

@@ -17,3 +17,6 @@ services:
     links:
       - "config:config"
       - "registry:registry"
+
+
+  docker run -i --name gateway -p 8080:8080 --link config:config --link registry:registry --link biz-inventory:biz-inventory --link biz-user:biz-user --link authorize:authorize gateway:v1
