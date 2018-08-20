@@ -16,6 +16,7 @@
         <module>registry</module>
         <module>biz-user</module>
         <module>biz-inventory</module>
+        <module>biz-account</module>
     </modules>
 
     <properties>
