@@ -14,11 +14,17 @@ public class Result {
         this.data = resultBuilder.getData();
     }
 
+    public static class Builder {
+        public static final int SUCCESS = 200;
+        public static final int REDIRECT = 300;
+        public static final int FAILED = 400;
 
-    public class Builder{
         private int code;
         private String message;
         private Object data;
+
+        public Builder() {
+        }
 
         public int getCode() {
             return code;
@@ -47,7 +53,7 @@ public class Result {
             return this;
         }
 
-        public Result build(){
+        public Result build() {
             return new Result(this);
         }
     }
