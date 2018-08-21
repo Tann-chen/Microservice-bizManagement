@@ -1,6 +1,9 @@
 package com.account.domain.enums;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum AccountType {
     receivable("Receivable"),
     payable("Payable"),
@@ -27,14 +30,15 @@ public enum AccountType {
         this.name = name;
     }
 
-    public static String[] getNamesOfAccountTypes(){
+    public static Map<String, String> getAllAccountTypes(){
         AccountType[] accountTypes = AccountType.values();
-        String[] names = new String[accountTypes.length];
+        Map<String, String> accountTypePairs = new HashMap<>();
+
         for (int i = 0; i < accountTypes.length; i++) {
-            names[i] = accountTypes[i].name;
+            accountTypePairs.put(accountTypes[i].toString(), accountTypes[i].getName());
         }
 
-        return names;
+        return accountTypePairs;
     }
 
     public String getName() {

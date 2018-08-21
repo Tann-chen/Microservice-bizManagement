@@ -43,12 +43,6 @@ public class CommodityServiceTest {
     }
 
     @Test
-    public void getCommoditiesByName() throws Exception {
-        Commodity res = commodityService.getCommoditiesByName("Samsung Duo");
-        System.out.println(res);
-    }
-
-    @Test
     public void getCommodityOptions() throws Exception {
         List<SimCommodity> res = commodityService.getCommodityOptions();
         System.out.println(res);

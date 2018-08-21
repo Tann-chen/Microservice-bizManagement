@@ -1,6 +1,7 @@
 package com.account.domain.entity;
 
 import com.account.domain.enums.AccountType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,7 +10,10 @@ import javax.persistence.*;
 @Data
 @Table(name = "account_chart_of_accounts")
 public class Account {
+
     @Id
+    private Long id;
+
     private Long code;
 
     private String name;
@@ -21,6 +25,7 @@ public class Account {
 
     private Boolean isDeprecated;
 
+    @JsonIgnore
     private Boolean isAvailable;
 
 
