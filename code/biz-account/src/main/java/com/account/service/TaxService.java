@@ -17,9 +17,11 @@ public interface TaxService {
 
     boolean deleteTax(Long id) throws IllegalArgumentException;
 
-    boolean isTaxExisted(String name);
+    boolean isTaxExisted(String name) throws IllegalArgumentException;
 
     List<Tax> getAllTaxes();
+
+    Tax getTaxInfo(Long id) throws IllegalArgumentException;
 
     Map<String, String> getTaxComputationOptions();
 

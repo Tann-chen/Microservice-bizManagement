@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/tax")
@@ -56,32 +57,67 @@ public class TaxController {
         if (null == id) {
             throw new JsonParseException("taxId");
         }
-        
-        return null;
+        taxService.deleteTax(id);
+        List<Tax> taxList = taxService.getAllTaxes();
+
+        return new Result.Builder()
+                .setCode(Result.Builder.SUCCESS)
+                .setData(taxList)
+                .build();
     }
 
     @PutMapping("/deActive/{id}")
     public Result deActiveTax(@PathVariable Long id) throws Exception {
-        return null;
+        if (null == id) {
+            throw new JsonParseException("taxId");
+        }
+        taxService.deActiveTax(id);
+        List<Tax> taxList = taxService.getAllTaxes();
+
+        return new Result.Builder()
+                .setCode(Result.Builder.SUCCESS)
+                .setData(taxList)
+                .build();
     }
 
     @GetMapping
     public Result getAllTaxes() {
-        return null;
+        List<Tax> taxList = taxService.getAllTaxes();
+
+        return new Result.Builder()
+                .setCode(Result.Builder.SUCCESS)
+                .setData(taxList)
+                .build();
     }
 
     @GetMapping("/{id}")
-    public Result getTaxInfo() {
-        return null;
+    public Result getTaxInfo(@PathVariable Long id) {
+        if (null == id) {
+            throw new JsonParseException("taxId");
+        }
+        Tax tax = taxService.getTaxInfo(id);
+
+        return new Result.Builder()
+                .setCode(Result.Builder.SUCCESS)
+                .setData(tax)
+                .build();
     }
 
     @RequestMapping(value = "/taxComputationOptions", method = RequestMethod.OPTIONS)
     public Result getTaxComputationOptions() {
-        return null;
+        Map<String, String> taxComputationPairs = taxService.getTaxComputationOptions();
+        return new Result.Builder()
+                .setCode(Result.Builder.SUCCESS)
+                .setData(taxComputationPairs)
+                .build();
     }
 
     @RequestMapping(value = "/taxScopeOptions", method = RequestMethod.OPTIONS)
     public Result getTaxScopeOptions() {
-        return null;
+        Map<String, String> taxScopePairs = taxService.getTaxComputationOptions();
+        return new Result.Builder()
+                .setCode(Result.Builder.SUCCESS)
+                .setData(taxScopePairs)
+                .build();
     }
 }

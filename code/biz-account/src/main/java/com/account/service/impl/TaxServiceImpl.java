@@ -89,13 +89,20 @@ public class TaxServiceImpl implements TaxService{
     }
 
     @Override
-    public boolean isTaxExisted(String name) {
+    public boolean isTaxExisted(String name) throws IllegalArgumentException {
+        Assert.notNull(name, "name not null");
         return taxRepository.findTaxByTaxNameAndIsAvailableTrue(name) == null ? false : true;
     }
 
     @Override
     public List<Tax> getAllTaxes() {
         return taxRepository.findTaxesByIsAvailableTrue();
+    }
+
+    @Override
+    public Tax getTaxInfo(Long id) {
+        Optional<Tax> optTax = taxRepository.findById(id);
+        return optTax.orElseThrow(()-> new IllegalArgumentException("tax is not existed"));
     }
 
     @Override
