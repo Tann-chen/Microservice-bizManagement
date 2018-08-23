@@ -30,7 +30,7 @@ public class BankAccountController {
                 .build();
     }
 
-    
+
     @RequestMapping(path = "/account/{accountId}", method = RequestMethod.GET)
     public Result getBankAccountInfo(@PathVariable Long accountId) throws Exception {
         if(null == accountId){

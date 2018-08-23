@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "account_bank_account")
-public class BankAccount implements Serializable{
+public class BankAccount implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -34,7 +34,7 @@ public class BankAccount implements Serializable{
 
 
     @PrePersist
-    private void prePersist(){
+    private void prePersist() {
         this.isAvailable = true;
     }
 
