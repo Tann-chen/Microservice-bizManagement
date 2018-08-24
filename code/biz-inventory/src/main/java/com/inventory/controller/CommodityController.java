@@ -45,7 +45,7 @@ public class CommodityController {
 
 
     @RequestMapping(value = "/{commodityId}", method = RequestMethod.POST)
-    public Result updateCommodityInfo(@PathVariable Long commodityId, Commodity commodityInfo) throws Exception {
+    public Result updateCommodityInfo(@PathVariable Long commodityId, @RequestBody Commodity commodityInfo) throws Exception {
         if (null == commodityId) {
             throw new JsonParseException("commodity ID");
         }
