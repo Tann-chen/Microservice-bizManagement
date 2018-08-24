@@ -19,6 +19,7 @@ public class Account {
 
     private String name;
 
+
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
