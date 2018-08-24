@@ -18,6 +18,8 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public Account createAccount(Account newAccount) throws IllegalArgumentException {
+        newAccount.setId(null);
+
         if(isExistedOfCode(newAccount.getCode())){
             throw new IllegalArgumentException("code of account has already existed");
         }

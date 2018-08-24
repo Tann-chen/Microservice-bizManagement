@@ -12,11 +12,13 @@ import javax.persistence.*;
 public class Account {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long code;
 
     private String name;
+
 
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
