@@ -4,6 +4,7 @@ import com.account.domain.enums.TaxComputation;
 import com.account.domain.enums.TaxScope;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 
@@ -26,8 +27,14 @@ public class Tax {
 
     private Double amount;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tax_account_id", referencedColumnName = "id")
     private Account taxAccount;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tax_account_on_credit_notes_id", referencedColumnName = "id")
     private Account taxAccountOnCreditNotes;
 
     private String labelOnInvoices;
