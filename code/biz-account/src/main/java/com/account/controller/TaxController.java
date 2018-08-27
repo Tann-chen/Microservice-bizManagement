@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/tax")
+@RequestMapping("taxes/tax")
 public class TaxController {
 
     @Autowired
@@ -66,7 +66,7 @@ public class TaxController {
                 .build();
     }
 
-    @PutMapping("/deActive/{id}")
+    @PutMapping("/de_active/{id}")
     public Result deActiveTax(@PathVariable Long id) throws Exception {
         if (null == id) {
             throw new JsonParseException("taxId");
@@ -103,7 +103,7 @@ public class TaxController {
                 .build();
     }
 
-    @RequestMapping(value = "/taxComputationOptions", method = RequestMethod.OPTIONS)
+    @RequestMapping(value = "/tax_comput/taxation_options", method = RequestMethod.OPTIONS)
     public Result getTaxComputationOptions() {
         Map<String, String> taxComputationPairs = taxService.getTaxComputationOptions();
         return new Result.Builder()
@@ -112,7 +112,7 @@ public class TaxController {
                 .build();
     }
 
-    @RequestMapping(value = "/taxScopeOptions", method = RequestMethod.OPTIONS)
+    @RequestMapping(value = "/tax_scope_options", method = RequestMethod.OPTIONS)
     public Result getTaxScopeOptions() {
         Map<String, String> taxScopePairs = taxService.getTaxComputationOptions();
         return new Result.Builder()

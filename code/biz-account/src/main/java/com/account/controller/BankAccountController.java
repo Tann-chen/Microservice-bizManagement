@@ -70,7 +70,7 @@ public class BankAccountController {
     }
 
 
-    @RequestMapping(path = "/account/{accountId}")
+    @RequestMapping(path = "/account/{accountId}", method = RequestMethod.DELETE)
     public Result deleteBankAccount(@PathVariable Long accountId) {
         if(null == accountId){
             throw new JsonParseException("accountId");

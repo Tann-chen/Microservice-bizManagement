@@ -5,12 +5,18 @@ spring:
 ---
 spring:
   profiles: dev
-#  cloud:
-#    config:
-#      uri: http://localhost:8899
-#      fail-fast: true
-#      username: devAdmin
-#      password: erp!@#ERP
+  cloud:
+    config:
+      uri: http://localhost:8899
+      fail-fast: true
+      username: devAdmin
+      password: erp!@#ERP
+
+  sleuth:
+    sampler:
+      percentage: 1.0
+  zipkin:
+    base-url: http://localhost:9411
 
   datasource:
     url: jdbc:mysql://erpdb.ch7napik4dgs.us-east-2.rds.amazonaws.com:3306/erpdb?useUnicode=true&characterEncoding=utf-8&&useSSL=false

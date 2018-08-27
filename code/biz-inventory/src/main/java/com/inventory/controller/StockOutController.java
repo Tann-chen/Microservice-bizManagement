@@ -6,7 +6,9 @@ import com.inventory.comm.result.Result;
 import com.inventory.comm.result.ResultBuilder;
 import com.inventory.domain.entity.StockOut;
 import com.inventory.domain.enums.StockOutPurpose;
+import com.inventory.domain.remote.User;
 import com.inventory.service.StockOutService;
+import com.inventory.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/stock_out")
@@ -24,16 +27,31 @@ public class StockOutController {
     @Autowired
     private StockOutService stockOutService;
 
+    @Autowired
+    private UserInfoService userInfoService;
+
+
     @RequestMapping(value = "/{stockOutId}", method = RequestMethod.GET)
     public Result getStockOutDetails(@PathVariable Long stockOutId) throws Exception {
         if (null == stockOutId) {
             throw new JsonParseException("stockOut Id");
         }
+
+        Map<String, Object> response = new HashMap<>();
+
         StockOut stockOutDetail = stockOutService.getStockOutDetail(stockOutId);
+        Long approvedUserId = stockOutDetail.getApprovedUser();
+        Long pickedUserId = stockOutDetail.getPickedUser();
+        User approvedUser = userInfoService.getUserInfoById(approvedUserId);
+        User pickedUser = userInfoService.getUserInfoById(pickedUserId);
+
+        response.put("stock_out_info", stockOutDetail);
+        response.put("approvedUser", approvedUser);
+        response.put("pickedUser", pickedUser);
 
         return new ResultBuilder()
                 .setCode(ResultBuilder.SUCCESS)
-                .setData(stockOutDetail)
+                .setData(response)
                 .build();
     }
 
