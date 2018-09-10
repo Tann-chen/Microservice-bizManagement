@@ -77,5 +77,4 @@ public class User implements Serializable {
         this.jobStatus = JobStatus.UNDISTRIBUTED;
         this.isAvailable = true;
     }
-
 }

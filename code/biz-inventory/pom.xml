@@ -48,6 +48,7 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- spring cloud -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
