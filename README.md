@@ -1,6 +1,3 @@
-# Welcome to contribution for this open-source ERP system !
-
-
 ## Target of this project
 This project is to build a skeleton of enterprise management systems. the common business logic functions are extracted from most enterprise management systems. 
 * User Access Control
